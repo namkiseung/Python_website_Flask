@@ -1,0 +1,35 @@
+<!DOCTYPE btml>
+<html lang="ko">
+<head><title>Admin Page_By Namki</title>
+<style type="text/css">
+.box{
+	color:red;
+	font-style:italic; 
+	font-weight:bold;
+	font-size:16pt;
+}
+</style>
+</head>
+<body>
+<table border="1">
+<h1>회원목록</h1>
+{% if user_info %}
+{% for x in user_info %}
+<tr><td>NUMBER</td><td><span class='box'> {{ loop.index }}</span></td></tr>
+<tr><td>ID</td><td>{{ x[0] }}</td></tr>
+<tr><td>PW</td><td>{{ x[1] }}</td></tr>
+<tr><td>NAME</td><td>{{ x[2] }}</td></tr>
+<tr><td>EMAIL</td><td>{{ x[3] }}</td></tr>
+<tr><td>PHONE</td><td>{{ x[4] }}</td></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+{% endfor %}
+{% endif %}
+</table>
+</body>
+</html>
