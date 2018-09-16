@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<title>MyPage By Namki</title></head>
+<body>
+<form action='/mypage' method='POST'>
+<table border=1>
+<tr><td> 아이디</td><td> {{ update_id }} </td></tr>
+<tr><td> 현재 비밀번호</td><td> {{ update_pw }} </td></tr>
+<tr><td>이름</td><td><input type='text' name='name' value=' {{ update_name }}' ></td></tr>
+<tr><td>이메일</td><td><input type='text' name='email' value=' {{ update_email }}' ></td></tr><tr><td>휴대폰번호</td><td><input type='text' name='phone' value=' {{ update_phone }}' ></td></tr>
+<tr><td colspan='2'><input type='submit'></td></tr>
+</table>
+</form>
+<button><h2><a href='/'>Cancel</a></h2></button>
+<div id="navbar">
+        <ul class="nav">
+             <li><a href="#">home</a></li>
+             <li><a href="#">menu2</a></li>
+             <li><a href="#">menu3</a></li>
+         </ul>
+    </div>
+</body>
+</html>

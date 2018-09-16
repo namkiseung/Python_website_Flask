@@ -1,21 +1,31 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
   <head>
+<meta charset="utf-8"/>
     <title>Login Page _ By Namki</title>
   </head>
   <body>
     {% if data %}
     <!-- <h2>{{ data }}</h2> -->
       {{ name }}<p>님</p>
-      <button><a href="">내정보</a></button>
+      <button><a href="/mypage">내정보</a></button>
       <button><a href="/logout">로그아웃</a></button>
+</table>
     {% else %}
     <form action='/' method="POST">
       ID : <input type="text" name="user_id"><br> 
       PW : <input type="password" name="user_pw"><br>
       <input type="submit" value="로그인">
     </form>
-      <a href="/register">회원가입</a>
+    <button><a href="/register">회원가입</a></button>
     {% endif %}
+<div id="navbar">
+        <ul class="nav">
+             <li><a href="#">main</a></li>
+             <li><a href="#">menu2</a></li>
+             <li><a href="#">menu3</a></li>
+         </ul>
+    </div>
   </body>
 </html>
 
