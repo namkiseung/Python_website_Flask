@@ -12,6 +12,7 @@ app.config['BASIC_AUTH_FORCE'] = False
 app.secret_key = 'a'
 DATABASE = './db/user.db'
 
+
 @app.route('/admin')
 @basic_auth.required
 def admin_access():
@@ -136,10 +137,17 @@ def mypage():
         return render_template('mypage.html',update_id=r[0][0], update_pw=r[0][1], update_name=r[0][2], update_email=r[0][3], update_phone=r[0][4]) 
     return '<h1>Not Page</h1>'
 
-@app.route('/main', methods=['GET', 'POST'])
-def main():
-    return 'hi'
+@app.route('/list', methods=['GET', 'POST'])
+def me_list():
+    return render_template('list.html')
+ 
+@app.route('/read', methods=['GET', 'POST'])
+def me_read():
+    return render_template('read.html')
 
+@app.route('/write', methods=['GET', 'POST'])
+def me_write():
+    return render_template('write.html')
 
 if __name__ == '__main__':
     #init_db()

@@ -1,0 +1,12 @@
+<body>
+{% if data %}
+{{ data }}
+{% else %}
+<form action='/' method='POST'>
+<input type='text' name='last_name'>
+<input type='text' name='first_name'>
+<input type='submit'>
+</form>
+{{ name1, name2 }}
+{% endif %}
+</body>

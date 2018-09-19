@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>게시판 by namki</title>		
+</head>
+<body>
+<div id="mainBox">
+			<div id="titleBox">
+				<a href="">namki</a>
+			</div>
+			<div id="navigationBox">
+			
+						<a href="../member/memberLoginForm.jsp" class="basicButton">로그인</a>
+						<a href="../member/memberJoinForm.jsp" class="basicButton">회원가입</a>
+				
+					<!-- <a href="../study/study.jsp" class="basicButton"></a>
+					<a href="../talk/talkListForm.jsp" class="basicButton"></a> -->
+					<a href="../notice/noticeListForm.jsp" class="basicButton">공지사항</a>
+			</div>
+			<hr>
+				
+			
+			<div>
+				<table>
+		        	<tr>
+		        		<td class="head" colspan="3">
+		        			[공지사항 게시판]
+		        		</td>
+		        	</tr>				
+				    <tr>
+				        <td class="middle">
+				        	[작성자]
+				        </td>
+				        <td class="middle" style="width: 560px;">
+				        	[제목]
+				        </td>
+				        <td class="middle" style="width: 180px;">
+				        	[작성일]
+				        </td>		 		        	        		        		        
+				    </tr>
+				     
+				    <tr> 
+				    	<td class="tail" style="text-align: center;">작성자이름</td>
+				    	<td class="tail"><a href="./study.jsp?studyTitle=&studyType=&currentPage=&commentCurrentPage=&studyID=13"><b>글제목(30글자 까지)</b></a></td>
+				    	<td class="tail" style="text-align: center;">날짜란
+				    </tr>
+				 
+				    <tr> 
+				    	<td class="tail" style="text-align: center;">작성자이름</td>
+				    	<td class="tail"><a href="./study.jsp?studyTitle=&studyType=&currentPage=&commentCurrentPage=&studyID=14"><b>글제목(30글자 까지)</b></a></td>
+				    	<td class="tail" style="text-align: center;">날짜란
+				    </tr>
+				 
+				</table>
+				<br>
+				<form action="./study.jsp" method="get"> 
+				
+					<input type="button" value="다음" onClick="location.href='./study.jsp?studyTitle=&studyType=&commentCurrentPage=&studyID=13&currentPage=2'">
+					
+					<input style="float:right;" type="submit" value="검색">			
+					<input type="text" value="" name="studyTitle" id="selectText">
+					<input type="hidden" name="studyType" value="">
+					<input type="hidden" name="studyID" value="13">
+				</form>
+			</div>
+<div id="blackBox">	
+				<input type="button" value="글쓰기" onClick="location.href=''">
+				<input type="button" value="메인 화면" onClick="location.href=''">
+			</div>
+
+</body>
+</html>
