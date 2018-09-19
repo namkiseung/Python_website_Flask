@@ -1,0 +1,47 @@
+<html>
+  <body>
+    <script type="text/javascript">
+      function ischeck(){
+      var pw = document.form.user_pw.value;
+      if (pw != "0000"){
+         alert("틀림");
+         pw.focus();
+         return;
+      }else{
+      document.form.submit();
+      }
+     }
+
+      function loadpasswd(){
+      var xhttp = new XMLHttpRequest();
+      var login_id = document.getElementById('id_form').value;
+      var login_pw = document.getElementById('pw_form').value;
+      var post_param = 'login_id='+login_id+'&login_pw='+login_pw;
+
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200){
+        
+        if(this.response == 'true'){
+          document.getElementById('message').innerHTML = "<h1>Success</h1>";
+        }else{
+          document.getElementById('message').innerHTML = "<h1>FAIL</h1>";
+        }
+       }
+     };
+        xhttp.open("POST", "login_chk", true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.send(post_param);
+    }
+   
+    </script>
+    <h1> Go Login </h1>
+      <form name='form' action="/login_chk" method="POST" >
+        ID : <input type="text" name="user_id" id="id_form">
+            PW : <input type="password" onkeyup=loadpasswd(); name="user_pw" id="pw_form">
+
+         
+                <input type="submit">
+                  </form>
+         <p id='message'></p>
+       </body>
+  </html>

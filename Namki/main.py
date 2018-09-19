@@ -81,10 +81,18 @@ def delete_user(bye_user):
     db.commit()
     db.close()
     return ''
-
 @app.route('/', methods=['GET', 'POST'])
+def menetory():
+    if session.get('id') is None:
+        return redirect(url_for('login'))
+    return redirect(url_for('me_list')) #Hello {}'.format(session['id'])
+
+
+@app.route('/login_chk', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
+        if session.get('id') is not None:
+            return render_template('login.html')    
         return render_template('login.html')
     elif request.method == 'POST':
         logon_id = request.form.get('user_id','')
@@ -98,6 +106,10 @@ def index():
         if session['id'] is not None:
             return render_template('login.html', data=session['id'], name=logon_id)
     pass
+
+@app.route('/login')
+def login():
+    return ''
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

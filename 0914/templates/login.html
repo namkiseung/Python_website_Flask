@@ -1,0 +1,23 @@
+<html>
+  <head><title>Login Page</title></head>
+  <body>
+    <form action='/', method='POST'>
+      ID:<input type='text' name='user_id'><br>
+      PW:<input type='password' name='user_pw'><br>
+      <input type='submit' value='log_in'>
+    </form>
+    <form action='/register', method='GET'>
+      <input type='submit' value="회원가입">
+      </form>
+
+
+    current_user ID  : {{ data1 }}<br>
+    current_user PW  : {{ data2 }}<br>
+
+    <br>
+    <br>
+
+    ALL USER : {{ select_data }}
+
+    </body>
+</html>

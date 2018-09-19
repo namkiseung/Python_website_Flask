@@ -1,0 +1,15 @@
+<html>
+  <head><title>Main Page</title></head>
+ 
+  <body>
+    <h1>순위</h1>
+      <table border=1>
+        <tr><td>번호</td><td>조회수</td><td>저장소 이름</td></tr>
+     {% for x in data %}
+     <tr><td> {{ loop.index }}</td><td> {{ x[0] }} </td><td>{{ x[1] }}</td></tr>
+     {% endfor %}
+     </table>
+  
+    </body>
+</html>
+

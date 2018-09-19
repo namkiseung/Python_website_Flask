@@ -1,0 +1,43 @@
+d>
+  <title>write</title>
+  </head>
+  <body>
+      <br>
+        <span align="center"><h1>게시글 쓰기</h1></span>
+          <table border="1" align="center">    
+                <form action="/" method="POST">
+                        <tr>
+                                  <th>제목</th><th><input type="text" name="title"></th>
+                                        </tr>    
+                                              <tr>
+                                                        <th>작성자</th><th>{{ session_id }}</th>
+                                                              </tr>
+                                                                    <tr>
+                                                                              <th>날짜</th><th>{{ thisdate }}</th>
+                                                                                    </tr>
+                                                                                          <tr>
+                                                                                                    <th>내용</th><th><textarea type="t" name="content"></textarea></th>
+                                                                                                          </tr>    
+                                                                                                              </tr>
+                                                                                                                </table>
+
+
+
+                                                                                                                 <br>
+                                                                                                                   <table align="center">
+                                                                                                                         <tr align="center">
+                                                                                                                                 <td>
+                                                                                                                                           <button><input type="submit" name="" value="등록"></button>
+                                                                                                                                                 </form>
+                                                                                                                                                     </td>
+                                                                                                                                                       </tr>
+                                                                                                                                                         <tr align="center">
+                                                                                                                                                             <td>
+                                                                                                                                                                 <button><a href="/">목록보기</a></button>
+                                                                                                                                                             </td>
+                                                                                                                                                         </tr>
+                                                                                                                   </table>
+
+  </body>
+  </html>
+
