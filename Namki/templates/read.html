@@ -28,31 +28,31 @@
 			</tr>			           
 			<tr>
 				<td class="middle">[작성자]</td> 
-				<td style="background-color: rgba(200, 200, 200, 0.1);">작성자</td> 
+				<td style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][1]}}</td> 
 			</tr> 
 			<tr> 
 				<td class="middle">[제목]</td> 
-				<td style="background-color: rgba(200, 200, 200, 0.1);">게시글의 제목</td> 
+				<td style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][2]}}</td> 
 			</tr> 
 			<tr>
-				<td class="middle">[동영상]</td>
+				<td class="middle">[조회수]</td>
 				<td style="background-color: rgba(200, 200, 200, 0.1);">
-
-					<iframe class="studyIframe" src="" frameborder="0" allowfullscreen></iframe>
+					{{search[0][6]}}
+					<!-- <iframe class="studyIframe" src="" frameborder="0" allowfullscreen></iframe> -->
 
 				</td>		                
 			</tr> 	
 			<tr>
 				<td class="middle">[내용]</td> 
-				<td style="background-color: rgba(200, 200, 200, 0.1);"></td>		                
+				<td style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][3]}}</td>		                
 			</tr> 		             		            
 			<tr>
 				<td class="middle">[첨부 파일]</td>
-				<td style="background-color: rgba(200, 200, 200, 0.1);"><b></b></a></td>
+				<td style="background-color: rgba(200, 200, 200, 0.1);"><b>{{search[0][5]}}</b></a></td>
 			</tr> 		            	            
 			<tr>
 				<td class="middle">[등록일]</td> 
-				<td style="background-color: rgba(200, 200, 200, 0.1);"></td> 
+				<td style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][4]}}</td> 
 			</tr>             	           
 		</table>
 	</div>   
@@ -77,22 +77,22 @@
 				
 				<tr>
 					<td class="middle">[아이디]</td>
-					<td>{{ search[0][1] }}</td>
+					<td>댓글아이디</td>
 					<td class="middle">[등록일]</td>
-					<td>{{ search[0][4] }}</td>
+					<td>댓글등록일</td>
 					<td class="middle">
 
 					</td>
 				</tr>
 				<tr>
 					<td class="middle">[내용]</td>
-					<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">{{ search[0][3] }}</td>
+					<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">댓글내용</td>
 				</tr>
 				
 			</table>
 			<br>
 			<div align="center">
-				<form action="./commentWriteAction.jsp" method="post"> 
+				<form action="" method="post"> 
 					<textarea name="commentContent" class="studyCommentContent"></textarea>
 					<input type="submit" value="댓글 등록">
 					<input type="hidden" name="commentType" value="study">

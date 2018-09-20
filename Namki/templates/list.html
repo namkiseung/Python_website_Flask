@@ -45,7 +45,7 @@
 				<tr> 
 					{% for x in data %}
 					<td class="tail" style="text-align: center;">{{ x[1] }}</td>
-					<td class="tail"><a href="/read?me_read=1"><b>{{ x[2] }}</b></a></td>   <!-- {{ x[0] }} -->
+					<td class="tail"><a href="/read?num={{x[0]}}"><b>{{ x[2] }}</b></a></td>   <!-- {{ x[0] }} -->
 					<td class="tail" style="text-align: center;">{{ x[4] }}</td>
 					<td class="tail" style="text-align: center;">{{ x[6] }}</td>
 				</tr>{% endfor %}
