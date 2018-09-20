@@ -1,47 +1,85 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-<meta charset="utf-8"/>
-    <title>Login Page _ By Namki</title>
-<script type="text/javascript">
-function null_check(){
-	var str = document.login
-	if(str.user_id.value == '' || str.user_id.value == null){
-	alert('공백을 확인하세요');
-	str.user_id.value.focus();
-	return;
-	}else if(str.user_pw.value == '' || str.user_pw.value == null){
-	alert('공백을 확인하세요');
-	str.user_pw.value.focus();
-	return;
-	}else{
-	document.login.submit();
-	}
+<head>
+  <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Login Page _ By Namki</title>
+  <style type="text/css">
+  table {
+    width: 10%;
 }
+</style>
+  <script type="text/javascript">
+    function null_check(){
+     var str = document.login
+     if(str.user_id.value == '' || str.user_id.value == null){
+       alert('공백을 확인하세요');
+       str.user_id.value.focus();
+       return;
+     }else if(str.user_pw.value == '' || str.user_pw.value == null){
+       alert('공백을 확인하세요');
+       str.user_pw.value.focus();
+       return;
+     }else{
+       document.login.submit();
+     }
+}
+    //  function load_userinfo(){
+    //   var xhttp = new XMLHttpRequest();
+    //   var login_id = document.getElementById('id_form').value;
+    //   var login_pw = document.getElementById('pw_form').value;
+    //   var post_param = 'login_id='+login_id+'login_pw='+login_pw;
+
+    //   xhttp.onreadyStatechange = function(){        
+    //     if (this.readyState == 4 && this.status ==200){
+    //       if (this.response == 'true') {
+    //         document.getElementById('message').innerHTML = "<font color='green'>correct</font>";
+    //       }else{
+    //         document.getElementById('message').innerHTML = "<font color='red'>incorrect</font>";
+    //       }
+    //     }
+    //   };
+    //   xhttp.open("POST", "login_chk", true);
+    //   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //   xhttp.send(post_param);
+    // }
+
+  
 </script>
-  </head>
-  <body>
-    {% if data %}
-    <!-- <h2>{{ data }}</h2> -->
-      {{ name }}<p>님</p>
-      <button><a href="/mypage">내정보</a></button>
-      <button><a href="/logout">로그아웃</a></button>
-</table>
-    {% else %}
-    <form action='/' method="POST" name="login">
-      ID : <input type="text" name="user_id" placeholder="아이디를 입력하세요."><br> 
-      PW : <input type="password" name="user_pw" placeholder="비밀번호를 입력하세요."><br>
-    </form>
-    <button onclick="null_check()">로그인</button>
-    <button><a href="/register">회원가입</a></button>
-    {% endif %}
-<div id="navbar">
-        <ul class="nav">
-             <li><a href="#">main</a></li>
-             <li><a href="#">menu2</a></li>
-             <li><a href="#">menu3</a></li>
+</head>
+<body>
+  <hr><span align="center"><h1>Namki_Web 로그인 화면입니다.</h1></span><hr>
+  <!-- {% if data %}
+  <h2>{{ data }}</h2>
+  {{ name }}<p>님</p>
+  <button><a href="/mypage">내정보</a></button>
+  <button><a href="/logout">로그아웃</a></button>
+  {% else %} -->
+  
+  <table>
+    
+    <tr><td >
+      <form action='/login_chk' method="POST">
+        ID : <input type="text" name="user_id" placeholder="아이디를 입력하세요." id="id_form"></td> </tr>
+        <tr><td>
+          PW : <input type="password" name="user_pw" placeholder="비밀번호를 입력하세요." onkeyup="load_userinfo();" id="pw_form"><p id='message'></p></td></tr>
+          <tr><td>
+            <div id="blackBox"> 
+            <input type="submit" value="로그인">
+            <input type="button" value="회원가입" onClick="location.href='/register'"></td></tr>
+          </form>
+        </table>
+        <!-- {% endif %} -->
+        <hr>
+        <div id="navbar">
+          <ul class="nav">
+           <li><a href="#">main</a></li>
+           <li><a href="#">menu2</a></li>
+           <li><a href="#">menu3</a></li>
+           <li><a href="/list">공지사항</a></li>
          </ul>
-    </div>
-</body>
-</html>
+       </div>
+     </div>
+     </body>
+     </html>
 

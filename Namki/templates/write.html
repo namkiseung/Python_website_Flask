@@ -1,59 +1,58 @@
 <!DOCTYPE html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>게시판 by namki</title>		
+<head>
+	<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>게시판 by namki</title>		
 </head>
 <body>
-<div id="mainBox">
-			<div id="titleBox">
-				<a href="">namki</a>
-			</div>
-			<div id="navigationBox">
+	<div id="mainBox">
+		<div id="titleBox">
+			<a href="">namki</a>
+		</div>
+		<div id="navigationBox">
 			
-						<a href="../member/memberLoginForm.jsp" class="basicButton">로그인</a>
-						<a href="../member/memberJoinForm.jsp" class="basicButton">회원가입</a>
-				
-					<!-- <a href="../study/study.jsp" class="basicButton"></a>
-					<a href="../talk/talkListForm.jsp" class="basicButton"></a> -->
-					<a href="../notice/noticeListForm.jsp" class="basicButton">공지사항</a>
-			</div>
-			<hr>				
-			</div>
-		
+			<a href="../member/memberLoginForm.jsp" class="basicButton">로그인</a>
+			<a href="../member/memberJoinForm.jsp" class="basicButton">회원가입</a>			
+			<a href="/mypage" class="basicButton">내정보</a>
+			<a href="/logout" class="basicButton">로그아웃</a>
+			<a href="../notice/noticeListForm.jsp" class="basicButton">공지사항</a>
+		</div>
+		<hr>				
+	</div>
 
-			<form action="./talkWriteAction.jsp" method="post"> 
-				<div id="viewBox">
-			        <table> 			      
-		          		<tr>
-			        		<td colspan="2" class="head">
-			        			글쓰기
-			        		</td>
-			        	</tr>
-			        	<tr>
-			                <td class="middle">아이디</td> 
-			                <td><b>iiiii</b></td> 
-			            </tr> 			        	
-			        <tr>
+
+	<form action="/write" method="post"> 
+		<div id="viewBox">
+			<table> 			      
+				<tr>
+					<td colspan="2" class="head">
+						글쓰기
+					</td>
+				</tr>
+				<tr>
+					<td class="middle">아이디</td> 
+					<td><b>{{ userid }}</b></td> 
+				</tr> 			        	
+				<tr>
 					<td class="middle">첨부파일 </td>
-					<td></td> 
-			            </tr> 			        	       
-			            <tr> 
-			            	<td class="middle">제목</td>
-			            	<td><input type="text" name="talkTitle"></td>
-			            </tr>
-			            <tr> 
-			            	<td class="middle">내용</td>
-			            	<td><textarea name="talkContent" class="responsiveTextarea"></textarea></td>
-			        </tr>				            
-			        </table>
-			    </div>
-			    <div id="blackBox">
-			        <input type="submit" value="등록">
-			        <a href="" class="blackButton">대화방 목록</a>
-				</div>
-			</form>
+					<td><input type="file" name="_file"></td> 
+				</tr> 			        	       
+				<tr> 
+					<td class="middle">제목</td>
+					<td><input type="text" name="notitle"></td>
+				</tr>
+				<tr> 
+					<td class="middle">내용</td>
+					<td><textarea name="nocontent" class="responsiveTextarea"></textarea></td>
+				</tr>				            
+			</table>
+		</div>
+		<div id="blackBox">
+			<input type="submit" value="등록">
+			<a href="/list" class="blackButton">대화방 목록</a>
+		</div>
+	</form>
 
-   
+
 </body>
 </html>

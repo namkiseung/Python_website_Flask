@@ -1,113 +1,113 @@
 <!DOCTYPE html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>게시판 by namki</title>		
+<head>
+	<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>게시판 by namki</title>		
 </head>
 <body>
-<div id="mainBox">
-			<div id="titleBox">
-				<a href="">namki</a>
-			</div>
-			<div id="navigationBox">
+	<div id="mainBox">
+		<div id="titleBox">
+			<a href="">namki</a>
+		</div>
+		<div id="navigationBox">
 			
-						<a href="../member/memberLoginForm.jsp" class="basicButton">로그인</a>
-						<a href="../member/memberJoinForm.jsp" class="basicButton">회원가입</a>
+			<a href="../member/memberLoginForm.jsp" class="basicButton">로그인</a>
+			<a href="../member/memberJoinForm.jsp" class="basicButton">회원가입</a>
+			<a href="/mypage" class="basicButton">내정보</a>
+			<a href="/logout" class="basicButton">로그아웃</a>
+			<a href="../notice/noticeListForm.jsp" class="basicButton">공지사항</a>
+		</div>
+		<hr>				
+	</div>
+	<div>		
+		<table align="center"> 
+			<tr>
+				<td class="head" colspan="3">
+					게시글 확인
+				</td>
+			</tr>			           
+			<tr>
+				<td class="middle">[작성자]</td> 
+				<td style="background-color: rgba(200, 200, 200, 0.1);">작성자</td> 
+			</tr> 
+			<tr> 
+				<td class="middle">[제목]</td> 
+				<td style="background-color: rgba(200, 200, 200, 0.1);">게시글의 제목</td> 
+			</tr> 
+			<tr>
+				<td class="middle">[동영상]</td>
+				<td style="background-color: rgba(200, 200, 200, 0.1);">
+
+					<iframe class="studyIframe" src="" frameborder="0" allowfullscreen></iframe>
+
+				</td>		                
+			</tr> 	
+			<tr>
+				<td class="middle">[내용]</td> 
+				<td style="background-color: rgba(200, 200, 200, 0.1);"></td>		                
+			</tr> 		             		            
+			<tr>
+				<td class="middle">[첨부 파일]</td>
+				<td style="background-color: rgba(200, 200, 200, 0.1);"><b></b></a></td>
+			</tr> 		            	            
+			<tr>
+				<td class="middle">[등록일]</td> 
+				<td style="background-color: rgba(200, 200, 200, 0.1);"></td> 
+			</tr>             	           
+		</table>
+	</div>   
+	<div><br><br><br><br>
+
+		<table border="1">
+			<tr>
+				<td class="middle">[아이디]</td>
+				<td>이름</td>
+				<td class="middle">[등록일]</td>
+				<td>날짜</td>
+				<td class="middle">
+
+				</td>
+			</tr>
+			<tr>
+				<td class="middle">[내용]</td>
+				<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">댓글내용</td>
+			</tr>
+			<!-- ################################################################################################ -->
+			<table border="1">
 				
-					<!-- <a href="../study/study.jsp" class="basicButton"></a>
-					<a href="../talk/talkListForm.jsp" class="basicButton"></a> -->
-					<a href="../notice/noticeListForm.jsp" class="basicButton">공지사항</a>
-			</div>
-			<hr>				
-			</div>
-<div>		
-		        <table align="center"> 
-		        	<tr>
-		        		<td class="head" colspan="3">
-		        			게시글 확인
-		        		</td>
-		        	</tr>			           
-		            <tr>
-		                <td class="middle">[작성자]</td> 
-		                <td style="background-color: rgba(200, 200, 200, 0.1);">작성자</td> 
-		            </tr> 
-		            <tr> 
-		                <td class="middle">[제목]</td> 
-		                <td style="background-color: rgba(200, 200, 200, 0.1);">게시글의 제목</td> 
-		            </tr> 
-		            <tr>
-		            	<td class="middle">[동영상]</td>
-		            	<td style="background-color: rgba(200, 200, 200, 0.1);">
-		    
-						<iframe class="studyIframe" src="" frameborder="0" allowfullscreen></iframe>
-			        	
-		            	</td>		                
-		            </tr> 	
-		            <tr>
-		                <td class="middle">[내용]</td> 
-		            	<td style="background-color: rgba(200, 200, 200, 0.1);"></td>		                
-		            </tr> 		             		            
-		            <tr>
-		            	<td class="middle">[첨부 파일]</td>
-		            	<td style="background-color: rgba(200, 200, 200, 0.1);"><b></b></a></td>
-		            </tr> 		            	            
-		            <tr>
-		                <td class="middle">[등록일]</td> 
-		                <td style="background-color: rgba(200, 200, 200, 0.1);"></td> 
-		            </tr>             	           
-		        </table>
-		    </div>   
-<div><br><br><br><br>
-		     
-				<table border="1">
-					<tr>
-						<td class="middle">[아이디]</td>
-						<td>이름</td>
-						<td class="middle">[등록일]</td>
-						<td>날짜</td>
-						<td class="middle">
-			
-						</td>
-					</tr>
-					<tr>
-						<td class="middle">[내용]</td>
-						<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">댓글내용</td>
-					</tr>
-			 <!-- ################################################################################################ -->
-				<table border="1">
-					<tr>
-						<td class="middle">[아이디]</td>
-						<td>아이디</td>
-						<td class="middle">[등록일]</td>
-						<td>날짜</td>
-						<td class="middle">
-			
-						</td>
-					</tr>
-					<tr>
-						<td class="middle">[내용]</td>
-						<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">질문내용</td>
-					</tr>
-			
-				</table>
-				<br>
+				<tr>
+					<td class="middle">[아이디]</td>
+					<td>{{ search[0][1] }}</td>
+					<td class="middle">[등록일]</td>
+					<td>{{ search[0][4] }}</td>
+					<td class="middle">
+
+					</td>
+				</tr>
+				<tr>
+					<td class="middle">[내용]</td>
+					<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">{{ search[0][3] }}</td>
+				</tr>
+				
+			</table>
+			<br>
 			<div align="center">
 				<form action="./commentWriteAction.jsp" method="post"> 
-	            	<textarea name="commentContent" class="studyCommentContent"></textarea>
-			        <input type="submit" value="댓글 등록">
-			        <input type="hidden" name="commentType" value="study">
-			        <input type="hidden" name="targetID" value="13">
-			        <input type="hidden" name="studyTitle" value="">
-			        <input type="hidden" name="studyType" value="">
-			        <input type="hidden" name="currentPage" value="">
+					<textarea name="commentContent" class="studyCommentContent"></textarea>
+					<input type="submit" value="댓글 등록">
+					<input type="hidden" name="commentType" value="study">
+					<input type="hidden" name="targetID" value="13">
+					<input type="hidden" name="studyTitle" value="">
+					<input type="hidden" name="studyType" value="">
+					<input type="hidden" name="currentPage" value="">
 				</form>	</div>	    
-		    </div>
-	        
-		</div>
-<div id="blackBox">	
-				<input type="button" value="글쓰기" onClick="location.href=''">
-				<input type="button" value="메인 화면" onClick="location.href=''">
 			</div>
 
-</body>
-</html>
+		</div>
+		<div id="blackBox">	
+			<input type="button" value="글쓰기" onClick="location.href=''">
+			<input type="button" value="메인 화면" onClick="location.href=''">
+		</div>
+
+	</body>
+	</html>
