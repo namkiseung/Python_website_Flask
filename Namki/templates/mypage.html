@@ -4,25 +4,48 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
 <meta charset="utf-8"/>
-<title>MyPage By Namki</title></head>
+<title>MyPage By Namki</title>
+<style type="text/css"></style>
+</head>
 <body>
+	<div id="mainBox">
+    <div id="titleBox">
+      <a href="/">namki</a>
+    </div>
+    <div id="navigationBox">      
+      {% if logon != True %}
+      <a href="/login" class="basicButton">로그인</a>
+      <a href="/register" class="basicButton">회원가입</a>      
+      {% else %}
+      <a href="/mypage" class="basicButton">내정보</a>
+      <a href="/logout" class="basicButton">로그아웃</a>
+      {% endif %}
+      <a href="/list" class="basicButton">공지사항</a>
+    </div>
+    <hr>
+    <span align="center"><h2>Namki_Web 로그인</h2></span><hr>
+  </div>
+
 <form action='/mypage' method='POST'>
 <table border=1>
 <tr><td> 아이디</td><td> {{ update_id }} </td></tr>
-<tr><td> 현재 비밀번호</td><td> {{ update_pw }} </td></tr>
+<tr><td> 현재 비밀번호</td><td>  </td></tr>
 <tr><td>이름</td><td><input type='text' name='name' value=' {{ update_name }}' ></td></tr>
 <tr><td>이메일</td><td><input type='text' name='email' value=' {{ update_email }}' ></td></tr><tr><td>휴대폰번호</td><td><input type='text' name='phone' value=' {{ update_phone }}' ></td></tr>
-<tr><td colspan='2'><input type='submit'></td></tr>
+<tr><td colspan='2'><input type='submit' value="제출"></td></tr>
 </table>
 </form>
-<button><h2><a href='/'>취소</a></h2></button>
-<button><h2><a href='/delete_user'>회원탈퇴</a></h2></button>
-<div id="navbar">
+<div align="center">
+<input type="button" id="wi" value="취소" onClick="location.href='/'">
+<input type="button" id="wi" value="회원탈퇴" onClick="location.href='/delete_user'">
+</div>
+
+<!-- <div id="navbar">
         <ul class="nav">
              <li><a href="#">home</a></li>
              <li><a href="#">menu2</a></li>
              <li><a href="#">menu3</a></li>
          </ul>
-    </div>
+    </div> -->
 </body>
 </html>

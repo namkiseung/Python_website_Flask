@@ -48,7 +48,23 @@
 </script>
 </head>
 <body>
-  <hr><span align="center"><h1>Namki_Web 로그인 화면입니다.</h1></span><hr>
+  <div id="mainBox">
+    <div id="titleBox">
+      <a href="/">namki</a>
+    </div>
+    <div id="navigationBox">      
+      {% if logon != True %}
+      <a href="/login" class="basicButton">로그인</a>
+      <a href="/register" class="basicButton">회원가입</a>      
+      {% else %}
+      <a href="/mypage" class="basicButton">내정보</a>
+      <a href="/logout" class="basicButton">로그아웃</a>
+      {% endif %}
+      <a href="/list" class="basicButton">공지사항</a>
+    </div>
+    <hr>
+    <span align="center"><h2>Namki_Web 로그인</h2></span><hr>
+  </div>
   <!-- {% if data %}
   <h2>{{ data }}</h2>
   {{ name }}<p>님</p>
@@ -71,14 +87,14 @@
         </table>
         <!-- {% endif %} -->
         <hr>
-        <div id="navbar">
+       <!--  <div id="navbar">
           <ul class="nav">
            <li><a href="#">main</a></li>
            <li><a href="#">menu2</a></li>
            <li><a href="#">menu3</a></li>
            <li><a href="/list">공지사항</a></li>
          </ul>
-       </div>
+       </div> -->
      </div>
      </body>
      </html>

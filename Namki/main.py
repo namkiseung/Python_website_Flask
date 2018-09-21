@@ -3,7 +3,7 @@ from flask import Flask, request, session, g, render_template, redirect, url_for
 from flask_basicauth import BasicAuth
 from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime
-
+print os.popen('ls').read()
 app = Flask(__name__)
 now = datetime.datetime.now()
 app.config['BASIC_AUTH_USERNAME'] = 'admin'
@@ -66,7 +66,7 @@ def save_noticedb(idid="",title="",content="",day="",files=""):
      return ''
 
 def get_noticedb_list():    
-    sql = 'SELECT * FROM notice_board'#.format(idx_number)
+    sql = 'SELECT * FROM notice_board ORDER BY day desc'#.format(idx_number)
     db = get_dbnotice()
     rv = db.execute(sql)
     res = rv.fetchall() 
@@ -79,27 +79,21 @@ def get_noticedb_read(idx_number):
     res = rv.fetchall() 
     return res
 
-# def update_user(n_name=None, n_email=None, n_phone=None):
-#     if n_name is not None and n_email is not None and n_phone is not None:
-#        db = get_db()
-#        #r = get_user()
-#        print n_name
-#        print n_email
-#        print n_phone
-#        sql = 'UPDATE users set name="{}", email="{}", phone="{}" where id="{}" '.format(n_name, n_email, n_phone, session['id']) 
-#        rv = db.execute(sql)
-#        db.commit()
-#        db.close()
-#     return ''
+def update_noticedb(idx="", idid="",title="",content="",day="",files=""):    
+    db = get_dbnotice()
+    sql = 'UPDATE notice_board set id="{}", title="{}", content="{}", day="{}", files="{}" WHERE idx="{}"'.format(idid,title,content,day,files, idx)
+    rv = db.execute(sql)
+    db.commit()
+    db.close()
+    return ''
 
-# def delete_user(bye_user):
-#     db = get_db()
-#     sql = 'DELETE FROM users where id="{}"'.format(bye_user)
-#     logout()
-#     rv = db.execute(sql)
-#     db.commit()
-#     db.close()
-#     return ''
+def delete_noticedb(idx=""):
+    db = get_dbnotice()
+    sql = 'DELETE FROM notice_board where idx="{}"'.format(idx)
+    rv = db.execute(sql)
+    db.commit()
+    db.close()
+    return ''
 
 def save_user(ar_id, ar_pw, ar_name, ar_email, ar_phone):
     sql = 'INSERT INTO users (id, pw, name, email, phone) VALUES("{}", "{}", "{}", "{}", "{}")'.format(ar_id, ar_pw, ar_name, ar_email, ar_phone)
@@ -162,6 +156,11 @@ def delete_user(bye_user):
     db.close()
     return ''
 
+def menubar():
+    if session.get('id') is None:
+        return False
+    return True
+
 @app.route('/', methods=['GET', 'POST'])
 def menetory():
     if session.get('id') is not None:
@@ -170,23 +169,19 @@ def menetory():
     return redirect(url_for('login')) #Hello {}'.format(session['id'])
 
 
-@app.route('/login_chk', methods=['GET', 'POST'])
+@app.route('/login_chk', methods=['POST'])
 def index():
-    if request.method == 'GET':
-        if session.get('id') is not None:
-            return redirect(url_for('login'))
-        return render_template('login.html')
-    elif request.method == 'POST':
+    if request.method == 'POST':
         logon_id = request.form.get('user_id','')
         logon_pw = request.form.get('user_pw','')        
         chk_r=get_user_single(logon_id, logon_pw)                
         if chk_r is True:
             r=get_user(logon_id, logon_pw)
             session['id'] = r[0][0]
-            session['pw'] = r[0][1]         
+            session['pw'] = hash_224(r[0][1])
             session['name'] = r[0][2]            
             session['email'] = r[0][3]
-            session['phone'] = r[0][4]                                     
+            session['phone'] = r[0][4] 
     return redirect(url_for('menetory'))
 
 @app.route('/login')
@@ -204,8 +199,7 @@ def register():
         in_new_pw = hash_224(request.form.get('new_pw', ''))
         in_new_name = request.form.get('new_name', '')
         in_new_email = request.form.get('new_email', '')
-        in_new_phone = request.form.get('new_phone', '')
-                
+        in_new_phone = request.form.get('new_phone', '')    
         save_user(ar_id=in_new_id, ar_pw=in_new_pw, ar_name=in_new_name, ar_email=in_new_email, ar_phone=in_new_phone)
         return redirect(url_for('login'))
 
@@ -228,42 +222,65 @@ def delete_user_action():
 def mypage():
     if request.method == 'POST':
         update_user(n_name=request.form.get('name'), n_email=request.form.get('email'), n_phone=str(request.form.get('phone')))
-        return '<h1>User Info Update success!!</h1><br><a href="/">continue</a>'
-    if session.get('id') is not None:
-        r=get_user(session.get('id'), session.get('pw'))
-        return render_template('mypage.html',update_id=r[0][0], update_pw=r[0][1], update_name=r[0][2], update_email=r[0][3], update_phone=r[0][4]) 
+        return redirect(url_for('menetory'))
+    elif request.method == 'GET':
+        return render_template('mypage.html',update_id=session.get('id'), update_name=session.get('name'), update_email=session.get('email'), update_phone=session.get('phone'), logon = menubar()) 
     return '<h1>Not Page</h1>'
 
 @app.route('/list', methods=['GET', 'POST'])
 def me_list():
+    r=get_noticedb_list()
     if session.get('id') is None:
-        return redirect(url_for('login'))
-    r=get_noticedb_list()        
-    return render_template('list.html', data = r)
+        return render_template('list.html', data = r)            
+    return render_template('list.html', data = r, logon = menubar())
  
 @app.route('/read', methods=['GET', 'POST'])
 def me_read():
     if request.args.get('num') is not None:
         r=get_noticedb_read(idx_number=request.args.get('num'))
-        print '#####################'
-        print r[0][2]
-        print '#####################'
-        return render_template('read.html', search = r)
+        return render_template('read.html', search = r, logon = menubar(), user = session.get('id'), writerid=r[0][1])
     return render_template('read.html')
+
+@app.route('/update', methods=['GET', 'POST'])
+def me_update():    
+    if request.method == "GET" and session.get('id') is not None:               
+        r=get_noticedb_read(idx_number=request.args.get('num'))    
+        return render_template('update.html', writerid=r[0][1], usertitle=r[0][2], usercontent=r[0][3], logon = menubar(), user=session.get('id'), textnum=r[0][0])
+    elif request.method == "POST":          
+        r=get_noticedb_read(idx_number=request.form.get('textnum'))   
+        save_title=request.form.get('notitle')
+        save_content=request.form.get('nocontent')
+        save_day=now.strftime('%Y-%m-%d %H:%M:%S')
+        save_files=request.form.get('_file')                
+        print "###############"        
+        print r[0][2]
+        print r[0][3]
+        print r[0][4]
+        update_noticedb(idid=r[0][1], title=save_title,content=save_content, day=save_day, files=save_files, idx=r[0][0])
+        return redirect(url_for('me_list'))
+    return ''
+
+@app.route('/delete', methods=['GET'])
+def me_delete():
+    if session.get('id') is not None:
+        if request.args.get('num') is not None:    
+            delete_noticedb(idx=request.args.get('num'))
+            "<script type='text/javascript'>alert('게시글이 삭제되었습니다.');</script>"
+    return redirect(url_for('me_list'))
 
 @app.route('/write', methods=['GET', 'POST'])
 def me_write():
     if request.method == "GET":
         return render_template('write.html', userid=session.get('id'))
     elif request.method == "POST":        
-        writer = session.get('id')
+        writerid = session.get('id')
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
         save_day=now.strftime('%Y-%m-%d %H:%M:%S')
         #f = request.files['_file']
         #f.save('./uploads' + secure_filename(f.filename))
         save_files=request.form.get('_file')
-        save_noticedb(idid=writer, title=save_title,content=save_content, day=save_day, files=save_files)
+        save_noticedb(idid=writerid, title=save_title,content=save_content, day=save_day, files=save_files)
         return redirect(url_for('me_list'))
     return ''
 

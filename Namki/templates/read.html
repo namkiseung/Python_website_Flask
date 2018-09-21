@@ -7,71 +7,61 @@
 <body>
 	<div id="mainBox">
 		<div id="titleBox">
-			<a href="">namki</a>
+			<a href="/">namki</a>
 		</div>
-		<div id="navigationBox">
-			
-			<a href="../member/memberLoginForm.jsp" class="basicButton">로그인</a>
-			<a href="../member/memberJoinForm.jsp" class="basicButton">회원가입</a>
-			<a href="/mypage" class="basicButton">내정보</a>
-			<a href="/logout" class="basicButton">로그아웃</a>
-			<a href="../notice/noticeListForm.jsp" class="basicButton">공지사항</a>
-		</div>
+		 <div id="navigationBox">      
+      {% if logon != True %}
+      <a href="/login" class="basicButton">로그인</a>
+      <a href="/register" class="basicButton">회원가입</a>      
+      {% else %}
+      <a href="/mypage" class="basicButton">내정보</a>
+      <a href="/logout" class="basicButton">로그아웃</a>
+      {% endif %}
+      <a href="/list" class="basicButton">공지사항</a>
+    </div>
 		<hr>				
 	</div>
 	<div>		
-		<table align="center"> 
+		<table align="center" width="1200"> 
 			<tr>
 				<td class="head" colspan="3">
 					게시글 확인
 				</td>
 			</tr>			           
 			<tr>
-				<td class="middle">[작성자]</td> 
-				<td style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][1]}}</td> 
+				<td class="middle">작성자</td> 
+				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][1]}}</td> 
 			</tr> 
 			<tr> 
-				<td class="middle">[제목]</td> 
-				<td style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][2]}}</td> 
+				<td class="middle">제목</td> 
+				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][2]}}</td> 
 			</tr> 
 			<tr>
-				<td class="middle">[조회수]</td>
-				<td style="background-color: rgba(200, 200, 200, 0.1);">
+				<td class="middle">조회수</td>
+				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);">
 					{{search[0][6]}}
 					<!-- <iframe class="studyIframe" src="" frameborder="0" allowfullscreen></iframe> -->
 
 				</td>		                
 			</tr> 	
 			<tr>
-				<td class="middle">[내용]</td> 
-				<td style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][3]}}</td>		                
+				<td class="middle">내용</td> 
+				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][3]}}</td>		                
 			</tr> 		             		            
 			<tr>
-				<td class="middle">[첨부 파일]</td>
-				<td style="background-color: rgba(200, 200, 200, 0.1);"><b>{{search[0][5]}}</b></a></td>
+				<td class="middle">첨부 파일</td>
+				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);"><b>{{search[0][5]}}</b></a></td>
 			</tr> 		            	            
 			<tr>
-				<td class="middle">[등록일]</td> 
-				<td style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][4]}}</td> 
+				<td class="middle">등록일</td> 
+				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][4]}}</td> 
 			</tr>             	           
 		</table>
 	</div>   
 	<div><br><br><br><br>
 
 		<table border="1">
-			<tr>
-				<td class="middle">[아이디]</td>
-				<td>이름</td>
-				<td class="middle">[등록일]</td>
-				<td>날짜</td>
-				<td class="middle">
-
-				</td>
-			</tr>
-			<tr>
-				<td class="middle">[내용]</td>
-				<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">댓글내용</td>
-			</tr>
+		
 			<!-- ################################################################################################ -->
 			<table border="1">
 				
@@ -106,6 +96,9 @@
 		</div>
 		<div id="blackBox">	
 			<input type="button" value="글쓰기" onClick="location.href=''">
+			{% if logon == True and user == writerid %}
+			<input type="button" value="수정" onClick="location.href='/update?num={{search[0][0]}}'">
+			{% endif %}
 			<input type="button" value="메인 화면" onClick="location.href=''">
 		</div>
 

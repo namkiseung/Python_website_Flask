@@ -3,42 +3,64 @@
 	<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>게시판 by namki</title>		
+<style type="text/css">
+.footer {
+  height: 50px;
+  width: 80%;
+  margin-top: -50px;
+  margin-left: 10%;
+  text-align: left;
+}
+#wi {	
+    width: 100%;
+    height: 10%;
+    padding: 20px 10px;
+    border: none;
+    border-radius: 14px;    
+}
+#bold{
+	font-weight: bolder;
+	font-size: 20px
+}
+</style>
 </head>
 <body>
 	<div id="mainBox">
 		<div id="titleBox">
-			<a href="">namki</a>
+			<a href="/">namki</a>
 		</div>
-		<div id="navigationBox">		
-
-			<a href="../member/memberLoginForm.jsp" class="basicButton">로그인</a>
-			<a href="../member/memberJoinForm.jsp" class="basicButton">회원가입</a>
-			<a href="/mypage" class="basicButton">내정보</a>
-			<a href="/logout" class="basicButton">로그아웃</a>
-			<a href="../notice/noticeListForm.jsp" class="basicButton">공지사항</a>
-		</div>
+		 <div id="navigationBox">      
+      {% if logon != True %}
+      <a href="/login" class="basicButton">로그인</a>
+      <a href="/register" class="basicButton">회원가입</a>      
+      {% else %}
+      <a href="/mypage" class="basicButton">내정보</a>
+      <a href="/logout" class="basicButton">로그아웃</a>
+      {% endif %}
+      <a href="/list" class="basicButton">공지사항</a>
+    </div>
 		<hr>
 
 
 		<div>
 			<table>
 				<tr>
-					<td class="head" colspan="4">
-						[공지사항 게시판]
+					<td id="bold" class="head" colspan="4">
+						공지사항 게시판
 					</td>
 				</tr>				
 				<tr>
-					<td class="middle">
-						[작성자]
+					<td id="bold" class="middle">
+						작성자
 					</td>
-					<td class="middle" style="width: 560px;">
-						[제목]
+					<td id="bold" class="middle" style="width: 560px;">
+						제목
 					</td>
-					<td class="middle" style="width: 180px;">
-						[작성일]
+					<td id="bold" class="middle" style="width: 180px;">
+						작성일
 					</td>	
-					<td class="middle" style="width: 180px;">
-						[조회수]
+					<td id="bold" class="middle" style="width: 180px;">
+						조회수
 					</td>		 		        	        		        		        
 				</tr>
 
@@ -51,20 +73,28 @@
 				</tr>{% endfor %}
 			</table>
 			<br>
-			<form action="./study.jsp" method="get"> 
-
+			<form action="/list?search=" method="get"> 
 				<input type="button" value="다음" onClick="location.href='./study.jsp?studyTitle=&studyType=&commentCurrentPage=&studyID=13&currentPage=2'">
-
-				<input style="float:right;" type="submit" value="검색">			
-				<input type="text" value="" name="studyTitle" id="selectText">
-				<input type="hidden" name="studyType" value="">
-				<input type="hidden" name="studyID" value="13">
+				<input style="float:right;" type="submit" value="검색">
+				<!-- <input style="float:right;" type="submit" value="정렬"> -->
+				<input type="text" value="" name="searchtext" id="selectText">
+				<!-- <input type="hidden" name="studyType" value="">
+				<input type="hidden" name="studyID" value="13"> -->
 			</form>
+		</div><br><br><br>
+		
+			{% if logon == True %}
+			<input type="button" id="wi" value="글쓰기" onClick="location.href='/write'">
+			{% endif %}
+			<!-- <input type="button" value="메인 화면" onClick="location.href=''"> -->
 		</div>
-		<div id="blackBox">	
-			<input type="button" value="글쓰기" onClick="location.href='/write'">
-			<input type="button" value="메인 화면" onClick="location.href=''">
-		</div>
-
+<footer class="footer" align="center">
+	<hr>
+	<b>개발자 SNS</b>
+	<li>Git (<a href="https://github.com/namkiseung/Python_website_Flask"><font style="color: blue">바로가기</font></a>)</li>
+	<li>instagram (<a href="https://www.instagram.com/nam.ki/"><font style="color: blue">바로가기</font></a>)</li>
+	<li>Linkedin (<a href="https://www.linkedin.com/in/nam-kiseung-3676b916a/"><font style="color: blue">바로가기</font></a>)</li>
+	
+</footer>
 	</body>
 	</html>
