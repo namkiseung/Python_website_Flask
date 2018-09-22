@@ -64,32 +64,30 @@
 		
 			<!-- ################################################################################################ -->
 			<table border="1">
-				
+				{% for x_re in data_re %}
 				<tr>
 					<td class="middle">[아이디]</td>
-					<td>댓글아이디</td>
+					<td>{{ x_re[2] }}</td>
 					<td class="middle">[등록일]</td>
-					<td>댓글등록일</td>
+					<td>{{ x_re[4] }}</td>
 					<td class="middle">
 
 					</td>
 				</tr>
 				<tr>
 					<td class="middle">[내용]</td>
-					<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">댓글내용</td>
+					<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">{{ x_re[3] }}</td>
 				</tr>
+				{% endfor %}
 				
 			</table>
 			<br>
 			<div align="center">
-				<form action="" method="post"> 
+				<form action="/read" method="post"> 
 					<textarea name="commentContent" class="studyCommentContent"></textarea>
-					<input type="submit" value="댓글 등록">
-					<input type="hidden" name="commentType" value="study">
-					<input type="hidden" name="targetID" value="13">
-					<input type="hidden" name="studyTitle" value="">
+					<input type="submit" value="댓글 등록">					
 					<input type="hidden" name="studyType" value="">
-					<input type="hidden" name="currentPage" value="">
+					<input type="hidden" name="currentPage" value="{{ currentpage }}">
 				</form>	</div>	    
 			</div>
 

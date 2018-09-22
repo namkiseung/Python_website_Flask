@@ -3,7 +3,12 @@ from flask import Flask, request, session, g, render_template, redirect, url_for
 from flask_basicauth import BasicAuth
 from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime
-print os.popen('ls').read()
+#print os.popen('apt install ntpdate').read()
+#print os.popen('chkconfig ntpd on').read()
+#print os.popen('service ntpd restart').read()
+#print os.popen('ntpq -dp').read()
+#print os.popen('crontab -e').read() #-> 00 01 * * * ntpdate time.bora.net
+
 app = Flask(__name__)
 now = datetime.datetime.now()
 app.config['BASIC_AUTH_USERNAME'] = 'admin'
@@ -14,7 +19,7 @@ app.config['BASIC_AUTH_FORCE'] = False
 app.secret_key = 'a'
 DATABASE = './db/user.db'
 DATABASEnotice = './db/noticeboard.db'
-
+DATABASEnotice_re = './db/noticeboard_re.db'
 
 @app.route('/admin')
 @basic_auth.required
@@ -34,11 +39,21 @@ def get_dbnotice():
         db = g._database = sqlite3.connect(DATABASEnotice)
     return db
 
+def get_dbnotice_re():
+    db = getattr(g, '_database_re', None)
+    print "!!!!!!!!!!!!!!"
+    if db is None:
+        print "!!!!!!!!!!!!!!~~~"
+        db = g._database_re = sqlite3.connect(DATABASEnotice_re)
+    return db
+
 def exist_db():
     if os.path.exists("./db/user.db") is not True:
         init_db()
     if os.path.exists("./db/noticeboard.db") is not True:
         init_db_notice()    
+    if os.path.exists("./db/noticeboard_re.db") is not True:
+        init_db_notice_re() 
     return ''
 
 def init_db():
@@ -57,6 +72,14 @@ def init_db_notice():
         db.commit()
         db.close()
 
+def init_db_notice_re():
+    with app.app_context():
+        db = get_dbnotice_re()
+        f = open('noticeboard_re.sql', 'r')
+        db.execute(f.read())
+        db.commit()
+        db.close()
+###########################################################################################
 def save_noticedb(idid="",title="",content="",day="",files=""):
      sql = 'INSERT INTO notice_board (id, title, content, day, files) VALUES ("{}","{}","{}","{}","{}")'.format(idid,title,content,day,files)
      db = get_dbnotice()
@@ -94,7 +117,46 @@ def delete_noticedb(idx=""):
     db.commit()
     db.close()
     return ''
+####################################################################
+def save_noticedb(readidx="", userid="", content="", day=""):
+     sql = 'INSERT INTO notice_board_re (originidx, id, content, day) VALUES ("{}","{}","{}","{}")'.format(readidx, userid, content, day)
+     db = get_dbnotice_re()
+     db.execute(sql)
+     db.commit()
+     db.close()
+     return ''
 
+def get_noticedb2_list(num):    
+    db = get_dbnotice_re()
+    sql = 'SELECT * FROM notice_board_re WHERE idx="{}" ORDER BY day desc'.format(num)    
+    rv = db.execute(sql)
+    res = rv.fetchall()  
+    # chk = rv.fetchone()         
+    return res
+
+# def get_noticedb_read(idx_number):    
+#     sql = 'SELECT * FROM notice_board_re where idx="{}"'.format(idx_number)
+#     db = get_dbnotice_re()
+#     rv = db.execute(sql)
+#     res = rv.fetchall() 
+#     return res
+
+# def update_noticedb(idx="", idid="",title="",content="",day="",files=""):    
+#     db = get_dbnotice_re()
+#     sql = 'UPDATE notice_board_re set id="{}", title="{}", content="{}", day="{}", files="{}" WHERE idx="{}"'.format(idid,title,content,day,files, idx)
+#     rv = db.execute(sql)
+#     db.commit()
+#     db.close()
+#     return ''
+
+# def delete_noticedb(idx=""):
+#     db = get_dbnotice_re()
+#     sql = 'DELETE FROM notice_board_re where idx="{}"'.format(idx)
+#     rv = db.execute(sql)
+#     db.commit()
+#     db.close()
+#     return ''
+####################################################################
 def save_user(ar_id, ar_pw, ar_name, ar_email, ar_phone):
     sql = 'INSERT INTO users (id, pw, name, email, phone) VALUES("{}", "{}", "{}", "{}", "{}")'.format(ar_id, ar_pw, ar_name, ar_email, ar_phone)
     db = get_db()
@@ -160,7 +222,7 @@ def menubar():
     if session.get('id') is None:
         return False
     return True
-
+################################################################################
 @app.route('/', methods=['GET', 'POST'])
 def menetory():
     if session.get('id') is not None:
@@ -235,10 +297,15 @@ def me_list():
     return render_template('list.html', data = r, logon = menubar())
  
 @app.route('/read', methods=['GET', 'POST'])
-def me_read():
+def me_read():    
     if request.args.get('num') is not None:
         r=get_noticedb_read(idx_number=request.args.get('num'))
-        return render_template('read.html', search = r, logon = menubar(), user = session.get('id'), writerid=r[0][1])
+        rt = get_noticedb2_list(request.args.get('num'))          
+        return render_template('read.html', search = r, logon = menubar(), user = session.get('id'), writerid=r[0][1], data_re=rt, currentpage=request.args.get('num'))
+    if request.method == 'POST':
+        ori_num=request.form.get('currentpage') #게시글 idx번호
+        #save_noticedb(readidx=ori_num, userid=session.get('id'), content="", day=now.strftime('%Y-%m-%d %H:%M:%S'))        
+    
     return render_template('read.html')
 
 @app.route('/update', methods=['GET', 'POST'])
@@ -251,11 +318,7 @@ def me_update():
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
         save_day=now.strftime('%Y-%m-%d %H:%M:%S')
-        save_files=request.form.get('_file')                
-        print "###############"        
-        print r[0][2]
-        print r[0][3]
-        print r[0][4]
+        save_files=request.form.get('_file')                        
         update_noticedb(idid=r[0][1], title=save_title,content=save_content, day=save_day, files=save_files, idx=r[0][0])
         return redirect(url_for('me_list'))
     return ''
