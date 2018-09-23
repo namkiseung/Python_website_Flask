@@ -3,6 +3,8 @@ from flask import Flask, request, session, g, render_template, redirect, url_for
 from flask_basicauth import BasicAuth
 from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime
+from bs4 import BeautifulSoup 
+import lxml, requests
 #print os.popen('apt install ntpdate').read()
 #print os.popen('chkconfig ntpd on').read()
 #print os.popen('service ntpd restart').read()
@@ -80,6 +82,22 @@ def init_db_notice_re():
         db.commit()
         db.close()
 ###########################################################################################
+# def select_countview(idx="", count=""):
+#      sql = 'SELECT idx, countview FROM notice_board WHERE idx="{}"'.format(idx, count)
+#      db = get_dbnotice()
+#      db.execute(sql)
+#      db.commit()
+#      db.close()
+#      return ''
+
+# def save_countview(idx="", count=""):
+#      sql = 'INSERT INTO notice_board (idx, countview) VALUES ("{}", {}")'.format(idx, count)
+#      db = get_dbnotice()
+#      db.execute(sql)
+#      db.commit()
+#      db.close()
+#      return ''
+
 def save_noticedb(idid="",title="",content="",day="",files=""):
      sql = 'INSERT INTO notice_board (id, title, content, day, files) VALUES ("{}","{}","{}","{}","{}")'.format(idid,title,content,day,files)
      db = get_dbnotice()
@@ -95,7 +113,7 @@ def get_noticedb_list():
     res = rv.fetchall() 
     return res
 
-def get_noticedb_read(idx_number):    
+def get_noticedb_read(idx_number):        
     sql = 'SELECT * FROM notice_board where idx="{}"'.format(idx_number)
     db = get_dbnotice()
     rv = db.execute(sql)
@@ -111,8 +129,11 @@ def update_noticedb(idx="", idid="",title="",content="",day="",files=""):
     return ''
 
 def delete_noticedb(idx=""):
+    print '****************************'
+    print idx
+    print '****************************'
     db = get_dbnotice()
-    sql = 'DELETE FROM notice_board where idx="{}"'.format(idx)
+    sql = 'DELETE FROM notice_board WHERE idx="{}"'.format(idx)
     rv = db.execute(sql)
     db.commit()
     db.close()
@@ -149,9 +170,9 @@ def get_noticedb2_list(num):
 #     db.close()
 #     return ''
 
-def delete_noticedb(idx=""):
+def delete_noticedb_re(idx_1="", idx_2=""):
     db = get_dbnotice_re()
-    sql = 'DELETE FROM notice_board_re where idx="{}"'.format(idx)
+    sql = 'DELETE FROM notice_board_re where idx="{}" and originidx="{}"'.format(idx_1, idx_2)
     rv = db.execute(sql)
     db.commit()
     db.close()
@@ -292,9 +313,11 @@ def mypage():
 @app.route('/list', methods=['GET', 'POST'])
 def me_list():
     r=get_noticedb_list()
+    idx_num=len(r)    
+    print r[0][6]
     if session.get('id') is None:
-        return render_template('list.html', data = r)            
-    return render_template('list.html', data = r, logon = menubar())
+        return render_template('list.html', data = r, length = idx_num)            
+    return render_template('list.html', data = r, logon = menubar(), length = idx_num)
  
 @app.route('/read', methods=['GET', 'POST'])
 def me_read(num=None):    
@@ -319,9 +342,10 @@ def me_read(num=None):
 #     return redirect(url_for('me_list'))
 
 @app.route('/rep_delete', methods=['GET', 'POST'])
-def reupdate(delnum=None): #, currentpage=None
-    print delnum    
-    delete_noticedb("{}".format(delnum))
+def reupdate(): #, currentpage=None
+    delnum=request.args.get('delnum')
+    currentpage=request.args.get('currentpage')
+    delete_noticedb_re(idx_1=delnum, idx_2=currentpage)
     return redirect(url_for('me_read', num=currentpage))
 
 @app.route('/update', methods=['GET', 'POST'])
@@ -340,11 +364,11 @@ def me_update():
     return ''
 
 @app.route('/delete', methods=['GET'])
-def me_delete():
-    if session.get('id') is not None:
-        if request.args.get('num') is not None:  #    request.method == "GET":
-            delete_noticedb(idx=request.args.get('num'))
-            "<script type='text/javascript'>alert('게시글이 삭제되었습니다.');</script>"
+def me_delete():    
+    if session.get('id') is not None:        
+        if request.args.get('num') is not None:  #    request.method == "GET":            
+            delete_noticedb(idx=request.args.get('num'))            
+            "<script>alert('게시글이 삭제되었습니다.');</script>"            
     return redirect(url_for('me_list'))
 
 @app.route('/write', methods=['GET', 'POST'])
@@ -362,6 +386,8 @@ def me_write():
         save_noticedb(idid=writerid, title=save_title,content=save_content, day=save_day, files=save_files)
         return redirect(url_for('me_list'))
     return ''
+
+
 
 if __name__ == '__main__':
     exist_db()    

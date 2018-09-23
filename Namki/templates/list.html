@@ -5,6 +5,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>게시판 by namki</title>		
 <style type="text/css">
+#width_single{
+	width: 2pt;
+}
 .footer {
   height: 50px;
   width: 80%;
@@ -46,11 +49,12 @@
 		<div>
 			<table>
 				<tr>
-					<td id="bold" class="head" colspan="4">
+					<td id="bold" class="head" colspan="5">
 						공지사항 게시판
 					</td>
 				</tr>				
 				<tr>
+					<td id="bold" class="middle">번호</td>
 					<td id="bold" class="middle">
 						작성자
 					</td>
@@ -66,7 +70,10 @@
 				</tr>
 
 				<tr> 
+
 					{% for x in data %}
+					<td id="width_single" class="tail" style="text-align: center;"> {{ (length+1) - loop.index}}</td>
+
 					<td class="tail" style="text-align: center;">{{ x[1] }}</td>
 					<td class="tail"><a href="/read?num={{x[0]}}"><b>{{ x[2] }}</b></a></td>   <!-- {{ x[0] }} -->
 					<td class="tail" style="text-align: center;">{{ x[4] }}</td>
@@ -95,7 +102,6 @@
 	<li>Git (<a href="https://github.com/namkiseung/Python_website_Flask"><font style="color: blue">바로가기</font></a>)</li>
 	<li>instagram (<a href="https://www.instagram.com/nam.ki/"><font style="color: blue">바로가기</font></a>)</li>
 	<li>Linkedin (<a href="https://www.linkedin.com/in/nam-kiseung-3676b916a/"><font style="color: blue">바로가기</font></a>)</li>
-	
 </footer>
 <br><br><br><br><br><br><br><br>
 	</body>

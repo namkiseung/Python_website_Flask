@@ -32,6 +32,10 @@
 		#sel_re_dateinput{		
 			width: 150px;
 			height: 6px;
+		}		
+		#sel_re_repple{		
+			width: 50px;
+			height: 6px;
 		}
 	</style>
 </head>
@@ -105,7 +109,7 @@
 			<table>
 				{% for x_re in data_re %}
 				<tr>
-					<td class="middle" id="sel_re_id"><font size="2pt">아이디</font></td>
+					<td class="middle" id="sel_re_id"><font size="2pt">아이디</font></td>					
 					<td style="background-color: rgba(200, 200, 200, 0.1);" id="sel_re_idinput"><font size="2pt">{{ x_re[2] }}</font></td>
 					<td class="middle" id="sel_re_content"><font size="2pt">내용</font></td>
 					<td colspan="4" id="sel_re_contentinput" style="background-color: rgba(200, 200, 200, 0.1);"><font size="2pt">{{ x_re[3] }}</font></td>
@@ -113,9 +117,11 @@
 					<td id="sel_re_dateinput" style="background-color: rgba(200, 200, 200, 0.1);"><font size="2pt">{{ x_re[4] }}</font></td>
 					
 					
-					<td><button>수정</button><button onclick="location.href='/rep_delete?delnum={{x_re[0]}}&currentpage={{ currentpage }}'">삭제</button><button>댓글</button></td>
-				</tr>
-				
+					<td id="sel_re_repple"><!-- <button>수정</button> -->
+			{% if logon == True and user == x_re[2] %}
+						<button onclick="location.href='/rep_delete?delnum={{x_re[0]}}&currentpage={{ currentpage }}'">삭제</button>
+						{% endif %}<button>댓글</button></td>
+				</tr>				
 				{% endfor %}
 			</table>
 			<br>
@@ -125,7 +131,7 @@
 			{% if logon == True and user == writerid %}
 			<input type="button" value="수정" onClick="location.href='/update?num={{search[0][0]}}'">
 			{% endif %}
-			<input type="button" value="메인 화면" onClick="location.href='/list'">
+			<input type="button" value="목록보기" onClick="location.href='/list'">
 		</div>
 
 
