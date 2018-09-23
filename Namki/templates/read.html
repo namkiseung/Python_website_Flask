@@ -3,6 +3,37 @@
 	<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>게시판 by namki</title>		
+	<style type="text/css">
+		#sel_re_id
+		{		
+			width: 40px;
+			height: 6px;
+		}
+		#sel_re_idinput
+		{		
+			width: 43px;
+			height: 6px;
+		}
+		#sel_re_content
+		{		
+			width: 40px;
+			height: 6px;
+		}
+		#sel_re_contentinput
+		{		
+			width: 200px;
+			height: 6px;
+		}
+		#sel_re_date
+		{		
+			width: 40px;
+			height: 6px;
+		}
+		#sel_re_dateinput{		
+			width: 150px;
+			height: 6px;
+		}
+	</style>
 </head>
 <body>
 	<div id="mainBox">
@@ -58,47 +89,46 @@
 			</tr>             	           
 		</table>
 	</div>   
-	<div><br><br><br><br>
-
-		<table border="1">
-		
+	<div><br>
+	
 			<!-- ################################################################################################ -->
-			<table border="1">
-				{% for x_re in data_re %}
-				<tr>
-					<td class="middle">[아이디]</td>
-					<td>{{ x_re[2] }}</td>
-					<td class="middle">[등록일]</td>
-					<td>{{ x_re[4] }}</td>
-					<td class="middle">
-
-					</td>
-				</tr>
-				<tr>
-					<td class="middle">[내용]</td>
-					<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">{{ x_re[3] }}</td>
-				</tr>
-				{% endfor %}
-				
-			</table>
-			<br>
 			<div align="center">
 				<form action="/read" method="post"> 
-					<textarea name="commentContent" class="studyCommentContent"></textarea>
-					<input type="submit" value="댓글 등록">					
-					<input type="hidden" name="studyType" value="">
+					<textarea name="commentContent" class="studyCommentContent"></textarea><br>
+					<input type="submit" value="댓글 등록" align="center">			
 					<input type="hidden" name="currentPage" value="{{ currentpage }}">
 				</form>	</div>	    
 			</div>
 
 		</div>
-		<div id="blackBox">	
-			<input type="button" value="글쓰기" onClick="location.href=''">
+		<br>
+			<table>
+				{% for x_re in data_re %}
+				<tr>
+					<td class="middle" id="sel_re_id"><font size="2pt">아이디</font></td>
+					<td style="background-color: rgba(200, 200, 200, 0.1);" id="sel_re_idinput"><font size="2pt">{{ x_re[2] }}</font></td>
+					<td class="middle" id="sel_re_content"><font size="2pt">내용</font></td>
+					<td colspan="4" id="sel_re_contentinput" style="background-color: rgba(200, 200, 200, 0.1);"><font size="2pt">{{ x_re[3] }}</font></td>
+					<td class="middle" id="sel_re_date"><font size="2pt">등록일</font></td>
+					<td id="sel_re_dateinput" style="background-color: rgba(200, 200, 200, 0.1);"><font size="2pt">{{ x_re[4] }}</font></td>
+					
+					
+					<td><button>수정</button><button onclick="location.href='/rep_delete?delnum={{x_re[0]}}&currentpage={{ currentpage }}'">삭제</button><button>댓글</button></td>
+				</tr>
+				
+				{% endfor %}
+			</table>
+			<br>
+			
+		<div id="blackBox" align="center">	
+			<input type="button" value="글쓰기" onClick="location.href='/write'">
 			{% if logon == True and user == writerid %}
 			<input type="button" value="수정" onClick="location.href='/update?num={{search[0][0]}}'">
 			{% endif %}
-			<input type="button" value="메인 화면" onClick="location.href=''">
+			<input type="button" value="메인 화면" onClick="location.href='/list'">
 		</div>
+
+
 
 	</body>
 	</html>

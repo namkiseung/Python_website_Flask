@@ -118,7 +118,7 @@ def delete_noticedb(idx=""):
     db.close()
     return ''
 ####################################################################
-def save_noticedb(readidx="", userid="", content="", day=""):
+def save_noticedb_re(readidx="", userid="", content="", day=""):
      sql = 'INSERT INTO notice_board_re (originidx, id, content, day) VALUES ("{}","{}","{}","{}")'.format(readidx, userid, content, day)
      db = get_dbnotice_re()
      db.execute(sql)
@@ -128,7 +128,7 @@ def save_noticedb(readidx="", userid="", content="", day=""):
 
 def get_noticedb2_list(num):    
     db = get_dbnotice_re()
-    sql = 'SELECT * FROM notice_board_re WHERE idx="{}" ORDER BY day desc'.format(num)    
+    sql = 'SELECT * FROM notice_board_re WHERE originidx="{}" ORDER BY day desc'.format(num)    
     rv = db.execute(sql)
     res = rv.fetchall()  
     # chk = rv.fetchone()         
@@ -149,13 +149,13 @@ def get_noticedb2_list(num):
 #     db.close()
 #     return ''
 
-# def delete_noticedb(idx=""):
-#     db = get_dbnotice_re()
-#     sql = 'DELETE FROM notice_board_re where idx="{}"'.format(idx)
-#     rv = db.execute(sql)
-#     db.commit()
-#     db.close()
-#     return ''
+def delete_noticedb(idx=""):
+    db = get_dbnotice_re()
+    sql = 'DELETE FROM notice_board_re where idx="{}"'.format(idx)
+    rv = db.execute(sql)
+    db.commit()
+    db.close()
+    return ''
 ####################################################################
 def save_user(ar_id, ar_pw, ar_name, ar_email, ar_phone):
     sql = 'INSERT INTO users (id, pw, name, email, phone) VALUES("{}", "{}", "{}", "{}", "{}")'.format(ar_id, ar_pw, ar_name, ar_email, ar_phone)
@@ -278,13 +278,13 @@ def logout():
 @app.route('/delete_user')
 def delete_user_action():
     delete_user(bye_user=session.get('id'))
-    return '<h1>User Info Delete success!!</h1><br><a href="/">continue</a>'
+    redirect(url_for('login'))
 
 @app.route('/mypage', methods=['GET', 'POST'])
 def mypage():
     if request.method == 'POST':
         update_user(n_name=request.form.get('name'), n_email=request.form.get('email'), n_phone=str(request.form.get('phone')))
-        return redirect(url_for('menetory'))
+        return redirect(url_for('me_read'))
     elif request.method == 'GET':
         return render_template('mypage.html',update_id=session.get('id'), update_name=session.get('name'), update_email=session.get('email'), update_phone=session.get('phone'), logon = menubar()) 
     return '<h1>Not Page</h1>'
@@ -297,16 +297,32 @@ def me_list():
     return render_template('list.html', data = r, logon = menubar())
  
 @app.route('/read', methods=['GET', 'POST'])
-def me_read():    
+def me_read(num=None):    
     if request.args.get('num') is not None:
         r=get_noticedb_read(idx_number=request.args.get('num'))
         rt = get_noticedb2_list(request.args.get('num'))          
-        return render_template('read.html', search = r, logon = menubar(), user = session.get('id'), writerid=r[0][1], data_re=rt, currentpage=request.args.get('num'))
+        for x in rt:
+            print x[2]
+            print x[4]
+            print x[3]
+        return render_template('read.html', search = r, logon = menubar(), user = session.get('id'), writerid=r[0][1], data_re=rt, currentpage=request.args.get('num'))    
     if request.method == 'POST':
-        ori_num=request.form.get('currentpage') #게시글 idx번호
-        #save_noticedb(readidx=ori_num, userid=session.get('id'), content="", day=now.strftime('%Y-%m-%d %H:%M:%S'))        
-    
-    return render_template('read.html')
+        ori_num=request.form.get('currentPage') #게시글 idx번호
+        repple=request.form.get('commentContent')
+        print ori_num
+        print repple
+        save_noticedb_re(readidx=ori_num, userid=session.get('id'), content=repple, day=now.strftime('%Y-%m-%d %H:%M:%S'))
+    return redirect(url_for('me_read', num=ori_num)) #"<script>history.go(-1);</script>" #redirect(url_for('me_read'))
+
+# @app.route('/rep_update', methods=['GET', 'POST'])
+# def reupdate():
+#     return redirect(url_for('me_list'))
+
+@app.route('/rep_delete', methods=['GET', 'POST'])
+def reupdate(delnum=None): #, currentpage=None
+    print delnum    
+    delete_noticedb("{}".format(delnum))
+    return redirect(url_for('me_read', num=currentpage))
 
 @app.route('/update', methods=['GET', 'POST'])
 def me_update():    
@@ -326,7 +342,7 @@ def me_update():
 @app.route('/delete', methods=['GET'])
 def me_delete():
     if session.get('id') is not None:
-        if request.args.get('num') is not None:    
+        if request.args.get('num') is not None:  #    request.method == "GET":
             delete_noticedb(idx=request.args.get('num'))
             "<script type='text/javascript'>alert('게시글이 삭제되었습니다.');</script>"
     return redirect(url_for('me_list'))
