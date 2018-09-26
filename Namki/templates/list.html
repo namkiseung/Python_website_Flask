@@ -31,7 +31,7 @@
 <body>
 	<div id="mainBox">
 		<div id="titleBox">
-			<a href="/">namki</a>
+			<a href="/list">namki</a>
 		</div>
 		 <div id="navigationBox">      
       {% if logon != True %}
@@ -40,8 +40,11 @@
       {% else %}
       <a href="/mypage" class="basicButton">내정보</a>
       <a href="/logout" class="basicButton">로그아웃</a>
+      <a href="/conversation" class="basicButton">대화하기</a>
       {% endif %}
+      <a href="/chat" class="basicButton">채팅하기</a>
       <a href="/list" class="basicButton">공지사항</a>
+      
     </div>
 		<hr>
 
@@ -74,10 +77,10 @@
 					{% for x in data %}
 					<td id="width_single" class="tail" style="text-align: center;"> {{ (length+1) - loop.index}}</td>
 
-					<td class="tail" style="text-align: center;">{{ x[1] }}</td>
-					<td class="tail"><a href="/read?num={{x[0]}}"><b>{{ x[2] }}</b></a></td>   <!-- {{ x[0] }} -->
-					<td class="tail" style="text-align: center;">{{ x[4] }}</td>
-					<td class="tail" style="text-align: center;">{{ x[6] }}</td>
+					<td class="tail" style="text-align: center;">{{ x[0][1] }}</td>
+					<td class="tail"><a href="/read?num={{x[0][0]}}"><b>{{ x[0][2] }} ({{ x[1] }})</b></a></td>   <!-- {{ x[0] }} -->
+					<td class="tail" style="text-align: center;">{{ x[0][4] }}</td>
+					<td class="tail" style="text-align: center;">{{ x[0][6] }}</td>
 				</tr>{% endfor %}
 			</table>
 			<br>

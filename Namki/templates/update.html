@@ -11,12 +11,15 @@
 			<a href="/">namki</a>
 		</div>
 	 <div id="navigationBox">      
-      <!-- <a href="/login" class="basicButton">로그인</a>
-      <a href="/register" class="basicButton">회원가입</a>       -->
-      
+      {% if logon != True %}
+      <a href="/login" class="basicButton">로그인</a>
+      <a href="/register" class="basicButton">회원가입</a>      
+      {% else %}
       <a href="/mypage" class="basicButton">내정보</a>
       <a href="/logout" class="basicButton">로그아웃</a>
-      
+      <a href="/conversation" class="basicButton">말걸기</a>
+      {% endif %}
+      <a href="/chat" class="basicButton">채팅하기</a>
       <a href="/list" class="basicButton">공지사항</a>
     </div>
 		<hr>				

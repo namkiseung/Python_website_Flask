@@ -1,0 +1,13 @@
+https://www.youtube.com/watch?v=LVLHprUg-PM 원격지 댓글 서비스
+
+http://bcho.tistory.com/896 (소켓으로 채팅)
+
+https://www.youtube.com/watch?v=q9Qnxk8Hr64 (소켓으로 채팅 유투브 강의)
+
+http://dhhwang89.tistory.com/99 (소켓 모듈 내용 정리)
+
+http://ljs93kr.tistory.com/48?category=711242 (flask AWS사용법)
+
+https://flaskr.readthedocs.io/ko/flas_kr/patterns/fileuploads.html#id2   (플라스크 메인 개념)
+
+http://bigfat.tistory.com/86    (Ajax를 이용한 댓글 쓰기 구현하기)

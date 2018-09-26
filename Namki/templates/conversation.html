@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+<meta charset="utf-8"/>
+<title>conversation By Namki</title>
+<style type="text/css"></style>
+</head>
+<body>
+	<div id="mainBox">
+    <div id="titleBox">
+      <a href="/">namki</a>
+    </div>
+    <div id="navigationBox">      
+      {% if logon != True %}
+      <a href="/login" class="basicButton">로그인</a>
+      <a href="/register" class="basicButton">회원가입</a>      
+      {% else %}
+      <a href="/mypage" class="basicButton">내정보</a>
+      <a href="/logout" class="basicButton">로그아웃</a>
+      <a href="/conversation" class="basicButton">대화하기</a>
+      {% endif %}
+      <a href="/chat" class="basicButton">채팅하기</a>
+      <a href="/list" class="basicButton">공지사항</a>      
+    </div>
+    <hr>
+    <span align="center"><h2>대화하기</h2></span><hr>
+  </div>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5babaa26b156da713cb3d518/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+
+</script>
+<div align="center"><hr><h3>관리자에게 1:1 문의 메시지를 남겨주세요.</h3>
+<iframe  src="https://tawk.to/chat/5babaa26b156da713cb3d518/default" width="70%" height="100%"></iframe></hr></div>
+
+<!--End of Tawk.to Script-->
+
+<!-- <div id="navbar">
+        <ul class="nav">
+             <li><a href="#">home</a></li>
+             <li><a href="#">menu2</a></li>
+             <li><a href="#">menu3</a></li>
+         </ul>
+    </div> -->
+    <!-- <DirectChat Link>
+    https://tawk.to/chat/5babaa26b156da713cb3d518/default -->
+</body>
+</html>

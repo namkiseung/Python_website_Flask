@@ -4,14 +4,16 @@ from flask_basicauth import BasicAuth
 from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime
 from bs4 import BeautifulSoup 
-import lxml, requests
+import lxml, requests, socketio, eventlet
 #print os.popen('apt install ntpdate').read()
 #print os.popen('chkconfig ntpd on').read()
 #print os.popen('service ntpd restart').read()
 #print os.popen('ntpq -dp').read()
 #print os.popen('crontab -e').read() #-> 00 01 * * * ntpdate time.bora.net
+sio = socketio.Server()
+messages = []
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='uploads')
 # now = datetime.datetime.now()
 # print type(now)
 # nowday=now.strftime('%Y-%m-%d %H:%M:%S')
@@ -20,6 +22,21 @@ def day():
     now=commend_date.split()
     nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] 
     return nowday
+
+# @sio.on('connect')
+# def connect(sid, env):
+#     print('connected %s' % sid)
+
+# @sio.on('send message')
+# def get_message(sid, data):
+#     sio.emit('new message', {
+#         "nickname": data["nickname"],
+#         "body": data["body"]
+#     }, skip_sid=sid)
+
+# @sio.on('disconnect')
+# def disconnect(sid):
+#     print('disconnected %s' % sid)
 
 UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -45,7 +62,39 @@ def admin_access():
 @app.route('/manage/notice')
 @basic_auth.required
 def admin_access2():
-    return render_template('manage.html')
+    r = get_noticedb_list()
+    for x in range(len(r)):
+        print r[x]
+    return render_template('manage.html', notice_info=r)
+
+@app.route('/manage/conversation', methods=['GET', 'POST'])
+def conversation():
+    if request.method == "GET":
+        return render_template('manage_conversation.html')
+    else:
+        script_alert("Login is required.")       
+        return redirect(url_for('/'))
+
+@app.route('/manage/basic_crawl', methods=['GET'])
+def github():
+   req = requests.get('https://github.com/trending/python?since=daily')
+   html = req.text
+   soup = BeautifulSoup(html, 'html.parser')
+   list_text=[]
+   list_text2=[]
+   result=[]
+   for tag in soup.select('span[class="d-inline-block float-sm-right"]'):
+       list_text.append(tag.text) 
+   for tag2 in soup.select('span[class="text-normal"]'):
+       list_text2.append(tag2.text) 
+   print list_text2
+   for x in range(len(list_text)):
+       result.append(("",""))
+   print result
+   for x in range(len(list_text)):
+       result[x]=((list_text[x],list_text2[x]))
+       print result[x] 
+   return render_template('crawl.html', data=result)
 
 def day_date():
     commend_date = os.popen('date').read()
@@ -56,7 +105,7 @@ def day_date():
 #파일업로드
 def allowed_file(filename):
     return './uploads' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lowor() in ALLOWED_EXTENSIONS
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -72,9 +121,7 @@ def get_dbnotice():
 
 def get_dbnotice_re():
     db = getattr(g, '_database_re', None)
-    print "!!!!!!!!!!!!!!"
-    if db is None:
-        print "!!!!!!!!!!!!!!~~~"
+    if db is None:        
         db = g._database_re = sqlite3.connect(DATABASEnotice_re)
     return db
 
@@ -96,7 +143,7 @@ def exist_db():
     return ''
 
 def script_alert(msg):
-    messages = "<script type='text/javascript'>alert('{}');</script>".format(msg)
+    messages = '<script type="text/javascript">alert("{}");</script>'.format(msg)
     return messages
 
 def init_db():
@@ -134,9 +181,9 @@ def init_db_notice_re2():
 ###########################################################################################
 def search_board(text="", select=""):
     if select == "title":
-        sql = 'SELECT * FROM notice_board WHERE title like "{}%" ORDER BY day desc'.format(text)
+        sql = 'SELECT * FROM notice_board WHERE title like "{}%" ORDER BY idx desc'.format(text)
     elif select == "writer": 
-        sql = 'SELECT * FROM notice_board WHERE id="{}" ORDER BY day desc'.format(text)
+        sql = 'SELECT * FROM notice_board WHERE id="{}" ORDER BY idx desc'.format(text)
     db = get_dbnotice()
     rv = db.execute(sql)
     res = rv.fetchall()
@@ -166,7 +213,7 @@ def save_noticedb(idid="",title="",content="",day="",files=""):
     return ''
 
 def get_noticedb_list():    
-    sql = 'SELECT * FROM notice_board ORDER BY day desc'#.format(idx_number)
+    sql = 'SELECT * FROM notice_board ORDER BY idx desc'#.format(idx_number)
     db = get_dbnotice()
     rv = db.execute(sql)
     res = rv.fetchall() 
@@ -380,17 +427,21 @@ def mypage():
         return render_template('mypage.html',update_id=session.get('id'), update_name=session.get('name'), update_email=session.get('email'), update_phone=session.get('phone'), logon = menubar()) 
     return '<h1>Not Page</h1>'
 
-@app.route('/list', methods=['GET', 'POST'])
-def me_list():        
-    r=get_noticedb_list()
-    text=request.args.get('searchtext')
-    category=str(request.args.get('category'))
-    if request.method == "GET" and request.args.get('category') is not None:
-        r = search_board(text=text, select=category)
-    idx_num=len(r)        
-    if session.get('id') is None:
-        return render_template('list.html', data = r, length = idx_num)           
-    return render_template('list.html', data = r, logon = menubar(), length = idx_num)
+@app.route('/list', methods=['GET'])
+def me_list():   
+    res_list=[]
+    board_re=[]    
+    if request.args.get('category') is None and request.args.get('searchtext') is None:
+        board_r = get_noticedb_list() 
+    else:
+        board_r=search_board(text=request.args.get('searchtext'), select=str(request.args.get('category')))
+    for re_num in board_r:
+        board_re.append(len(get_noticedb_list_re(re_num[0])))
+    for x in range(len(board_r)):
+        res_list.append(("",""))
+        res_list[x] = ((board_r[x], board_re[x]))        
+    return render_template('list.html', data = res_list, logon = menubar(), length = len(res_list))
+
  
 @app.route('/read', methods=['GET', 'POST'])
 def me_read(num=None):    
@@ -446,25 +497,43 @@ def me_delete():
 
 @app.route('/write', methods=['GET', 'POST'])
 def me_write():
+    file_path=''
     if request.method == "GET":
         return render_template('write.html', userid=session.get('id'))
     elif request.method == "POST":        
         writerid = session.get('id')
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
-        #file = request.files['_file']
-        #if file and allowed_file(file.filename):
-        #    print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-        #    filename = secure_filename(file.filename)
-        #    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file = request.files['_file']
+        if allowed_file(file.filename):
+           print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+           filename = secure_filename(file.filename)
+           file_path = './uploads/'+filename+"."+filename.resplit('.')[1]
+           file.save(file_path)
         #send_from_diretory(app.config['UPLOAD_FOLDER'], filename)
         save_files=request.form.get('_file')
-        save_noticedb(idid=writerid, title=save_title,content=save_content, day=day_date(), files=save_files)
+        print file_path
+        save_noticedb(idid=writerid, title=save_title,content=save_content, day=day_date(), files=file_path)
         return redirect(url_for('me_list'))
     return ''
 
+@app.route('/conversation', methods=['GET', 'POST'])
+def conver():
+    if request.method == "GET" and session.get('id') is not None:
+        return render_template('conversation.html', logon = menubar())
+    else:
+        script_alert("Login is required.")       
+        return redirect(url_for('/'))
+
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
+    return render_template('chat.html', logon = menubar())
 
 
 if __name__ == '__main__':
-    exist_db()        
+    exist_db()    
+    # sioApp = socketio.Middleware(sio, app)    
+    # el = eventlet.wsgi.server(eventlet.listen(('', 1111)), sioApp)
+    # el.serve_forever()
     app.run(debug=True, host='0.0.0.0', port=1111)
+    

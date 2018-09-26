@@ -1,178 +1,103 @@
 <!DOCTYPE html>
-	<head>
-		
-		<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>게시판 by namki</title>		
-	</head>
-	<body>
-		<div id="mainBox">
-			<div id="titleBox">
-				<a href="">홈</a>
-			</div>
-			<div id="navigationBox">
-			
-						<a href="../member/memberLoginForm.jsp" class="basicButton">로그인</a>
-						<a href="../member/memberJoinForm.jsp" class="basicButton">회원가입</a>
-				
-					<a href="../study/study.jsp" class="basicButton">공부방</a>
-					<a href="../talk/talkListForm.jsp" class="basicButton">대화방</a>
-					<a href="../notice/noticeListForm.jsp" class="basicButton">공지사항</a>
-			</div>
-			<hr>
-				
-			################################################################################################
-			<div class="studyViewBox">
-				<table border="1">
-		        	<tr>
-		        		<td class="head" colspan="3">
-		        			공부방 목록
-		        		</td>
-		        	</tr>				
-				    <tr>
-				        <td class="middle">
-				        	선생님
-				        </td>
-				        <td class="middle" style="width: 560px;">
-				        	제목
-				        </td>
-				        <td class="middle" style="width: 180px;">
-				        	게시글 등록일
-				        </td>		 		        	        		        		        
-				    </tr>
-				     
-				    <tr> 
-				    	<td class="tail" style="text-align: center;">나동빈</td>
-				    	<td class="tail"><a href="./study.jsp?studyTitle=&studyType=&currentPage=&commentCurrentPage=&studyID=13"><b>자바 기초 프로그래밍 강좌 1강 - Hello...</b></a></td>
-				    	<td class="tail" style="text-align: center;">2017-05-02
-				    </tr>
-				 
-				    <tr> 
-				    	<td class="tail" style="text-align: center;">나동빈</td>
-				    	<td class="tail"><a href="./study.jsp?studyTitle=&studyType=&currentPage=&commentCurrentPage=&studyID=14"><b>자바 기초 프로그래밍 강좌 2강 - 변수(Va...</b></a></td>
-				    	<td class="tail" style="text-align: center;">2017-05-02
-				    </tr>
-				 
-				    <tr> 
-				    	<td class="tail" style="text-align: center;">나동빈</td>
-				    	<td class="tail"><a href="./study.jsp?studyTitle=&studyType=&currentPage=&commentCurrentPage=&studyID=15"><b>자바 기초 프로그래밍 강좌 3강 - 자료형(D...</b></a></td>
-				    	<td class="tail" style="text-align: center;">2017-05-02
-				    </tr>
-				 
-				    <tr> 
-				    	<td class="tail" style="text-align: center;">나동빈</td>
-				    	<td class="tail"><a href="./study.jsp?studyTitle=&studyType=&currentPage=&commentCurrentPage=&studyID=16"><b>자바 기초 프로그래밍 강좌 4강 - 연산자(O...</b></a></td>
-				    	<td class="tail" style="text-align: center;">2017-05-07
-				    </tr>
-				 
-				    <tr> 
-				    	<td class="tail" style="text-align: center;">나동빈</td>
-				    	<td class="tail"><a href="./study.jsp?studyTitle=&studyType=&currentPage=&commentCurrentPage=&studyID=17"><b>자바 기초 프로그래밍 강좌 5강 - 조건문 &...</b></a></td>
-				    	<td class="tail" style="text-align: center;">2017-05-07
-				    </tr>
-				 
-				</table>
-				<br>
-				<form action="./study.jsp" method="get"> 
-				
-					<input type="button" value="다음" onClick="location.href='./study.jsp?studyTitle=&studyType=&commentCurrentPage=&studyID=13&currentPage=2'">
-					
-					<input style="float:right;" type="submit" value="검색">			
-					<input type="text" value="" name="studyTitle" id="selectText">
-					<input type="hidden" name="studyType" value="">
-					<input type="hidden" name="studyID" value="13">
-				</form>
-			</div>
-			################################################################################################
-			<div class="studyViewBox">		
-		        <table border="1"> 
-		        	<tr>
-		        		<td class="head" colspan="3">
-		        			강의 내용
-		        		</td>
-		        	</tr>			           
-		            <tr>
-		                <td class="middle">선생님</td> 
-		                <td style="background-color: rgba(200, 200, 200, 0.1);">나동빈</td> 
-		            </tr> 
-		            <tr> 
-		                <td class="middle">제목</td> 
-		                <td style="background-color: rgba(200, 200, 200, 0.1);">자바 기초 프로그래밍 강좌 1강 - Hello World! (Java Programming Tutorial 2017 #1) </td> 
-		            </tr> 
-		            <tr>
-		            	<td class="middle">동영상</td>
-		            	<td style="background-color: rgba(200, 200, 200, 0.1);">
-		    
-						<iframe class="studyIframe" src="https://www.youtube.com/embed/wjLwmWyItWI" frameborder="0" allowfullscreen></iframe>
-			        	
-		            	</td>		                
-		            </tr> 	
-		            <tr>
-		                <td class="middle">내용</td> 
-		            	<td style="background-color: rgba(200, 200, 200, 0.1);">자바&nbsp;기초&nbsp;프로그래밍&nbsp;강좌&nbsp;1강&nbsp;-&nbsp;Hello&nbsp;World!&nbsp;(Java&nbsp;Programming&nbsp;Tutorial&nbsp;2017&nbsp;#1)&nbsp;강의&nbsp;동영상입니다.&nbsp;JDK,&nbsp;환경&nbsp;변수&nbsp;설정,&nbsp;이클립스&nbsp;설치를&nbsp;거쳐서&nbsp;완전한&nbsp;자바&nbsp;개발&nbsp;환경을&nbsp;구축한&nbsp;이후에&nbsp;Hello&nbsp;World를&nbsp;출력하는&nbsp;방법에&nbsp;대해서&nbsp;공부합니다.</td>		                
-		            </tr> 
-		            <tr>
-		                <td class="middle">소스코드</td> 
-		            	<td style="background-color: rgba(200, 200, 200, 0.1);"></td>		                
-		            </tr>		            		            
-		            <tr>
-		            	<td class="middle">첨부 파일</td>
-		            	<td style="background-color: rgba(200, 200, 200, 0.1);"><a href="./studyFileAction.jsp?studyFile="><b></b></a></td>
-		            </tr> 		            	            
-		            <tr>
-		                <td class="middle">공부방 등록일</td> 
-		                <td style="background-color: rgba(200, 200, 200, 0.1);">2017-05-02</td> 
-		            </tr>             	           
-		        </table>
-		    </div>    
-		    ################################################################################################
-		    <div class="studyCommentBox">
-		     
-				<table border="1">
-					<tr>
-						<td class="middle">아이디</td>
-						<td>나동빈</td>
-						<td class="middle">등록일</td>
-						<td>2017-09-20</td>
-						<td class="middle">
-			
-						</td>
-					</tr>
-					<tr>
-						<td class="middle">내용</td>
-						<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">제&nbsp;메일&nbsp;ndb796@naver.com으로&nbsp;연락&nbsp;주시기&nbsp;바랍니다.</td>
-					</tr>
-			 ################################################################################################
-				<table border="1">
-					<tr>
-						<td class="middle">아이디</td>
-						<td>whwowls</td>
-						<td class="middle">등록일</td>
-						<td>2017-08-31</td>
-						<td class="middle">
-			
-						</td>
-					</tr>
-					<tr>
-						<td class="middle">내용</td>
-						<td colspan="4" style="background-color: rgba(255, 255, 255, 0.1); text-align:left;">동빈님&nbsp;감사합니다&nbsp;항상&nbsp;잘보고&nbsp;있는데요&nbsp;질문&nbsp;사항&nbsp;있으면&nbsp;혹시&nbsp;어떻게&nbsp;하나요?</td>
-					</tr>
-			
-				</table>
-				<br>
-			
-				<form action="./commentWriteAction.jsp" method="post"> 
-	            	<textarea name="commentContent" class="studyCommentContent"></textarea>
-			        <input type="submit" value="댓글 등록">
-			        <input type="hidden" name="commentType" value="study">
-			        <input type="hidden" name="targetID" value="13">
-			        <input type="hidden" name="studyTitle" value="">
-			        <input type="hidden" name="studyType" value="">
-			        <input type="hidden" name="currentPage" value="">
-				</form>		    
-		    </div>
-	        
-		</div>
-    </body> 
-</html>
+<html lang="ko">
+<head>
+  <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Login Page _ By Namki</title>
+  <style type="text/css">
+  table {
+    width: 10%;
+}
+</style>
+  <script type="text/javascript">
+    function null_check(){
+     var str = document.login
+     if(str.user_id.value == '' || str.user_id.value == null){
+       alert('공백을 확인하세요');
+       str.user_id.value.focus();
+       return;
+     }else if(str.user_pw.value == '' || str.user_pw.value == null){
+       alert('공백을 확인하세요');
+       str.user_pw.value.focus();
+       return;
+     }else{
+       document.login.submit();
+     }
+}
+    //  function load_userinfo(){
+    //   var xhttp = new XMLHttpRequest();
+    //   var login_id = document.getElementById('id_form').value;
+    //   var login_pw = document.getElementById('pw_form').value;
+    //   var post_param = 'login_id='+login_id+'login_pw='+login_pw;
+
+    //   xhttp.onreadyStatechange = function(){        
+    //     if (this.readyState == 4 && this.status ==200){
+    //       if (this.response == 'true') {
+    //         document.getElementById('message').innerHTML = "<font color='green'>correct</font>";
+    //       }else{
+    //         document.getElementById('message').innerHTML = "<font color='red'>incorrect</font>";
+    //       }
+    //     }
+    //   };
+    //   xhttp.open("POST", "login_chk", true);
+    //   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //   xhttp.send(post_param);
+    // }
+
+  
+</script>
+</head>
+<body>
+  <div id="mainBox">
+    <div id="titleBox">
+      <a href="/">namki</a>
+    </div>
+    <div id="navigationBox">      
+      {% if logon != True %}
+      <a href="/login" class="basicButton">로그인</a>
+      <a href="/register" class="basicButton">회원가입</a>      
+      {% else %}
+      <a href="/mypage" class="basicButton">내정보</a>
+      <a href="/logout" class="basicButton">로그아웃</a>
+      <a href="/conversation" class="basicButton">대화하기</a>
+      {% endif %}
+      <a href="/chat" class="basicButton">채팅하기</a>
+      <a href="/list" class="basicButton">공지사항</a>
+    </div>
+    <hr>
+    <span align="center"><h2>Namki_Web 로그인</h2></span><hr>
+  </div>
+  <!-- {% if data %}
+  <h2>{{ data }}</h2>
+  {{ name }}<p>님</p>
+  <button><a href="/mypage">내정보</a></button>
+  <button><a href="/logout">로그아웃</a></button>
+  {% else %} -->
+  
+  <table>
+    
+    <tr><td >
+      <form action='/login_chk' method="POST">
+        ID : <input type="text" name="user_id" placeholder="아이디를 입력하세요." id="id_form"></td> </tr>
+        <tr><td>
+          PW : <input type="password" name="user_pw" placeholder="비밀번호를 입력하세요." onkeyup="load_userinfo();" id="pw_form"><p id='message'></p></td></tr>
+          <tr><td>
+            <div id="blackBox"> 
+            <input type="submit" value="로그인">
+            <input type="button" value="회원가입" onClick="location.href='/register'"></td></tr>
+          </form>
+        </table>
+        <!-- {% endif %} -->
+        <hr>
+       <!--  <div id="navbar">
+          <ul class="nav">
+           <li><a href="#">main</a></li>
+           <li><a href="#">menu2</a></li>
+           <li><a href="#">menu3</a></li>
+           <li><a href="/list">공지사항</a></li>
+         </ul>
+       </div> -->
+     </div>
+     </body>
+     </html>
 

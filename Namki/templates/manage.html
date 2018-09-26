@@ -1,32 +1,84 @@
-<!DOCTYPE btml>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
-	<title>Admin Page_By Namki</title>
+<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+<meta charset="utf-8"/>
+<title>conversation By Namki</title>
 <style type="text/css">
-.box{
-	color:red;
-	font-style:italic; 
-	font-weight:bold;
-	font-size:16pt;
+
+  #leftmenuinner {
+position:fixed;
+top:0;
+padding-top:112px;
+padding-bottom:0;    
+height:100%;
+width:220px;
+background-color:transparent;
 }
+#leftmenuinnerinner {overflow-y:scroll}
+
+#leftmenuinnerinner {
+height:100%;
+width:100%;
+overflow-y:scroll;
+overflow-x:hidden;
+padding-top:20px;
+}
+.logo {
+font-family:fontawesome;
+text-decoration:none;
+line-height:1;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+font-size:37px;
+letter-spacing:3px;
+color:#555555;
+display:block;
+position:absolute;
+top:17px;
+}
+a:hover{background-color:#000000 !important;
+color:#ffffff !important;
+,a:active{color:#4CAF50}
+
 </style>
 </head>
 <body>
+  <div>
+  <a class='logo' href='#'><font size="6px">NAMKI</font><span class='dotcom'></span></a>
+  <div style="font-family:'Segoe UI',Arial,sans-serif"><font size="2px">WEB DEVELOPER SITE MANAGE PAGE</font></div><br><br>
+</div>
+
+<!-- ########################################################### -->
+  <div>
+  <div id='leftmenuinner'>
+    <div id='leftmenuinnerinner'>
+      
+<h2 class="left"><span class="left_h2">MENU</span></h2>
+<a target="_top" href="/">홈페이지 돌아가기</a><br>
+<a target="_top" href="/manage/notice">공지사항 관리</a><br>
+<a target="_top" href="/manage">회원관리</a><br>
+<a target="_top" href="/manage/conversation">회원문의확인</a><br>
+<h2 class="left"><span class="left_h2">ETC</span></h2>
+<a target="_top" href="/manage/basic_crawl">크롤링</a><br>
+</div>
+</div>
+</div>
+
+<table><tr><td>
 <table border="1">
-<h1>관리페이지</h1>
-<div id="menuUpBox">
-				<a href="/" class="basicButton">홈페이지 돌아가기</a>
-				<a href="/manage/main" class="basicButton">공지사항 관리</a>
-				<a href="/manage" class="basicButton">회원관리</a>
-				<a href="" class="basicButton"></a>
-				<a href="" class="basicButton"></a>
-				<a href="" class="basicButton">크롤링</a>
-			</div>			
-
-
-
+<h1>회원목록</h1>
+{% if notice_info %}
+{% for x in notice_info %}
+<tr><td>NUMBER</td><td><span class='box'> {{ loop.index }}</span></td></tr>
+<tr><td>게시물 번호</td><td>{{ x[0] }}</td></tr>
+<tr><td>작성자</td><td>{{ x[1] }}</td></tr>
+<tr><td>글제목</td><td>{{ x[2] }}</td></tr>
+<tr><td>글내용</td><td>{{ x[3] }}</td></tr>
+<tr><td>날짜</td><td>{{ x[4] }}</td></tr>
+<tr><td>첨부파일</td><td>{{ x[5] }}</td></tr>
+<tr><td>조회수</td><td>{{ x[6] }}</td></tr>
 <tr></tr>
 <tr></tr>
 <tr></tr>
@@ -34,6 +86,11 @@
 <tr></tr>
 <tr></tr>
 <tr></tr>
+{% endfor %}
+{% endif %}
+</td>
+</tr></table>
 </table>
+
 </body>
 </html>
