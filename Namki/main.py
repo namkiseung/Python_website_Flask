@@ -1,5 +1,5 @@
 #-*- coding=utf-8 -*-
-from flask import Flask, request, session, g, render_template, redirect, url_for
+from flask import Flask, request, session, g, render_template, redirect, url_for, send_from_directory
 from flask_basicauth import BasicAuth
 from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime
@@ -12,22 +12,51 @@ import lxml, requests
 #print os.popen('crontab -e').read() #-> 00 01 * * * ntpdate time.bora.net
 
 app = Flask(__name__)
-now = datetime.datetime.now()
+# now = datetime.datetime.now()
+# print type(now)
+# nowday=now.strftime('%Y-%m-%d %H:%M:%S')
+def day():
+    commend_date = os.popen('date').read()
+    now=commend_date.split()
+    nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] 
+    return nowday
+
+UPLOAD_FOLDER = './uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['BASIC_AUTH_USERNAME'] = 'admin'
 app.config['BASIC_AUTH_PASSWORD'] = '0000'
 #'adc91e03060b42e7836bdfba7ce19b3bc1297d234fec44585472529d'
 basic_auth = BasicAuth(app)
 app.config['BASIC_AUTH_FORCE'] = False
-app.secret_key = 'a'
+app.secret_key = day()
 DATABASE = './db/user.db'
 DATABASEnotice = './db/noticeboard.db'
 DATABASEnotice_re = './db/noticeboard_re.db'
+DATABASEnotice_re2 = './db/noticeboard_re2.db'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'png', 'gif'])
 
-@app.route('/admin')
+
+@app.route('/manage/')
 @basic_auth.required
 def admin_access():
     r = all_get_user()
     return render_template('admin.html', user_info=r)
+
+@app.route('/manage/notice')
+@basic_auth.required
+def admin_access2():
+    return render_template('manage.html')
+
+def day_date():
+    commend_date = os.popen('date').read()
+    now=commend_date.split()
+    nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] 
+    return nowday
+
+#파일업로드
+def allowed_file(filename):
+    return './uploads' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -49,6 +78,12 @@ def get_dbnotice_re():
         db = g._database_re = sqlite3.connect(DATABASEnotice_re)
     return db
 
+def get_dbnotice_re2():
+    db = getattr(g, '_database_re2', None)
+    if db is None:
+        db = g._database_re2 = sqlite3.connect(DATABASEnotice_re2)
+    return db
+
 def exist_db():
     if os.path.exists("./db/user.db") is not True:
         init_db()
@@ -56,7 +91,13 @@ def exist_db():
         init_db_notice()    
     if os.path.exists("./db/noticeboard_re.db") is not True:
         init_db_notice_re() 
+    if os.path.exists("./db/noticeboard_re2.db") is not True:
+        init_db_notice_re2() 
     return ''
+
+def script_alert(msg):
+    messages = "<script type='text/javascript'>alert('{}');</script>".format(msg)
+    return messages
 
 def init_db():
     with app.app_context():
@@ -82,29 +123,47 @@ def init_db_notice_re():
         db.commit()
         db.close()
 ###########################################################################################
-# def select_countview(idx="", count=""):
-#      sql = 'SELECT idx, countview FROM notice_board WHERE idx="{}"'.format(idx, count)
-#      db = get_dbnotice()
-#      db.execute(sql)
-#      db.commit()
-#      db.close()
-#      return ''
+def init_db_notice_re2():
+    with app.app_context():
+        db = get_dbnotice_re2()
+        f = open('noticeboard_re2.sql', 'r')
+        db.execute(f.read())
+        db.commit()
+        db.close()
+   
+###########################################################################################
+def search_board(text="", select=""):
+    if select == "title":
+        sql = 'SELECT * FROM notice_board WHERE title like "{}%" ORDER BY day desc'.format(text)
+    elif select == "writer": 
+        sql = 'SELECT * FROM notice_board WHERE id="{}" ORDER BY day desc'.format(text)
+    db = get_dbnotice()
+    rv = db.execute(sql)
+    res = rv.fetchall()
+    return res
 
-# def save_countview(idx="", count=""):
-#      sql = 'INSERT INTO notice_board (idx, countview) VALUES ("{}", {}")'.format(idx, count)
-#      db = get_dbnotice()
-#      db.execute(sql)
-#      db.commit()
-#      db.close()
-#      return ''
+def select_countview(idx=""):
+    sql = 'SELECT countview FROM notice_board WHERE idx="{}"'.format(idx)
+    db = get_dbnotice()
+    rv = db.execute(sql)
+    res = rv.fetchall()
+    return res[0][0]
+
+def save_countview(count="", idx=""):
+    sql = 'UPDATE notice_board SET countview="{}" WHERE idx="{}"'.format(count, idx)
+    db = get_dbnotice()
+    db.execute(sql)
+    db.commit()
+    db.close()
+    return ''
 
 def save_noticedb(idid="",title="",content="",day="",files=""):
-     sql = 'INSERT INTO notice_board (id, title, content, day, files) VALUES ("{}","{}","{}","{}","{}")'.format(idid,title,content,day,files)
-     db = get_dbnotice()
-     db.execute(sql)
-     db.commit()
-     db.close()
-     return ''
+    sql = 'INSERT INTO notice_board (id, title, content, day, files) VALUES ("{}","{}","{}","{}","{}")'.format(idid,title,content,day,files)
+    db = get_dbnotice()
+    db.execute(sql)
+    db.commit()
+    db.close()
+    return ''
 
 def get_noticedb_list():    
     sql = 'SELECT * FROM notice_board ORDER BY day desc'#.format(idx_number)
@@ -129,15 +188,25 @@ def update_noticedb(idx="", idid="",title="",content="",day="",files=""):
     return ''
 
 def delete_noticedb(idx=""):
-    print '****************************'
-    print idx
-    print '****************************'
-    db = get_dbnotice()
+    db = get_dbnotice()    
     sql = 'DELETE FROM notice_board WHERE idx="{}"'.format(idx)
-    rv = db.execute(sql)
+    db.execute(sql)    
+    db2=get_dbnotice_re()
+    sql2 = 'DELETE FROM notice_board_re WHERE originidx="{}"'.format(idx)
+    db2.execute(sql2)    
     db.commit()
+    db2.commit()
     db.close()
+    db2.close()
     return ''
+
+# def board_delete(idx=""):
+#     db = get_dbnotice()
+#     sql = 'DELETE FROM notice_board_re WHERE idx="{}"'.format(idx)
+#     rv = db.execute(sql)
+#     db.commit()
+#     db.close()
+#     return ''
 ####################################################################
 def save_noticedb_re(readidx="", userid="", content="", day=""):
      sql = 'INSERT INTO notice_board_re (originidx, id, content, day) VALUES ("{}","{}","{}","{}")'.format(readidx, userid, content, day)
@@ -147,7 +216,7 @@ def save_noticedb_re(readidx="", userid="", content="", day=""):
      db.close()
      return ''
 
-def get_noticedb2_list(num):    
+def get_noticedb_list_re(num):    
     db = get_dbnotice_re()
     sql = 'SELECT * FROM notice_board_re WHERE originidx="{}" ORDER BY day desc'.format(num)    
     rv = db.execute(sql)
@@ -299,6 +368,7 @@ def logout():
 @app.route('/delete_user')
 def delete_user_action():
     delete_user(bye_user=session.get('id'))
+    script_alert("bye-bye")
     redirect(url_for('login'))
 
 @app.route('/mypage', methods=['GET', 'POST'])
@@ -311,30 +381,33 @@ def mypage():
     return '<h1>Not Page</h1>'
 
 @app.route('/list', methods=['GET', 'POST'])
-def me_list():
+def me_list():        
     r=get_noticedb_list()
-    idx_num=len(r)    
-    print r[0][6]
+    text=request.args.get('searchtext')
+    category=str(request.args.get('category'))
+    if request.method == "GET" and request.args.get('category') is not None:
+        r = search_board(text=text, select=category)
+    idx_num=len(r)        
     if session.get('id') is None:
-        return render_template('list.html', data = r, length = idx_num)            
+        return render_template('list.html', data = r, length = idx_num)           
     return render_template('list.html', data = r, logon = menubar(), length = idx_num)
  
 @app.route('/read', methods=['GET', 'POST'])
 def me_read(num=None):    
-    if request.args.get('num') is not None:
-        r=get_noticedb_read(idx_number=request.args.get('num'))
-        rt = get_noticedb2_list(request.args.get('num'))          
-        for x in rt:
-            print x[2]
-            print x[4]
-            print x[3]
-        return render_template('read.html', search = r, logon = menubar(), user = session.get('id'), writerid=r[0][1], data_re=rt, currentpage=request.args.get('num'))    
+    if request.args.get('num') is not None and request.method == 'GET':
+        idx=request.args.get('num')
+        r=get_noticedb_read(idx_number=idx)
+        rt = get_noticedb_list_re(idx)          
+        count=select_countview(idx)
+        count = count+1
+        save_countview(count=count, idx=idx)
+        return render_template('read.html', search = r, logon = menubar(), user = session.get('id'), writerid=r[0][1], data_re=rt, currentpage=idx)    
     if request.method == 'POST':
         ori_num=request.form.get('currentPage') #게시글 idx번호
         repple=request.form.get('commentContent')
         print ori_num
         print repple
-        save_noticedb_re(readidx=ori_num, userid=session.get('id'), content=repple, day=now.strftime('%Y-%m-%d %H:%M:%S'))
+        save_noticedb_re(readidx=ori_num, userid=session.get('id'), content=repple, day=day_date())
     return redirect(url_for('me_read', num=ori_num)) #"<script>history.go(-1);</script>" #redirect(url_for('me_read'))
 
 # @app.route('/rep_update', methods=['GET', 'POST'])
@@ -346,6 +419,7 @@ def reupdate(): #, currentpage=None
     delnum=request.args.get('delnum')
     currentpage=request.args.get('currentpage')
     delete_noticedb_re(idx_1=delnum, idx_2=currentpage)
+    script_alert("success repple delete")
     return redirect(url_for('me_read', num=currentpage))
 
 @app.route('/update', methods=['GET', 'POST'])
@@ -357,9 +431,8 @@ def me_update():
         r=get_noticedb_read(idx_number=request.form.get('textnum'))   
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
-        save_day=now.strftime('%Y-%m-%d %H:%M:%S')
         save_files=request.form.get('_file')                        
-        update_noticedb(idid=r[0][1], title=save_title,content=save_content, day=save_day, files=save_files, idx=r[0][0])
+        update_noticedb(idid=r[0][1], title=save_title,content=save_content, day=day_date(), files=save_files, idx=r[0][0])
         return redirect(url_for('me_list'))
     return ''
 
@@ -368,7 +441,7 @@ def me_delete():
     if session.get('id') is not None:        
         if request.args.get('num') is not None:  #    request.method == "GET":            
             delete_noticedb(idx=request.args.get('num'))            
-            "<script>alert('게시글이 삭제되었습니다.');</script>"            
+            script_alert('success. have a good time')
     return redirect(url_for('me_list'))
 
 @app.route('/write', methods=['GET', 'POST'])
@@ -379,17 +452,19 @@ def me_write():
         writerid = session.get('id')
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
-        save_day=now.strftime('%Y-%m-%d %H:%M:%S')
-        #f = request.files['_file']
-        #f.save('./uploads' + secure_filename(f.filename))
+        #file = request.files['_file']
+        #if file and allowed_file(file.filename):
+        #    print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+        #    filename = secure_filename(file.filename)
+        #    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #send_from_diretory(app.config['UPLOAD_FOLDER'], filename)
         save_files=request.form.get('_file')
-        save_noticedb(idid=writerid, title=save_title,content=save_content, day=save_day, files=save_files)
+        save_noticedb(idid=writerid, title=save_title,content=save_content, day=day_date(), files=save_files)
         return redirect(url_for('me_list'))
     return ''
 
 
 
 if __name__ == '__main__':
-    exist_db()    
-    # init_db_notice()
+    exist_db()        
     app.run(debug=True, host='0.0.0.0', port=1111)
