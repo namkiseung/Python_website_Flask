@@ -120,7 +120,12 @@
 					<td id="sel_re_repple"><!-- <button>수정</button> -->
 			{% if logon == True and user == x_re[2] %}
 						<button onclick="location.href='/rep_delete?delnum={{x_re[0]}}&currentpage={{ currentpage }}'">삭제</button>
-						{% endif %}<button>댓글</button></td>
+						{% endif %}<button onclick='<div align="center">
+				<form action="/read" method="post"> 
+					<textarea name="commentContent" class="studyCommentContent"></textarea><br>
+					<input type="submit" value="댓글 등록" align="center">			
+					<input type="hidden" name="currentPage" value="{{ currentpage }}">
+				</form>	</div>	    '>댓글</button></td>
 				</tr>				
 				{% endfor %}
 			</table>

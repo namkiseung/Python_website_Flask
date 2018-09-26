@@ -81,11 +81,19 @@
 				</tr>{% endfor %}
 			</table>
 			<br>
-			<form action="/list?search=" method="get"> 
-				<input type="button" value="다음" onClick="location.href='./study.jsp?studyTitle=&studyType=&commentCurrentPage=&studyID=13&currentPage=2'">
-				<input style="float:right;" type="submit" value="검색">
+
+			<form action="/list?search=" method="GET"> 
+				<input type="button" value="다음" onClick="location.href=''">				
 				<!-- <input style="float:right;" type="submit" value="정렬"> -->
+			<input style="float:right;" type="submit" value="검색">
+				<select name="category">
+					<option value="title">제목</option>
+  <option value="writer">작성자</option>
+</select>
 				<input type="text" value="" name="searchtext" id="selectText">
+
+			
+			
 				<!-- <input type="hidden" name="studyType" value="">
 				<input type="hidden" name="studyID" value="13"> -->
 			</form>
