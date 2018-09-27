@@ -2,30 +2,80 @@
 <html lang="ko">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css"> -->
 <meta charset="utf-8"/>
     <title>Register Page _ By Namki</title>
+     <style type="text/css">
+  @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
+ 
+html {
+    height: 100%;
+  }
+  
+  body {
+      width:100%;
+      height:100%;
+      margin: 0;
+      padding-top: 80px;
+      padding-bottom: 40px;
+      font-family: "Nanum Gothic", arial, helvetica, sans-serif;
+      background-repeat: no-repeat;
+      background:linear-gradient(to bottom right, #0098FF, #6BA8D1);
+  }
+    .card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  .form-signin .form-control {
+      position: relative;
+      height: auto;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+           box-sizing: border-box;
+      padding: 10px;
+      font-size: 16px;
+  }
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
   <body>    
-    <div id="mainBox">
-    {% include 'side_menu.html' %}
-    
-    <span align="center"><h2>Namki_Web 회원가입</h2></span><hr>
-  </div>
-  <div align="center">
-    <form action='/register' method="POST" id="register">
+    <div class="card align-middle" style="width:22rem; border-radius:20px;">
+    <div class="card-title" style="margin-top:30px;">
+      <h2 class="card-title text-center" style="color:#113366;">Namki Register</h2>
+    </div>
+  <div align="center" class="card-body">
+    <form action='/register' method="POST" id="register" class="form-signin">
       <div id="viewBox">
-      ID<br><input type="text" name="new_id" id="new_id"  placeholder="아이디를 입력하세요."><br>
-      PW<br><input type="password" name="new_pw" id="new_pw" placeholder="패스워드를 입력하세요."><br>
+        <h6 class="" style="color:#113366;">ID</h6>
+      <label for="inputEmail" class="sr-only">New ID</label>
+      <input type="text" name="new_id" id="new_id" class="form-control" placeholder="아이디를 입력하세요."><br>
+      <h6 class="" style="color:#113366;">Password</h6>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" name="new_pw" id="new_pw" class="form-control" placeholder="패스워드를 입력하세요."><br>
       <!-- reword pw : <input type="password" name="new_pw2"><br> -->
-      name<br><input type="text" name="new_name" id="new_name" placeholder="이름을  입력하세요."><br>
-      email<br><input type="text" name="new_email" id="new_email" placeholder="이메일을  입력하세요."><br>
-      phone number<br><input type="number" id="new_phone" name="new_phone" placeholder="휴대번호를  입력하세요."><br><br>
-<input type="submit" value="가입완료">    
+      <h6 class="" style="color:#113366;">Name</h6>
+      <label for="inputName" class="sr-only">Name</label>
+      <input type="text" name="new_name" id="new_name" class="form-control" placeholder="이름을  입력하세요."><br>
+      <h6 class="" style="color:#113366;">Email</h6>
+      <label for="inputEmail" class="sr-only">Email</label>
+      <input type="text" name="new_email" id="new_email" class="form-control" placeholder="이메일을  입력하세요."><br>
+      <h6 class="" style="color:#113366;">phone number</h6>
+      <label for="inputPhonenumber" class="sr-only">phone number</label>
+      <input type="number" id="new_phone" name="new_phone" class="form-control" placeholder="휴대번호를  입력하세요."><br><br>
+<button class="btn btn-lg btn-primary btn-block" type="submit">회 원 가 입</button>
+        
 </form>
-<input type="button" value="취소" onclick="location.href='/'">    
+<button class="btn btn-lg btn-primary btn-block" onclick="location.href='/'">취 소</button>   
+
 </div>
 </div>
+</div>
+
+
+
 
 
 <script>
@@ -49,7 +99,6 @@ t.addEventListener('submit', function(event){
     }
 });
 </script>
-{% include 'footer.html' %}
   </body>
 </html>
 

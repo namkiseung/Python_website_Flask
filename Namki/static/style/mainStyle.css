@@ -48,12 +48,21 @@ body
 	height: 40px;
     color: #fff;
     border-radius: 4px;
-    border-bottom: 4px solid #A2A2A2;
+    border-bottom: 20px solid #A2A2A2;
     background-color: rgba(0, 0, 0, 1.0);
     padding: 5px 10px;
     font-family: 'Hanna';
     font-size: 15px;
+    font-style: bold;
 }
+.basicButton:hover
+{
+	box-shadow: 0 0 5px #000;
+	outline: none;
+	background: #ffffff;
+	font-size: 105px;
+}
+
 #menuBox
 {
 	width: 800px;
@@ -655,6 +664,8 @@ hr
 		width: 310px;
 		height: 195px; 
 	}	
+	
+
 	table .head
 	{
 		width: 80px;
@@ -759,9 +770,65 @@ hr
 	   	border: 0 none;
 		cursor: pointer;
 		border-radius: 4px;
+	}
+	.blackButton:hover
+	{
+	    background-position: 0 -50px;
 	}		
 	.studyCommentContent
 	{
 		width: 360px; height: 30px; margin: 15px auto;
 	}
+	.angleinleft:after{
+		width: 200%;
+		transform-origin: 0 bottom;
+		transform: translate3d(-50%, 0, 0) rotate(-50deg);
+	}
+	.angleinleft:hover:after{
+		transform: :rotate(0deg);
+		transition: all .5s;
+	}
+	.buttonfx:before{
+		background: #fafcd6;
+		z-index: -2;
+		transform: translate3d(0,0,0);
+	}
+	.buttonfx:hover{
+		color: white;
+	}
+	.buttonfx:hover:after{
+		transform: translate3d(0,0,0);
+		transition: all .5s;
+	}
+	.buttonfx:before, .buttonfx:after{
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		height: 100%;
+		background: #259f6c;
+		z-index: -1;
+		transform: translate3d(0,-100%,0);
+		transition: all .5s;
+	}
+	.buttonfx{
+		color: black;
+		outline: none;
+		background: transparent;
+		border: none;
+		border-bottom: 4px solid #eee;
+		letter-spacing: 0.0625em;
+		padding: 8px 10px;
+		line-height: 2;
+		position: relative;
+		display: inline-block;
+		margin-right: 20px;
+		cursor: pointer;
+		text-decoration: none;
+		overflow: hidden;
+		transition: all .5s;
+	}
+
 }

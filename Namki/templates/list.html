@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
 	<!-- ls -->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -28,18 +31,16 @@
 }
 </style>
 </head>
-<body>
+<body>{% include 'side_menu.html' %}
 	<div id="mainBox">
-		{% include 'side_menu.html' %}
+		
 
 
+						<h1>공지사항 게시판</h1>
+	
 		<div>
-			<table>
-				<tr>
-					<td id="bold" class="head" colspan="5">
-						공지사항 게시판
-					</td>
-				</tr>				
+			<table class="table">				
+				<thead>				
 				<tr>
 					<td id="bold" class="middle">번호</td>
 					<td id="bold" class="middle">
@@ -55,7 +56,8 @@
 						조회수
 					</td>		 		        	        		        		        
 				</tr>
-
+</thead>
+<tbody>
 				<tr> 
 
 					{% for x in data %}
@@ -65,7 +67,9 @@
 					<td class="tail"><a href="/read?num={{x[0][0]}}"><b>{{ x[0][2] }} ({{ x[1] }})</b></a></td>   <!-- {{ x[0] }} -->
 					<td class="tail" style="text-align: center;">{{ x[0][4] }}</td>
 					<td class="tail" style="text-align: center;">{{ x[0][6] }}</td>
+				</tbody>
 				</tr>{% endfor %}
+
 			</table>
 			<br>
 

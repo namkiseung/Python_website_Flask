@@ -1,85 +1,89 @@
-#-*- coding=utf-8 -*-
+#-*- coding:utf-8 -*-
 from flask import Flask, request, session, g, render_template, redirect, url_for, send_from_directory
 from flask_basicauth import BasicAuth
 from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime
 from bs4 import BeautifulSoup 
 import lxml, requests, socketio, eventlet
-#print os.popen('apt install ntpdate').read()
-#print os.popen('chkconfig ntpd on').read()
-#print os.popen('service ntpd restart').read()
-#print os.popen('ntpq -dp').read()
-#print os.popen('crontab -e').read() #-> 00 01 * * * ntpdate time.bora.net
-sio = socketio.Server()
-messages = []
+    #Using the ntp  protocol
+    #print os.popen('apt install ntpdate').read()
+    #print os.popen('chkconfig ntpd on').read()
+    #print os.popen('service ntpd restart').read()
+    #print os.popen('ntpq -dp').read()
+    #print os.popen('crontab -e').read() #-> 00 01 * * * ntpdate time.bora.net
+sio = socketio.Server() #Server socket declaration
+messages = [] #Leave messages as leading variables for notifications
 
-app = Flask(__name__, static_folder='uploads')
-# now = datetime.datetime.now()
-# print type(now)
-# nowday=now.strftime('%Y-%m-%d %H:%M:%S')
-def day():
-    commend_date = os.popen('date').read()
-    now=commend_date.split()
-    nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] 
+app = Flask(__name__)# static_folder='uploads'
+    #Using the datetime module
+    # now = datetime.datetime.now()
+    # print type(now)
+    # nowday=now.strftime('%Y-%m-%d %H:%M:%S')
+
+#It is used as a Linux command.
+def day_date():
+    commend_date = os.popen('date').read() 
+    now=commend_date.split() #String separation
+    nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] # example output) 2018-Seq-27 01:20:19
     return nowday
 
-# @sio.on('connect')
-# def connect(sid, env):
-#     print('connected %s' % sid)
+    # @sio.on('connect')
+    # def connect(sid, env):
+    #     print('connected %s' % sid)
 
-# @sio.on('send message')
-# def get_message(sid, data):
-#     sio.emit('new message', {
-#         "nickname": data["nickname"],
-#         "body": data["body"]
-#     }, skip_sid=sid)
+    # @sio.on('send message')
+    # def get_message(sid, data):
+    #     sio.emit('new message', {
+    #         "nickname": data["nickname"],
+    #         "body": data["body"]
+    #     }, skip_sid=sid)
 
-# @sio.on('disconnect')
-# def disconnect(sid):
-#     print('disconnected %s' % sid)
+    # @sio.on('disconnect')
+    # def disconnect(sid):
+    #     print('disconnected %s' % sid)
+## static variable
+UPLOAD_FOLDER = './uploads'  #Variable with path
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER 
+app.config['BASIC_AUTH_USERNAME'] = 'admin' #administrator ID of the object
+app.config['BASIC_AUTH_PASSWORD'] = '0000' #administrator PW of the object
+#'adc91e03060b42e7836bdfba7ce19b3bc1297d234fec44585472529d' #'0000' of sha224 value
+basic_auth = BasicAuth(app) #Object for authentication
+app.config['BASIC_AUTH_FORCE'] = False # True is to protect the site
+app.secret_key = day_date() #Put date value random in variable called Key
+DATABASE = './db/user.db' #users db file variable with path
+DATABASEnotice = './db/noticeboard.db' #notice board db file variable with path
+DATABASEnotice_re = './db/noticeboard_re.db'  #repple db file variable with path
+DATABASEnotice_re2 = './db/noticeboard_re2.db' #Greate repple db file variable with path
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'png', 'gif']) #File extension list
 
-UPLOAD_FOLDER = './uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['BASIC_AUTH_USERNAME'] = 'admin'
-app.config['BASIC_AUTH_PASSWORD'] = '0000'
-#'adc91e03060b42e7836bdfba7ce19b3bc1297d234fec44585472529d'
-basic_auth = BasicAuth(app)
-app.config['BASIC_AUTH_FORCE'] = False
-app.secret_key = day()
-DATABASE = './db/user.db'
-DATABASEnotice = './db/noticeboard.db'
-DATABASEnotice_re = './db/noticeboard_re.db'
-DATABASEnotice_re2 = './db/noticeboard_re2.db'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'png', 'gif'])
+######################################Admin page access processing routing#######################################
+@app.route('/manage/')  #administrator default routing
+@basic_auth.required  #When approaching demand.
+def admin_access(): #administrator default func
+    r = all_get_user() #This func that gets all of the user's info.
+    return render_template('admin.html', user_info=r) #It brings out the main page
 
-
-@app.route('/manage/')
+@app.route('/manage/notice') #administrator management board routing
 @basic_auth.required
-def admin_access():
-    r = all_get_user()
-    return render_template('admin.html', user_info=r)
-
-@app.route('/manage/notice')
-@basic_auth.required
-def admin_access2():
-    r = get_noticedb_list()
-    for x in range(len(r)):
+def manage_notice(): #administrator management board func
+    r = get_noticedb_list() #board info get it(order)
+    for x in range(len(r)):  
         print r[x]
-    return render_template('manage.html', notice_info=r)
+    return render_template('manage.html', notice_info=r) 
 
-@app.route('/manage/conversation', methods=['GET', 'POST'])
-def conversation():
-    if request.method == "GET":
+@app.route('/manage/conversation', methods=['GET', 'POST']) #this is where to manage the menu called conversation
+def manage_conversation(): #manage conversation menu func
+    if request.method == "GET":  
         return render_template('manage_conversation.html')
-    else:
+    else: # To handle other http method.
         script_alert("Login is required.")       
         return redirect(url_for('/'))
 
-@app.route('/manage/basic_crawl', methods=['GET'])
-def github():
+@app.route('/manage/basic_crawl', methods=['GET']) #Route info to a scraping page
+def issue_github(): #Func to get issus github of feather
    req = requests.get('https://github.com/trending/python?since=daily')
    html = req.text
-   soup = BeautifulSoup(html, 'html.parser')
+   soup = BeautifulSoup(html, 'html.parser') 
    list_text=[]
    list_text2=[]
    result=[]
@@ -95,43 +99,50 @@ def github():
        result[x]=((list_text[x],list_text2[x]))
        print result[x] 
    return render_template('crawl.html', data=result)
-
-def day_date():
-    commend_date = os.popen('date').read()
-    now=commend_date.split()
-    nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] 
-    return nowday
-
-#파일업로드
-def allowed_file(filename):
+################################################################################################################################
+def allowed_file(filename):  #string from the right at the specified separator and return a list of input files in func
     return './uploads' in filename and \
-           filename.rsplit('.', 1)[1].lowor() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lowor() in ALLOWED_EXTENSIONS   #The value returned is true or false
 
-def get_db():
+def script_alert(msg):
+    messages = '<script>alert("{}");</script>'.format(msg)
+    return messages
+
+def hash_224(data):
+    result = hashlib.sha224(data).hexdigest()
+    return result
+
+def menubar():
+    if session.get('id') is None:
+        return False
+    return True
+################################################################################################################################
+## Where to prepare the objects in the DB(Database)
+def get_db():  #Usage a USERS
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
+        db = g._database = sqlite3.connect(DATABASE)   #'./db/user.db'
     return db
 
-def get_dbnotice():
+def get_dbnotice(): #Usage a notice board
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect(DATABASEnotice)
+        db = g._database = sqlite3.connect(DATABASEnotice)  #'./db/noticeboard.db'
     return db
 
-def get_dbnotice_re():
+def get_dbnotice_re(): #Usage a notice board at repple 
     db = getattr(g, '_database_re', None)
     if db is None:        
-        db = g._database_re = sqlite3.connect(DATABASEnotice_re)
+        db = g._database_re = sqlite3.connect(DATABASEnotice_re) #'./db/noticeboard_re.db'
     return db
 
-def get_dbnotice_re2():
+def get_dbnotice_re2():  #Usage a notice board at great repple
     db = getattr(g, '_database_re2', None)
     if db is None:
-        db = g._database_re2 = sqlite3.connect(DATABASEnotice_re2)
+        db = g._database_re2 = sqlite3.connect(DATABASEnotice_re2) #'./db/noticeboard_re2.db'
     return db
 
-def exist_db():
+def exist_db():   #Func to be executed depending on existence.
     if os.path.exists("./db/user.db") is not True:
         init_db()
     if os.path.exists("./db/noticeboard.db") is not True:
@@ -141,11 +152,8 @@ def exist_db():
     if os.path.exists("./db/noticeboard_re2.db") is not True:
         init_db_notice_re2() 
     return ''
-
-def script_alert(msg):
-    messages = '<script>alert("{}");</script>'.format(msg)
-    return messages
-
+####################################################################################################################################
+## Where to initalize and prepare the DB(database)
 def init_db():
     with app.app_context():
         db = get_db()
@@ -169,7 +177,7 @@ def init_db_notice_re():
         db.execute(f.read())
         db.commit()
         db.close()
-###########################################################################################
+
 def init_db_notice_re2():
     with app.app_context():
         db = get_dbnotice_re2()
@@ -177,8 +185,8 @@ def init_db_notice_re2():
         db.execute(f.read())
         db.commit()
         db.close()
-   
-###########################################################################################
+#########################################################################################################################
+## Where is data manipulation language of notice board.
 def search_board(text="", select=""):
     if select == "title":
         sql = 'SELECT * FROM notice_board WHERE title like "{}%" ORDER BY idx desc'.format(text)
@@ -246,15 +254,8 @@ def delete_noticedb(idx=""):
     db.close()
     db2.close()
     return ''
-
-# def board_delete(idx=""):
-#     db = get_dbnotice()
-#     sql = 'DELETE FROM notice_board_re WHERE idx="{}"'.format(idx)
-#     rv = db.execute(sql)
-#     db.commit()
-#     db.close()
-#     return ''
-####################################################################
+#########################################################################################################################
+## Where is data manipulation language of notice board repple. 
 def save_noticedb_re(readidx="", userid="", content="", day=""):
      sql = 'INSERT INTO notice_board_re (originidx, id, content, day) VALUES ("{}","{}","{}","{}")'.format(readidx, userid, content, day)
      db = get_dbnotice_re()
@@ -271,20 +272,6 @@ def get_noticedb_list_re(num):
     # chk = rv.fetchone()         
     return res
 
-# def get_noticedb_read(idx_number):    
-#     sql = 'SELECT * FROM notice_board_re where idx="{}"'.format(idx_number)
-#     db = get_dbnotice_re()
-#     rv = db.execute(sql)
-#     res = rv.fetchall() 
-#     return res
-
-# def get_noticedb_re_idx(idx_number):    
-#     sql = 'SELECT idx FROM notice_board_re where idx="{}"'.format(idx_number)
-#     db = get_dbnotice_re()
-#     rv = db.execute(sql)
-#     res = rv.fetchall() 
-#     return res
-
 def update_noticedb_re(content="", idx=""):    
     db = get_dbnotice_re()
     sql = 'UPDATE notice_board_re set content="{}" WHERE idx="{}"'.format(content, idx)
@@ -300,7 +287,8 @@ def delete_noticedb_re(idx_1="", idx_2=""):
     db.commit()
     db.close()
     return ''
-####################################################################
+#########################################################################################################################
+## Where is data manipulation language of USERS
 def save_user(ar_id, ar_pw, ar_name, ar_email, ar_phone):
     sql = 'INSERT INTO users (id, pw, name, email, phone) VALUES("{}", "{}", "{}", "{}", "{}")'.format(ar_id, ar_pw, ar_name, ar_email, ar_phone)
     db = get_db()
@@ -336,10 +324,6 @@ def all_get_user():
     allres = rv.fetchall()
     return allres
 
-def hash_224(data):
-    result = hashlib.sha224(data).hexdigest()
-    return result
-
 def update_user(n_name=None, n_email=None, n_phone=None):
     if n_name is not None and n_email is not None and n_phone is not None:
        db = get_db()
@@ -361,17 +345,14 @@ def delete_user(bye_user):
     db.commit()
     db.close()
     return ''
+#########################################################################################################################
+## Where is Default Routing on the Homepage.
 
-def menubar():
-    if session.get('id') is None:
-        return False
-    return True
-################################################################################
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST']) #Routing Default
 def menetory():
     if session.get('id') is not None:        
         return redirect(url_for('me_list'))
-    return redirect(url_for('login')) #Hello {}'.format(session['id'])
+    return redirect(url_for('login')) 
 
 
 @app.route('/login_chk', methods=['POST'])
@@ -468,10 +449,6 @@ def me_read(num=None):
         save_noticedb_re(readidx=ori_num, userid=session.get('id'), content=repple, day=day_date())
     return redirect(url_for('me_read', num=ori_num)) #"<script>history.go(-1);</script>" #redirect(url_for('me_read'))
 
-# @app.route('/rep_update', methods=['GET', 'POST'])
-# def reupdate():
-#     return redirect(url_for('me_list'))
-
 @app.route('/rep_delete', methods=['GET', 'POST'])
 def reupdate(): #, currentpage=None
     delnum=request.args.get('delnum')
@@ -527,11 +504,16 @@ def me_write():
         writerid = session.get('id')
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
-        file = request.files['_file']
-        if allowed_file(file.filename) is False:
-            res_filename = secure_filename(file.filename)
-            file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
-            file.save(file_path)
+        try:
+            file = request.files['_file']
+            pass
+        except Exception as e:
+            print e
+        else:
+            if allowed_file(file.filename) is False:
+                res_filename = secure_filename(file.filename)
+                file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
+                file.save(file_path)
         #send_from_diretory(app.config['UPLOAD_FOLDER'], filename)
         #save_files=request.form.get('_file')        
         save_noticedb(idid=writerid, title=save_title,content=save_content, day=day_date(), files=file_path)
