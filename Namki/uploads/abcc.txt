@@ -1,0 +1,4 @@
+CoreDataExerciseViewController.m
+
+john@test.com
+coredbpassword

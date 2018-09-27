@@ -1,0 +1,14 @@
+@app.route('/')
+-최상위로 접근시
+    session을 통해, 로그인 유무
+    로그인이 되어있으면 -> Hello %s %s ID
+    로그인이 안되어있으면 -> 로그인화면으로
+
+@app.route('/login', methods=['GET', 'POST'])
+-로그인 기능 구현
+   * 데이터베이스에서 아이디와 패스워드를 비교
+   * session과 연동해 로그인 유무 판단
+
+@app.route('/login_chk', methods=['POST']
+   - 패스워드 입력창 -> 키보드 입력 -> 아이디와 패스워드 값을 -> 서버측 전송 -> 서버측 리턴 받아서
+->클라이언트 측(html) 에 document.getelementsbyid('로그인 유무')

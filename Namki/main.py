@@ -143,7 +143,7 @@ def exist_db():
     return ''
 
 def script_alert(msg):
-    messages = '<script type="text/javascript">alert("{}");</script>'.format(msg)
+    messages = '<script>alert("{}");</script>'.format(msg)
     return messages
 
 def init_db():
@@ -278,13 +278,20 @@ def get_noticedb_list_re(num):
 #     res = rv.fetchall() 
 #     return res
 
-# def update_noticedb(idx="", idid="",title="",content="",day="",files=""):    
+# def get_noticedb_re_idx(idx_number):    
+#     sql = 'SELECT idx FROM notice_board_re where idx="{}"'.format(idx_number)
 #     db = get_dbnotice_re()
-#     sql = 'UPDATE notice_board_re set id="{}", title="{}", content="{}", day="{}", files="{}" WHERE idx="{}"'.format(idid,title,content,day,files, idx)
 #     rv = db.execute(sql)
-#     db.commit()
-#     db.close()
-#     return ''
+#     res = rv.fetchall() 
+#     return res
+
+def update_noticedb_re(content="", idx=""):    
+    db = get_dbnotice_re()
+    sql = 'UPDATE notice_board_re set content="{}" WHERE idx="{}"'.format(content, idx)
+    rv = db.execute(sql)
+    db.commit()
+    db.close()
+    return ''
 
 def delete_noticedb_re(idx_1="", idx_2=""):
     db = get_dbnotice_re()
@@ -362,8 +369,7 @@ def menubar():
 ################################################################################
 @app.route('/', methods=['GET', 'POST'])
 def menetory():
-    if session.get('id') is not None:
-        "<script>alert('welcome!';)</script>"
+    if session.get('id') is not None:        
         return redirect(url_for('me_list'))
     return redirect(url_for('login')) #Hello {}'.format(session['id'])
 
@@ -380,14 +386,15 @@ def index():
             session['pw'] = hash_224(r[0][1])
             session['name'] = r[0][2]            
             session['email'] = r[0][3]
-            session['phone'] = r[0][4] 
+            session['phone'] = r[0][4]
+            script_alert("welcome!") 
     return redirect(url_for('menetory'))
 
 @app.route('/login')
 def login():    
     if session.get('id') is not None:
-        return redirect(url_for("menetory"))
-    return render_template('login.html')    
+        return redirect(url_for("menetory"))    
+    return render_template('login.html', logon = menubar())    
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -444,7 +451,7 @@ def me_list():
 
  
 @app.route('/read', methods=['GET', 'POST'])
-def me_read(num=None):    
+def me_read(num=None):   
     if request.args.get('num') is not None and request.method == 'GET':
         idx=request.args.get('num')
         r=get_noticedb_read(idx_number=idx)
@@ -453,7 +460,7 @@ def me_read(num=None):
         count = count+1
         save_countview(count=count, idx=idx)
         return render_template('read.html', search = r, logon = menubar(), user = session.get('id'), writerid=r[0][1], data_re=rt, currentpage=idx)    
-    if request.method == 'POST':
+    elif request.method == 'POST':
         ori_num=request.form.get('currentPage') #게시글 idx번호
         repple=request.form.get('commentContent')
         print ori_num
@@ -473,6 +480,17 @@ def reupdate(): #, currentpage=None
     script_alert("success repple delete")
     return redirect(url_for('me_read', num=currentpage))
 
+@app.route('/repple_update', methods=['GET', 'POST'])
+def reppleupdate(): #, currentpage=None
+    if request.method == "POST":
+        if request.form.get('pagenum'):
+            content=request.form.get('re_content', 'nothing text')
+            repple_idx=request.form.get('pagenum')
+            update_noticedb_re(content=content, idx=repple_idx)            
+            script_alert('success repple update')
+            return redirect(url_for('me_read', num=request.form.get('currentPage')))
+        return redirect(url_for('me_list'))
+
 @app.route('/update', methods=['GET', 'POST'])
 def me_update():    
     if request.method == "GET" and session.get('id') is not None:               
@@ -482,8 +500,13 @@ def me_update():
         r=get_noticedb_read(idx_number=request.form.get('textnum'))   
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
-        save_files=request.form.get('_file')                        
-        update_noticedb(idid=r[0][1], title=save_title,content=save_content, day=day_date(), files=save_files, idx=r[0][0])
+        
+        file = request.files['_file']
+        if allowed_file(file.filename) is False:
+            res_filename = secure_filename(file.filename)
+            file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
+            file.save(file_path)
+        update_noticedb(idid=r[0][1], title=save_title,content=save_content, day=day_date(), files=file_path, idx=r[0][0])
         return redirect(url_for('me_list'))
     return ''
 
@@ -499,20 +522,18 @@ def me_delete():
 def me_write():
     file_path=''
     if request.method == "GET":
-        return render_template('write.html', userid=session.get('id'))
+        return render_template('write.html', userid=session.get('id'), logon = menubar())
     elif request.method == "POST":        
         writerid = session.get('id')
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
         file = request.files['_file']
-        if allowed_file(file.filename):
-           print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-           filename = secure_filename(file.filename)
-           file_path = './uploads/'+filename+"."+filename.resplit('.')[1]
-           file.save(file_path)
+        if allowed_file(file.filename) is False:
+            res_filename = secure_filename(file.filename)
+            file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
+            file.save(file_path)
         #send_from_diretory(app.config['UPLOAD_FOLDER'], filename)
-        save_files=request.form.get('_file')
-        print file_path
+        #save_files=request.form.get('_file')        
         save_noticedb(idid=writerid, title=save_title,content=save_content, day=day_date(), files=file_path)
         return redirect(url_for('me_list'))
     return ''
@@ -522,13 +543,20 @@ def conver():
     if request.method == "GET" and session.get('id') is not None:
         return render_template('conversation.html', logon = menubar())
     else:
-        script_alert("Login is required.")       
+        script_alert('Login is required.')       
         return redirect(url_for('/'))
 
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
     return render_template('chat.html', logon = menubar())
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return "<script>alert('잘못된 접근 입니다. 404');</script>" #return render_template('404.html'),404
+
+@app.errorhandler(400)
+def page_not_found(e):
+    return "<script>alert('잘못된 접근 입니다. 400');</script>" #return render_template('404.html'),404
 
 if __name__ == '__main__':
     exist_db()    

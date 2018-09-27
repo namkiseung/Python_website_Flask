@@ -87,7 +87,7 @@
 			</tr> 		             		            
 			<tr>
 				<td class="middle">첨부 파일</td>
-				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);"><b>{{search[0][5]}}</b></a></td>
+				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);"><b><a href="/{{search[0][5]}}" download="">{{search[0][5]}}</a></b></a></td>
 			</tr> 		            	            
 			<tr>
 				<td class="middle">등록일</td> 
@@ -110,10 +110,12 @@
 		<br>
 			<table>
 				{% for x_re in data_re %}
+
 				<tr>
-					<td class="middle" id="sel_re_id"><font size="2pt">아이디</font></td>					
+					<td class="middle" id="sel_re_id"><font size="2pt">아이디</font></td>	
+					
 					<td style="background-color: rgba(200, 200, 200, 0.1);" id="sel_re_idinput"><font size="2pt">{{ x_re[2] }}</font></td>
-					<td class="middle" id="sel_re_content"><font size="2pt">내용</font></td>
+					<td class="middle" id="sel_re_content"><font size="2pt">내용</font></td>					
 					<td colspan="4" id="sel_re_contentinput" style="background-color: rgba(200, 200, 200, 0.1);"><font size="2pt">{{ x_re[3] }}</font></td>
 					<td class="middle" id="sel_re_date"><font size="2pt">등록일</font></td>
 					<td id="sel_re_dateinput" style="background-color: rgba(200, 200, 200, 0.1);"><font size="2pt">{{ x_re[4] }}</font></td>
@@ -121,18 +123,56 @@
 					
 					<td id="sel_re_repple"><!-- <button>수정</button> -->
 			{% if logon == True and user == x_re[2] %}
+						<button id="re_modi" onclick="plustag();">수정</button>
+						<input type="hidden" id="repple_num" value="{{x_re[0]}}"></input>				
 						<button onclick="location.href='/rep_delete?delnum={{x_re[0]}}&currentpage={{ currentpage }}'">삭제</button>
-						{% endif %}<button onclick='<div align="center">
-				<form action="/read" method="post"> 
-					<textarea name="commentContent" class="studyCommentContent"></textarea><br>
-					<input type="submit" value="댓글 등록" align="center">			
-					<input type="hidden" name="currentPage" value="{{ currentpage }}">
-				</form>	</div>	    '>댓글</button></td>
+						{% endif %}
+						<button onclick='<div align="center"><form action="/read" method="POST"><textarea name="commentContent" class="studyCommentContent"></textarea><br><input type="submit" value="댓글 등록" align="center"><input type="hidden" name="currentPage" value="{{ currentpage }}"></form></div>'>댓글</button></td>
 				</tr>				
 				{% endfor %}
 			</table>
+			<!--  -->
 			<br>
-			
+			<script type="text/javascript">
+				function plustag(){
+					var repple_idxnum = document.getElementById('repple_num').value
+					document.getElementById('sel_re_contentinput').innerHTML = '<form action="/repple_update" method="POST" id ="repple_updateform" name="repple_updateform"><input type="textarea" name="re_content" id="re_content"><br><input type="submit" value="재등록"></input><input type="hidden" name="pagenum" value="'+repple_idxnum+'"><input type="hidden" name="currentPage" value="{{currentpage}}"></input></form>';
+					// document.getElementById('re_modi').innerHTML = '확정';					
+				}
+				function processtag(){					
+					if (re_content.value!=""){							
+					'<form action="/repple_update" method="POST" id ="repple_updateform" name="repple_updateform"><input type="textarea" value="'+re_content.value+'"></form>'
+					document.getElementById('repple_updateform').submit();
+					tag_close();
+					}
+				}
+				function tag_close(){					
+					document.getElementById('sel_re_contentinput').innerHTML = '<td colspan="4" id="sel_re_contentinput" style="background-color: rgba(200, 200, 200, 0.1);"><font size="2pt">새로받은값</font></td>'
+					document.getElementById('re_modi').innerHTML = '<button id="re_modi" onclick="plustag();">수정</button>';					
+					
+				}
+				function plustag_popup(){
+
+					// window.open("", "postWindow", "width=300px, height=400px");
+					// document.postForm.target = "postWindow";
+					// document.postForm.submit();
+
+
+					// var update_content = prompt('댓글 수정하기','내용을 입력하세요.');
+					// if (update_content!=null){
+					// 	var form ='<form action="/read" method="POST" id="postForm"> <textarea id="hidden" name="commentContent_re" value='+update_content+'></textarea><input type="hidden" name="currentPage" value="{{ currentpage }}"></form>'   
+					// 	// document.getElementById('text_re').focus();
+					// 	document.getElementById('postForm').submit();
+					// }
+
+
+					// <form action="/read" method="post"> 
+					// 	<textarea name="commentContent"></textarea><br>
+					// 	<input type="submit" value="등록">			
+					// 	<input type="hidden" name="currentPage" value="{{ currentpage }}">
+					// 	</form>
+					}
+			</script>
 		<div id="blackBox" align="center">	
 			<input type="button" value="글쓰기" onClick="location.href='/write'">
 			{% if logon == True and user == writerid %}

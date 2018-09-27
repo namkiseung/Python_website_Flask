@@ -1,0 +1,13 @@
+로그인 로그아웃 실습
+- 계정 테이블 생성(아이디, 비밀번호, 이메일 등)
+  * 패스워드 데이터베이스에 저장 시, hash화 해서 저장할 것
+  * import hash \n hashlib.sha224(b"[입력패스워드]").hexdigest()
+  * ..저장
+- 로그인 창 작성 ('./templates/login.html')
+- ID/PW로 로그인 이후 세션 생성 (session['is_logged']=True ...)
+- 로그인 한 사용자만 접속할 수 있는 URL 만들기 ('/secret ?')
+  * 로그인 한 사용자 이메일 출력
+  * Jinja2 Template로, <a href=mailto:"{{ email }}">이메일보내기</a>
+  * 위 형식으로 작성해서, 클릭 시 어떻게 동작하는지 확인
+  * 세션으로 제한, 로그아웃 버튼도 생성 <a href="/logout">로그아웃</a>
+- 로그아웃 시 세션 pop (session.pop(...))
