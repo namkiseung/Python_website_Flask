@@ -4,27 +4,28 @@ from flask_basicauth import BasicAuth
 from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime
 from bs4 import BeautifulSoup 
-import lxml, requests, socketio, eventlet
+import lxml, requests, datetime#, socketio, eventlet
     #Using the ntp  protocol
     #print os.popen('apt install ntpdate').read()
     #print os.popen('chkconfig ntpd on').read()
     #print os.popen('service ntpd restart').read()
     #print os.popen('ntpq -dp').read()
     #print os.popen('crontab -e').read() #-> 00 01 * * * ntpdate time.bora.net
-sio = socketio.Server() #Server socket declaration
+#sio = socketio.Server() #Server socket declaration
 messages = [] #Leave messages as leading variables for notifications
 
 app = Flask(__name__)# static_folder='uploads'
     #Using the datetime module
-    # now = datetime.datetime.now()
-    # print type(now)
-    # nowday=now.strftime('%Y-%m-%d %H:%M:%S')
+    
 
 #It is used as a Linux command.
 def day_date():
-    commend_date = os.popen('date').read() 
-    now=commend_date.split() #String separation
-    nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] # example output) 2018-Seq-27 01:20:19
+    #commend_date = os.popen('date').read() 
+    #now=commend_date.split() #String separation
+    #nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] # example output) 2018-Seq-27 01:20:19    
+    now = datetime.datetime.now()
+    print type(now)
+    nowday=now.strftime('%Y-%m-%d %H:%M:%S')
     return nowday
 
     # @sio.on('connect')
@@ -188,6 +189,7 @@ def init_db_notice_re2():
 #########################################################################################################################
 ## Where is data manipulation language of notice board.
 def search_board(text="", select=""):
+    text = text.encode('utf-8')
     if select == "title":
         sql = 'SELECT * FROM notice_board WHERE title like "{}%" ORDER BY idx desc'.format(text)
     elif select == "writer": 
@@ -213,6 +215,9 @@ def save_countview(count="", idx=""):
     return ''
 
 def save_noticedb(idid="",title="",content="",day="",files=""):
+    #day = day.encode('utf-8')
+    title=title.encode('utf-8')
+    content = content.encode('utf-8')
     sql = 'INSERT INTO notice_board (id, title, content, day, files) VALUES ("{}","{}","{}","{}","{}")'.format(idid,title,content,day,files)
     db = get_dbnotice()
     db.execute(sql)
@@ -234,7 +239,10 @@ def get_noticedb_read(idx_number):
     res = rv.fetchall() 
     return res
 
-def update_noticedb(idx="", idid="",title="",content="",day="",files=""):    
+def update_noticedb(idx="", idid="",title="",content="",day="",files=""):
+    #day = day.encode('utf-8')
+    title=title.encode('utf-8')
+    content = content.encode('utf-8')
     db = get_dbnotice()
     sql = 'UPDATE notice_board set id="{}", title="{}", content="{}", day="{}", files="{}" WHERE idx="{}"'.format(idid,title,content,day,files, idx)
     rv = db.execute(sql)
@@ -256,7 +264,9 @@ def delete_noticedb(idx=""):
     return ''
 #########################################################################################################################
 ## Where is data manipulation language of notice board repple. 
-def save_noticedb_re(readidx="", userid="", content="", day=""):
+def save_noticedb_re(readidx="", userid="", content="", day=""):     
+     content = content.encode('utf-8')
+     #day = day.encode('utf-8')
      sql = 'INSERT INTO notice_board_re (originidx, id, content, day) VALUES ("{}","{}","{}","{}")'.format(readidx, userid, content, day)
      db = get_dbnotice_re()
      db.execute(sql)
@@ -265,7 +275,7 @@ def save_noticedb_re(readidx="", userid="", content="", day=""):
      return ''
 
 def get_noticedb_list_re(num):    
-    db = get_dbnotice_re()
+    db = get_dbnotice_re()    
     sql = 'SELECT * FROM notice_board_re WHERE originidx="{}" ORDER BY day desc'.format(num)    
     rv = db.execute(sql)
     res = rv.fetchall()  
@@ -273,7 +283,8 @@ def get_noticedb_list_re(num):
     return res
 
 def update_noticedb_re(content="", idx=""):    
-    db = get_dbnotice_re()
+    content = content.encode('utf-8')
+    db = get_dbnotice_re()    
     sql = 'UPDATE notice_board_re set content="{}" WHERE idx="{}"'.format(content, idx)
     rv = db.execute(sql)
     db.commit()
@@ -331,6 +342,7 @@ def update_user(n_name=None, n_email=None, n_phone=None):
        print n_name
        print n_email
        print n_phone
+       n_name = n_name.encode('utf-8')
        sql = 'UPDATE users set name="{}", email="{}", phone="{}" where id="{}" '.format(n_name, n_email, n_phone, session.get('id')) 
        rv = db.execute(sql)
        db.commit()
@@ -349,7 +361,7 @@ def delete_user(bye_user):
 ## Where is Default Routing on the Homepage.
 
 @app.route('/', methods=['GET', 'POST']) #Routing Default
-def menetory():
+def menetory():    
     if session.get('id') is not None:        
         return redirect(url_for('me_list'))
     return redirect(url_for('login')) 
@@ -358,16 +370,16 @@ def menetory():
 @app.route('/login_chk', methods=['POST'])
 def index():
     if request.method == 'POST':
-        logon_id = request.form.get('user_id','')
-        logon_pw = request.form.get('user_pw','')        
+        logon_id = request.form.get('user_id','').encode('utf-8')
+        logon_pw = request.form.get('user_pw','')
         chk_r=get_user_single(logon_id, logon_pw)                
         if chk_r is True:
             r=get_user(logon_id, logon_pw)
             session['id'] = r[0][0]
             session['pw'] = hash_224(r[0][1])
-            session['name'] = r[0][2]            
+            session['name'] = r[0][2]
             session['email'] = r[0][3]
-            session['phone'] = r[0][4]
+            session['phone'] = r[0][4]            
             script_alert("welcome!") 
     return redirect(url_for('menetory'))
 
@@ -384,9 +396,9 @@ def register():
     elif request.method == 'POST':
         in_new_id = request.form.get('new_id', '')
         in_new_pw = hash_224(request.form.get('new_pw', ''))
-        in_new_name = request.form.get('new_name', '')
+        in_new_name = request.form.get('new_name', '').encode('utf-8')
         in_new_email = request.form.get('new_email', '')
-        in_new_phone = request.form.get('new_phone', '')    
+        in_new_phone = request.form.get('new_phone', '')
         save_user(ar_id=in_new_id, ar_pw=in_new_pw, ar_name=in_new_name, ar_email=in_new_email, ar_phone=in_new_phone)
         return redirect(url_for('login'))
 
