@@ -444,7 +444,7 @@ def me_list():
 
  
 @app.route('/read', methods=['GET', 'POST'])
-def me_read(num=None):   
+def me_read(num=None): 
     if request.args.get('num') is not None and request.method == 'GET':
         idx=request.args.get('num')
         r=get_noticedb_read(idx_number=idx)

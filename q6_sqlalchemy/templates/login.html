@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+  <link rel="stylesheet" type="text/css" href="../static/style/bootstrap.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Login Page _ By Namki</title>
+  <style type="text/css">
+  @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
+ 
+html {
+    height: 100%;
+  }
+  
+  body {
+      width:100%;
+      height:100%;
+      margin: 0;
+      padding-top: 80px;
+      padding-bottom: 40px;
+      font-family: "Nanum Gothic", arial, helvetica, sans-serif;
+      background-repeat: no-repeat;
+      background:linear-gradient(to bottom right, #0098FF, #6BA8D1);
+  }
+    .card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  .form-signin .form-control {
+      position: relative;
+      height: auto;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+           box-sizing: border-box;
+      padding: 10px;
+      font-size: 16px;
+  }
+</style>
+  <script type="text/javascript">
+    function null_check(){
+     var str = document.login
+     if(str.user_id.value == '' || str.user_id.value == null){
+       alert('공백을 확인하세요');
+       str.user_id.value.focus();
+       return;
+     }else if(str.user_pw.value == '' || str.user_pw.value == null){
+       alert('공백을 확인하세요');
+       str.user_pw.value.focus();
+       return;
+     }else{
+       document.login.submit();
+     }
+    window.onload=function(){
+    
+    }
+}
+    //  function load_userinfo(){
+    //   var xhttp = new XMLHttpRequest();
+    //   var login_id = document.getElementById('id_form').value;
+    //   var login_pw = document.getElementById('pw_form').value;
+    //   var post_param = 'login_id='+login_id+'login_pw='+login_pw;
+    //   xhttp.onreadyStatechange = function(){        
+    //     if (this.readyState == 4 && this.status ==200){
+    //       if (this.response == 'true') {
+    //         document.getElementById('message').innerHTML = "<font color='green'>correct</font>";
+    //       }else{
+    //         document.getElementById('message').innerHTML = "<font color='red'>incorrect</font>";
+    //       }
+    //     }
+    //   };
+    //   xhttp.open("POST", "login_chk", true);
+    //   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //   xhttp.send(post_param);
+    // }
+</script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body cellpadding="0" cellspacing="0" marginleft="0" margintop="0" width="100%" height="100%" align="center">
+
+<!-- onkeyup="load_userinfo();" -->
+<!-- <p id='message'></p> -->
+  <div class="card align-middle" style="width:22rem; border-radius:20px;">
+    <div class="card-title" style="margin-top:30px;">
+      <h2 class="card-title text-center" style="color:#113366;">Namki Web</h2>
+    </div>
+    <div class="card-body">
+      <form class="form-signin" method="POST" action='/login_chk'>
+        <h5 class="form-signin-heading">로그인 정보를 입력하세요</h5>
+        <label for="inputEmail" class="sr-only">Your ID</label>
+        <input type="text" id="uid" class="form-control" placeholder="Your ID" name="user_id" required autofocus><BR>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="upw" class="form-control" placeholder="Password" name="user_pw" required><br>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> 기억하기
+          </label>
+        </div>
+        <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="submit">로 그 인</button>
+        <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" onClick="location.href='/register'">회 원 가 입</button>
+      </form>
+      
+    </div>
+  </div>
+
+
+     <!-- {% include 'footer.html' %} -->
+   <!--   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  -->
+     </body>
+     </html>
