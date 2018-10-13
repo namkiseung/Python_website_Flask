@@ -8,3 +8,4 @@
 8. q3_ex : table test
 9. q4_ifram : html iflame element
 10. q5_log : register,login,find_user
+11. q6 sqlchemy : orm struture and api login (default local or http)
