@@ -190,14 +190,19 @@ def init_db_notice_re2():
 ## Where is data manipulation language of notice board.
 def search_board(text="", select=""):
     text = text.encode('utf-8')
-    if select == "title":
-        sql = 'SELECT * FROM notice_board WHERE title like "{}%" ORDER BY idx desc'.format(text)
-    elif select == "writer": 
-        sql = 'SELECT * FROM notice_board WHERE id="{}" ORDER BY idx desc'.format(text)
-    db = get_dbnotice()
-    rv = db.execute(sql)
-    res = rv.fetchall()
-    return res
+    try:           
+        if select == "title":
+            sql = 'SELECT * FROM notice_board WHERE title like "{}%" ORDER BY idx desc'.format(text)
+        elif select == "writer": 
+            sql = 'SELECT * FROM notice_board WHERE id="{}" ORDER BY idx desc'.format(text)
+        db = get_dbnotice()
+        rv = db.execute(sql)
+        res = rv.fetchall()
+        return res
+    except Exception as e:
+        return ""
+
+    
 
 def select_countview(idx=""):
     sql = 'SELECT countview FROM notice_board WHERE idx="{}"'.format(idx)
