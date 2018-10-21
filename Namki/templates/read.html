@@ -39,8 +39,9 @@
 		}
 	</style>
 </head>
-<body>
-	<div id="mainBox">
+<body style="background-color:#0098FE">
+	<div id="mainBox" style="background-color:#FFFFFF">
+
 		{% include 'side_menu.html' %}
 	<div>		
 		<table align="center" width="1200"> 
@@ -78,7 +79,7 @@
 				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][4]}}</td> 
 			</tr>             	           
 		</table>
-	</div>   
+	   
 	<div><br>
 	
 			<!-- ################################################################################################ -->
@@ -92,6 +93,7 @@
 
 		</div>
 		<br>
+
 			<table>
 				{% for x_re in data_re %}
 
@@ -115,6 +117,7 @@
 				</tr>				
 				{% endfor %}
 			</table>
+
 			<!--  -->
 			<br>
 			<script type="text/javascript">
@@ -164,8 +167,8 @@
 			{% endif %}
 			<input type="button" value="목록보기" onClick="location.href='/list'">
 		</div>
-
-
+</div>
+</div>
 {% include 'footer.html' %}
 	</body>
 	</html>

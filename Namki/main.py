@@ -1,8 +1,8 @@
 #-*- coding:utf-8 -*-
-from flask import Flask, request, session, g, render_template, redirect, url_for, send_from_directory
+from flask import Flask, request, session, g, render_template, redirect, url_for, send_from_directory, jsonify
 from flask_basicauth import BasicAuth
 from werkzeug import secure_filename
-import sqlite3, hashlib, os, datetime
+import sqlite3, hashlib, os, datetime, json
 from bs4 import BeautifulSoup 
 import lxml, requests, datetime#, socketio, eventlet
     #Using the ntp  protocol
@@ -370,7 +370,7 @@ def menetory():
 @app.route('/login_chk', methods=['POST'])
 def index():
     if request.method == 'POST':
-        logon_id = request.form.get('user_id','').encode('utf-8')
+        logon_id = request.form.get('user_id','')
         logon_pw = request.form.get('user_pw','')
         chk_r=get_user_single(logon_id, logon_pw)                
         if chk_r is True:
@@ -543,6 +543,10 @@ def conver():
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
     return render_template('chat.html', logon = menubar())
+
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html', logon = menubar())
 
 @app.errorhandler(404)
 def page_not_found(e):

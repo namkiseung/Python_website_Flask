@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>About Page _ By Namki</title>
+  <style type="text/css">
+  table {
+    width: 10%;
+    border-spacing: 205px;
+}
+td{
+  padding: 15px;
+}
+#bak_color{
+  background-color: white;
+}
+</style>
+  <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+</head>
+<body style="background-color:#0098FE">
+  {% include 'side_menu.html' %}
+  <div id="mainBox" style="background-color:#FFFFFF">   
+    <span align="center"><h2>About Namki_Web</h2></span><hr>
+    <table><tbody>
+      <tr>
+        <td id="bak_color"><br><br><div align="center">Skill</div>
+  <marquee direction="up" scrollamount="3" height="255px" style="text-align:center">
+              <font color="black"><b>- Firebase<br> - Python<br> - Java<br> - php<br> - HTML<br> - JS<br> -sqlite<br> - mysql<br> - Android<br></b></font>
+              </marquee>
+            </td></div><td id="bak_color"><br><br><div align="center">Project</div><marquee direction="up" scrollamount="3" height="255px" style="text-align:center">
+              <font color="black"><b> - namki website<br><br> - portfolio App<br><br> - Sns App<br><br> - communite website<br><br></b></font>
+              </marquee></td><td id="bak_color"><br><br><div align="center">hobby</div><marquee direction="up" scrollamount="3" height="255px" style="text-align:center">
+              <font color="black"><b>playing soccer<br><br>go to seminor<br><br>write goal postit<br><br>playing diving<br><br></b></font>
+              </marquee></td><!-- <td id="bak_color"><br><br><div align="center">안녕</div><marquee direction="up" scrollamount="3" height="255px" style="text-align:center">
+              <font color="black"><b><br>Woowang<br>pholywater<br>Sung<br>xseris<br>heepie<br>ccckoko11<br>0325<br>김밍밍</b></font>
+              </marquee></td> -->
+            </tr>
+            </tbody>
+            </table>
+            <!-- <a href="http://pf.kakao.com/_GxkMAj/chat">zaaaaaaaaaaaaaaa</a> -->
+            
+      <a href="javascript:void addPlusFriend()">
+        <!-- <a href="http://pf.kakao.com/_GxkMAj/chat"> -->
+  <div align="right"><img src="https://developers.kakao.com/assets/img/about/logos/plusfriend/friendadd_small_yellow_rect.png"/></div>
+
+</a>
+<script type='text/javascript'>
+  //<![CDATA[
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+
+    Kakao.init('');
+    function addPlusFriend() {
+      Kakao.PlusFriend.addFriend({
+        plusFriendId: '_GxkMAj' // 플러스친구 홈 URL에 명시된 id로 설정합니다.
+      });
+    }
+  //]]>
+</script>
+
+<div align="right" id="plusfriend-chat-button"></div>
+<script type='text/javascript'>
+  //<![CDATA[
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('');
+    // 플러스친구 1:1채팅 버튼을 생성합니다.
+    Kakao.PlusFriend.createChatButton({
+      container: '#plusfriend-chat-button',
+      plusFriendId: '_xcLqmC' // 플러스친구 홈 URL에 명시된 id로 설정합니다.
+    });
+  //]]>
+</script>
+     <div align="center">
+
+       <div id="app">
+    <div v-for="message in filteredMessages">
+      <!-- ${ message.nickname }: ${ message.body } -->
+    </div>
+  </div>
+</div>
+</div>
+{% include 'footer.html' %}
+     </body>
+     </html>
+

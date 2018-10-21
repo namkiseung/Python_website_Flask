@@ -5,11 +5,11 @@
 	<meta charset="UTF-8">
 	<title>게시판 by namki</title>		
 </head>
-<body>
+<body style="background-color:#0098FE">
 	{% include 'side_menu.html' %}
 	
 
-
+<div id="mainBox" style="background-color:#FFFFFF">
 	<form action="/write" method="post" enctype="multipart/form-data"> 
 		<div id="viewBox">
 			<table> 			      
@@ -41,6 +41,7 @@
 			<a href="/list" class="blackButton">대화방 목록</a>
 		</div>
 	</form>
+</div>
 {% include 'footer.html' %}
 </body>
 </html>

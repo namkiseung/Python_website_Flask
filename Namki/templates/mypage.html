@@ -7,22 +7,23 @@
 <title>MyPage By Namki</title>
 <style type="text/css"></style>
 </head>
-<body>
-	<div id="mainBox">
-{% include 'side_menu.html' %}
-    <span align="center"><h2>Namki_Web 로그인</h2></span><hr>
-  </div>
+<body style="background-color:#0098FE">
+    {% include 'side_menu.html' %}
+	<div id="mainBox" style="background-color:#FFFFFF">
 
-<form action='/mypage' method='POST'>
-<table border=1>
+    <span align="center"><h2>Namki_Web 내정보</h2></span><hr>
+  
+
+<form action='/mypage' method='POST'><br><br>
+<table class="table">
 <tr><td> 아이디</td><td> {{ update_id }} </td></tr>
 <tr><td> 현재 비밀번호</td><td>  </td></tr>
-<tr><td>이름</td><td><input type='text' name='name' value=' {{ update_name }}' ></td></tr>
-<tr><td>이메일</td><td><input type='text' name='email' value=' {{ update_email }}' ></td></tr><tr><td>휴대폰번호</td><td><input type='text' name='phone' value=' {{ update_phone }}' ></td></tr>
-<tr><td colspan='2'><input type='submit' value="제출"></td></tr>
+<tr><td>이름</td><td><input type='text' name='name' class="form-control" value=' {{ update_name }}' ></td></tr>
+<tr><td>이메일</td><td><input type='text' name='email' class="form-control" value=' {{ update_email }}' ></td></tr><tr><td>휴대폰번호</td><td><input type='text' name='phone' class="form-control" value=' {{ update_phone }}' ></td></tr>
+<tr><td colspan='2'><input type='submit' class="form-control" value="제출"></td></tr>
 </table>
 </form>
-<div align="center">
+<div align="center"><br><br>
 <input type="button" id="wi" value="취소" onClick="location.href='/'">
 <input type="button" id="wi" value="회원탈퇴" onClick="location.href='/delete_user'">
 </div>
@@ -34,6 +35,7 @@
              <li><a href="#">menu3</a></li>
          </ul>
     </div> -->
+    </div>
     {% include 'footer.html' %}
 </body>
 </html>
