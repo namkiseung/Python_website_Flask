@@ -3,7 +3,20 @@
 <head>
   <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
   <link rel="stylesheet" type="text/css" href="../static/style/bootstrap.css">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name = "google-signin-client_id"content = "783889946893-e4rfongss043q8utmb9qqhj5n1148s6h.apps.googleusercontent.com">
+  <meta charset="utf-8">
+  <script type="text/javascript">
+    function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+  </script>
   <meta charset="utf-8">
   <title>Login Page _ By Namki</title>
   <style type="text/css">
@@ -82,8 +95,65 @@ html {
     //   xhttp.send(post_param);
     // }
 </script>
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script type="text/javascript">
+  function checkLoginState(response) {    
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      // testAPI();
+      document.querySelector('#face_btn').value = 'facebook login';
+    } else {
+      // The person is not logged into your app or we are unable to tell.
+      document.querySelector('#face_btn').value = 'facebooklogin';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  // function checkLoginState() {
+  //   FB.getLoginStatus(function(response) {
+  //     statusChangeCallback(response);
+  //   });
+  // }
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '109680149946277',
+      cookie     : true,  // enable cookies to allow the server to access 
+                          // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v3.1' // use graph api version 2.8
+    });
+
+    // Now that we've initialized the JavaScript SDK, we call 
+    // FB.getLoginStatus().  This function gets the state of the
+    // person visiting this page and can return one of three states to
+    // the callback you provide.  They can be:
+    //
+    // 1. Logged into your app ('connected')
+    // 2. Logged into Facebook, but not your app ('not_authorized')
+    // 3. Not logged into Facebook and can't tell if they are logged into
+    //    your app or not.
+    //
+    // These three cases are handled in the callback function.
+    
+    FB.getLoginStatus(checkLoginState);
+  };
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+</script>
 </head>
 <body cellpadding="0" cellspacing="0" marginleft="0" margintop="0" width="100%" height="100%" align="center">
 
@@ -107,11 +177,39 @@ html {
         </div>
         <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="submit">로 그 인</button>
         <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" onClick="location.href='/register'">회 원 가 입</button>
-      </form>
-      
+      </form>      
     </div>
   </div>
 
+
+<div  align="center">
+  <h3 class="card-title text-center" style="color:#113366;">SNS Login</h3><br>
+  <div class="g-signin2" data-onsuccess="onSignIn" value="구글 로그인">login</div>
+  <br>
+  <div class="fb-login-button" id="face_btn" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onClick="
+      if(this.value==='facebook login'){
+FB.login(function(res){
+  console.log('login=>', res);
+  checkLoginState(res)
+});
+    }else{
+FB.logout(function(res){
+  console.log('logout =>'res);
+  checkLoginState(res)
+});
+  }" style="height: 47.6pt; width: 310pt;"></div>
+ 
+
+</div>
+<!-- 
+var checkLoginState = function(response) {      
+      console.log(response)
+      if (response.status === 'connected') {
+        document.querySelector('#face_btn').value = 'Logout1';
+      }else{
+        document.querySelector('#face_btn').value = 'Logout2';
+      }
+    } -->
 
      <!-- {% include 'footer.html' %} -->
    <!--   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
