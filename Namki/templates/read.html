@@ -66,11 +66,13 @@
 					<!-- <iframe class="studyIframe" src="" frameborder="0" allowfullscreen></iframe> -->
 
 				</td>		                
-			</tr> 	
+			</tr> 
+{% autoescape false %}	
 			<tr>
 				<td class="middle">내용</td> 
 				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);">{{search[0][3]}}</td>		                
-			</tr> 		             		            
+			</tr> 	
+{% endautoescape %}	             		            
 			<tr>
 				<td class="middle">첨부 파일</td>
 				<td colspan="2" style="background-color: rgba(200, 200, 200, 0.1);"><b><a href="/{{search[0][5]}}" download="">{{search[0][5]}}</a></b></a></td>

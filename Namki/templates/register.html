@@ -47,11 +47,15 @@ html {
       <h2 class="card-title text-center" style="color:#113366;">Namki Register</h2>
     </div>
   <div align="center" class="card-body">
-    <form action='/register' method="POST" id="register" class="form-signin">
+    <form action='/register' method="POST" id="register" class="form-signin" onsubmit="return validform()" >
       <div id="viewBox">
         <h6 class="" style="color:#113366;">ID</h6>
       <label for="inputEmail" class="sr-only">New ID</label>
       <input type="text" name="new_id" id="new_id" class="form-control" placeholder="아이디를 입력하세요."><br>
+{% block comment %}
+<!--<button class="btn btn-lg btn-primary btn-block" style="width:100px; text-align:center;">중복확인</button>
+-->{% endblock %}
+<br>
       <h6 class="" style="color:#113366;">Password</h6>
       <label for="inputPassword" class="sr-only">Password</label>
       <input type="password" name="new_pw" id="new_pw" class="form-control" placeholder="패스워드를 입력하세요."><br>
@@ -64,13 +68,26 @@ html {
       <input type="text" name="new_email" id="new_email" class="form-control" placeholder="이메일을  입력하세요."><br>
       <h6 class="" style="color:#113366;">phone number</h6>
       <label for="inputPhonenumber" class="sr-only">phone number</label>
-      <input type="number" id="new_phone" name="new_phone" class="form-control" placeholder="휴대번호를  입력하세요."><br><br>
-<button class="btn btn-lg btn-primary btn-block" type="submit">회 원 가 입</button>
+      <input type="number" id="new_phone" name="new_phone" class="form-control" placeholder="휴대번호를  입력하세요."><br>
+<button class="btn btn-lg btn-primary btn-block" type="submit" >회 원 가 입</button><br>
         
 </form>
-<button class="btn btn-lg btn-primary btn-block" onclick="location.href='/'">취 소</button>   
+<script>
+function chk(){
+var id = document.getElementById("new_id").value;
+  if (id == "" || id == ""){
+     //alert('아이디를 입력하세요.');
+     //return false;
+  }else if(id == "admin"){
+     alert("이미 가입된 아이디 입니다.")
+     return false;
+  }
+}
 
+}
+</script>
 </div>
+<button class="btn btn-lg btn-primary btn-block" onclick="location.href='/'">취 소</button>   
 </div>
 </div>
 
@@ -79,25 +96,32 @@ html {
 
 
 <script>
-var t = document.getElementById('register');
-t.addEventListener('submit', function(event){
-    if(document.getElementById('new_id').value.length === 0){
-        alert('빈칸을 확인하세요.');
-        event.preventDefault();
+function validform(){
+//var t = document.getElementById('register');
+//t.addEventListener('submit', function(event){
+    if(document.getElementById('new_id').value.length === 0 || document.getElementById('new_id').value === "admin"){
+        alert('계정 아이디를 확인하세요.');
+        return false;
+        //event.preventDefault();
     }else if(document.getElementById('new_pw').value.length === 0){
         alert('빈칸을 확인하세요.');
-        event.preventDefault();
+        return false;
+        //event.preventDefault();
     }else if(document.getElementById('new_name').value.length === 0){
         alert('빈칸을 확인하세요.');
-        event.preventDefault();
+        return false;
+        //event.preventDefault();
     }else if(document.getElementById('new_email').value.length === 0){
         alert('빈칸을 확인하세요.');
-        event.preventDefault();
+        return false;
+        //event.preventDefault();
     }else if(document.getElementById('new_phone').value.length === 0){
         alert('빈칸을 확인하세요.');
-        event.preventDefault();
+        return false;
+        //event.preventDefault();
     }
-});
+};
+
 </script>
   </body>
 </html>

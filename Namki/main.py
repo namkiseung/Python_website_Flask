@@ -14,10 +14,14 @@ import lxml, requests, datetime#, socketio, eventlet
 #sio = socketio.Server() #Server socket declaration
 messages = [] #Leave messages as leading variables for notifications
 
-app = Flask(__name__)# static_folder='uploads'
+app = Flask(__name__, instance_relative_config=True)
+#app.config.from_object('yourapplication.default_settings')
+#app.config.from_pyfile('application.cfg', silent=True)
+#app.config.from_pyfile('application.cfg', silent=False)
     #Using the datetime module
-    
-
+#app.config['SESSION_COOKIE_SECURE']=False    
+app.config['SESSION_COOKIE_HTTPONLY']=False
+#refer : http://flask.pocoo.org/docs/dev/config/
 #It is used as a Linux command.
 def day_date():
     #commend_date = os.popen('date').read() 
@@ -486,20 +490,28 @@ def reppleupdate(): #, currentpage=None
         return redirect(url_for('me_list'))
 
 @app.route('/update', methods=['GET', 'POST'])
-def me_update():    
+def me_update():
+    file_path=''    
     if request.method == "GET" and session.get('id') is not None:               
         r=get_noticedb_read(idx_number=request.args.get('num'))    
         return render_template('update.html', writerid=r[0][1], usertitle=r[0][2], usercontent=r[0][3], logon = menubar(), user=session.get('id'), textnum=r[0][0])
-    elif request.method == "POST":          
+    elif request.method == "POST":         
+        print "update" 
         r=get_noticedb_read(idx_number=request.form.get('textnum'))   
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
-        
-        file = request.files['_file']
-        if allowed_file(file.filename) is False:
-            res_filename = secure_filename(file.filename)
-            file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
-            file.save(file_path)
+        save_content = save_content.encode('utf-8')
+        try:        
+           file = request.files['_file']
+           pass
+        except Exception as e:
+           print e
+        else:
+           if allowed_file(file.filename) is False:
+               res_filename = secure_filename(file.filename)
+               file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
+               file.save(file_path)
+           print "update2"
         update_noticedb(idid=r[0][1], title=save_title,content=save_content, day=day_date(), files=file_path, idx=r[0][0])
         return redirect(url_for('me_list'))
     return ''
