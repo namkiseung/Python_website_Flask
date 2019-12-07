@@ -6,11 +6,11 @@ import sqlite3, hashlib, os, datetime, json
 from bs4 import BeautifulSoup 
 import lxml, requests, datetime#, socketio, eventlet
     #Using the ntp  protocol
-    #print os.popen('apt install ntpdate').read()
-    #print os.popen('chkconfig ntpd on').read()
-    #print os.popen('service ntpd restart').read()
-    #print os.popen('ntpq -dp').read()
-    #print os.popen('crontab -e').read() #-> 00 01 * * * ntpdate time.bora.net
+    #print(os.popen('apt install ntpdate').read())
+    #print(os.popen('chkconfig ntpd on').read())
+    #print(os.popen('service ntpd restart').read())
+    #print(os.popen('ntpq -dp').read())
+    #print(os.popen('crontab -e').read() #-> 00 01 * * * ntpdate time.bora.net)
 #sio = socketio.Server() #Server socket declaration
 messages = [] #Leave messages as leading variables for notifications
 
@@ -28,7 +28,7 @@ def day_date():
     #now=commend_date.split() #String separation
     #nowday=now[5]+"-"+now[1]+"-"+now[2]+" "+now[3] # example output) 2018-Seq-27 01:20:19    
     now = datetime.datetime.now()
-    print type(now)
+    print(type(now))
     nowday=now.strftime('%Y-%m-%d %H:%M:%S')
     return nowday
 
@@ -73,7 +73,7 @@ def admin_access(): #administrator default func
 def manage_notice(): #administrator management board func
     r = get_noticedb_list() #board info get it(order)
     for x in range(len(r)):  
-        print r[x]
+        print(r[x])
     return render_template('manage.html', notice_info=r) 
 
 @app.route('/manage/conversation', methods=['GET', 'POST']) #this is where to manage the menu called conversation
@@ -96,13 +96,13 @@ def issue_github(): #Func to get issus github of feather
        list_text.append(tag.text) 
    for tag2 in soup.select('span[class="text-normal"]'):
        list_text2.append(tag2.text) 
-   print list_text2
+   print(list_text2)
    for x in range(len(list_text)):
        result.append(("",""))
-   print result
+   print(result)
    for x in range(len(list_text)):
        result[x]=((list_text[x],list_text2[x]))
-       print result[x] 
+       print(result[x])
    return render_template('crawl.html', data=result)
 ################################################################################################################################
 def allowed_file(filename):  #string from the right at the specified separator and return a list of input files in func
@@ -348,9 +348,9 @@ def update_user(n_name=None, n_email=None, n_phone=None):
     if n_name is not None and n_email is not None and n_phone is not None:
        db = get_db()
        #r = get_user()
-       print n_name
-       print n_email
-       print n_phone
+       print(n_name)
+       print(n_email)
+       print(n_phone)
        n_name = n_name.encode('utf-8')
        sql = 'UPDATE users set name="{}", email="{}", phone="{}" where id="{}" '.format(n_name, n_email, n_phone, session.get('id')) 
        rv = db.execute(sql)
@@ -418,7 +418,7 @@ def logout():
     else:
         for x in ['id', 'pw', 'name', 'email', 'phone']:
             session.pop(x)
-            print x
+            print(x)
         return redirect(url_for('login'))
 
 @app.route('/delete_user')
@@ -465,8 +465,8 @@ def me_read(num=None):
     elif request.method == 'POST':
         ori_num=request.form.get('currentPage') #게시글 idx번호
         repple=request.form.get('commentContent')
-        print ori_num
-        print repple
+        print(ori_num)
+        print(repple)
         save_noticedb_re(readidx=ori_num, userid=session.get('id'), content=repple, day=day_date())
     return redirect(url_for('me_read', num=ori_num)) #"<script>history.go(-1);</script>" #redirect(url_for('me_read'))
 
@@ -496,7 +496,7 @@ def me_update():
         r=get_noticedb_read(idx_number=request.args.get('num'))    
         return render_template('update.html', writerid=r[0][1], usertitle=r[0][2], usercontent=r[0][3], logon = menubar(), user=session.get('id'), textnum=r[0][0])
     elif request.method == "POST":         
-        print "update" 
+        print("update start")
         r=get_noticedb_read(idx_number=request.form.get('textnum'))   
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
@@ -505,13 +505,13 @@ def me_update():
            file = request.files['_file']
            pass
         except Exception as e:
-           print e
+           print(e)
         else:
            if allowed_file(file.filename) is False:
                res_filename = secure_filename(file.filename)
                file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
                file.save(file_path)
-           print "update2"
+           print("update2")
         update_noticedb(idid=r[0][1], title=save_title,content=save_content, day=day_date(), files=file_path, idx=r[0][0])
         return redirect(url_for('me_list'))
     return ''
@@ -537,7 +537,7 @@ def me_write():
             file = request.files['_file']
             pass
         except Exception as e:
-            print e
+            print(e)
         else:
             if allowed_file(file.filename) is False:
                 res_filename = secure_filename(file.filename)
