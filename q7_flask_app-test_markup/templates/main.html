@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="all" />
+        <title>logthink</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Nanum    +Gothic|Questrial|Motserrat" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css" />
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/2.0.0/toastui-editor.min.css" />
+<script src="https://uicdn.toast.com/editor/2.0.0/toastui-editor-all.min.js"></script>
+    </head>
+    <body class="main">
+        <div class="header">
+            <h1><a href="/">logthink.</a></h1>
+            {% if name  %}
+            <p style="display: inline; color: white; position: absolute; right: 38px; top: 51px; font-size: 15px; font-weight: 600" >{{ name }} aa님</p>
+            {% endif %}
+            <nav>
+                <ul>
+                    <li><a href="/">MAIN</a></li>
+                    <li><a href="/board">BOARD</a></li>
+                    {% if name %}
+                    <li><a href="/mypage">MY PAGE</a></li>
+                    <li><a href="/logout">LOGOUT</a><li>
+                    {% else %}
+                    <li><a href="/login">LOGIN</a></li>
+                    <li><a href="/join">JOIN</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+       
+        <div class="contents">
+          <div class="wrapper">
+            <span>welcome</span>
+          </div>
+        </div>
+        <script type="text/javascript">
+            const editor = new toastui.Editor({
+    el: document.querySelector('#editor'),
+    previewStyle: 'vertical',
+    height: '500px',
+    initialValue: content
+});
+        </script>
+    </body>
+</html>
+

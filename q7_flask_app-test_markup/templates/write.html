@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="all" />
+        <title>Write — logthink</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}" >
+        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Nanum    +Gothic|Questrial|Motserrat" rel="stylesheet">
+    </head>
+    <body class="write">
+        <div class="header">
+          <h1><a href="/">logthink.</a></h1>
+          <p style="display: inline; color: black; position: absolu    te; right: 38px; top: 51px; font-size: 15px; font-weight: 600" >{{ name }} 님</p>
+            <nav>
+                <ul>
+                    <li><a href="/">MAIN</a></li>
+                    <li><a href="/board">BOARD</a></li>
+                    <li><a href="/mypage">MY PAGE</a></li>
+                    <li><a href="/logout">LOGOUT</a><li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="contents">
+          <form action="/write" method='POST' accept-charset="euc-kr">
+          <table class="write_area">
+            <colgroup>
+              <col style="width: 15%">
+              <col style="width: 85%">
+            </colgroup>
+              <tr>
+                <th scope="col">제 목</th>
+                <td scope="col">
+                  <input type="text" name="title" size="30">
+                </td>
+              </tr>
+                <th>내 용</th>
+                <td class="last_td">
+                  <textarea name="content" rows="15" cols="85"></textarea>
+                </td>
+              </tr>
+          </table>
+          <div class="input" >
+            <input type="submit" value="전 송">
+          </div>
+          </form>
+        </div>
+    </body>
+</html>

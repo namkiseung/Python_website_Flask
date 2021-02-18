@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="all" />
+        <title>Join — logthink</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}" >
+        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Nanum+Gothic|Questrial|Motserrat" rel="stylesheet">
+    </head>
+           <body class="mypage">
+        <div class="header">
+          <h1><a href="/">logthink.</a></h1>
+          <p style="display: inline; color: black; position: absolute; right: 38px; top: 51px; font-size: 15px; font-weight: 600" >{{ name }} 님</p>
+            <nav>
+                <ul>
+                    <li><a href="/">MAIN</a></li>
+                    <li><a href="/board">BOARD</a></li>
+                    <li><a href="/mypage">MY PAGE</a></li>
+                    <li><a href="/logout">LOGOUT</a><li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="contents">
+          <form action="/mypage" method="POST">
+            <table class="mypage_area">
+                <colgroup>
+                  <col style="width: 30%">
+                  <col style="width: 70%">
+                </colgroup>
+                <tr>
+                  <th scope="col">아이디</th>
+                  <td scope="col" style="text-align: left; padding-left: 6px; padding-bottom: 8px;">{{ data[0] }}
+                  </td>
+                </tr>
+                <tr>
+                  <th>새 비밀번호</th>
+                  <td>
+                    <input type="password" name="user_pw1" size=30>
+                  </td>
+                </tr>
+                <tr>
+                  <th>비밀번호 확인</th>
+                  <td>
+                    <input type="password" name="user_pw2" size=30>
+                  </td>
+               </tr>
+               <tr>
+                  <th>이름</th>
+                  <td>
+                    <input type="text" name="user_name" size=30 value="{{ data[2]}}">
+                  </td>
+               </tr>
+               <tr>
+                 <th>이메일</th>
+                 <td>
+                   <input type="text" name="user_email" size=30 value="{{ data[3]}}">
+                 </td>
+               </tr>
+               <tr>
+                 <th>휴대폰번호</th>
+                 <td>
+                   <input type="number" name="user_phone" size=30 value="{{ data[4]}}">
+                 </td>
+               </tr>
+            </table> 
+            <div class="input">
+              <input type="submit" value="완 료">
+            </div>
+          </form>
+        </div>
+     
+    </body>
+</html>

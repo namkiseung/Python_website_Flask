@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="all" />
+        <title>Login — logthink</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}" >
+        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Nanum    +Gothic|Questrial|Motserrat" rel="stylesheet">
+    </head>
+    <body class="login_page">
+        <div class="header">
+          <h1><a href="/">logthink.</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="/">MAIN</a></li>
+                    <li><a href="/board">BOARD</a></li>
+                    <li><a href="/login">LOGIN</a></li>
+                    <li><a href="/join">JOIN</a></li>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="contents">
+          <!-- <h1>Login</h1> -->
+          <form name="login" action="/login" method="POST">
+            <div class="input">
+              <input type="text" name="user_id" placeholder="아이디">
+            </div>
+            <div class="input">
+              <input type="password" name="user_pw" placeholder="패스워드">
+            </div>
+
+            {% if login_failed %}
+            <p class="login_failed">아이디 또는 비밀번호를 다시 확인하세요.</p>
+            {% endif %}
+
+            <div class="input" >
+              <input type="submit" value="로그인">
+            </div>
+          </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>logthink</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Nanum    +Gothic|Questrial|Motserrat" rel="stylesheet">
+    </head>
+    <body class="logined_main">
+        <div class="header">
+          <h1><a href="">logthink.</a></h1> <!-- 구현X: 로그인된 메인 페이지로 가게 하기-->
+            <p>{{ name }} 님</p>
+            <nav>
+                <ul>
+                    <li><a href="">MAIN</a></li>
+                    <li><a href="/board">BOARD</a></li>
+                    <li><a href="/my_page">MY PAGE</a></li>
+                    <li><a href="/logout">LOGOUT</a></li>
+                </ul>
+            </nav>
+        </div>
+       
+        <div class="contents">
+          <div class="wrapper">
+            <span>welcome</span>
+          </div>
+        </div>
+    </body>
+</html>
+

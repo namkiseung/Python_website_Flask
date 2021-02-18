@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="all" />
+        <title>Board — logthink</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}" >
+        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Nanum    +Gothic|Questrial|Motserrat" rel="stylesheet">
+        <script>
+          function btn(){
+            alert('작성자만 가능합니다.')
+          }
+        </script>
+    </head>
+    <body class="view">
+        <div class="header">
+          <h1><a href="/">logthink.</a></h1>
+          {% if name  %}
+          <p style="display: inline; color: black; position: absolute; right: 38px; top: 51px; font-size: 15px; font-weight: 600" >{{ name }} 님</p>
+           {% endif %}
+            <nav>
+                <ul>
+                    <li><a href="/">MAIN</a></li>
+                    <li><a href="/board">BOARD</a></li>
+                    {% if name %}
+                    <li><a href="/mypage">MY PAGE</a></li>
+                    <li><a href="/logout">LOGOUT</a><li>
+                    {% else %}
+                    <li><a href="/login">LOGIN</a></li>
+                    <li><a href="/join">JOIN</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        <div class="contents">
+          <table class="view_area">
+            <colgroup>
+              <col style="width: 15%">
+              <col style="width: 85%">
+            </colgroup>
+              <tr>
+                <th scope="col">제 목</th>
+                <td scope="col" style="font-weight: bold">{{ data[3] }}</td>
+              </tr>
+              <tr>
+                <th>작성자</th>
+                <td>{{ data[1] }}</td>
+              </tr>
+              <tr>
+                <th>작성일</th>
+                <td>{{ data[2]}}</td>
+              </tr>
+                <td colspan=2 style="height: 250px; vertical-align: top;" >{{ data[4] }}</td>
+              </tr>
+          </table>
+          <div class="input" >
+            {% if name %}
+            <input class="left" type="button" value="목록보기" onClick="location.href='/board'">
+            <input type="hidden" name="idx" value="{{ data[0] }}">
+            <input type="button" value="수정" onClick="location.href='/modified?idx={{ data[0] }}'">
+            {% else %}
+            <input class="left" type="button" value="목록보기" onClick="location.href='/board'">
+            <input type="button" value="수정" onClick="javascript:btn()">
+            {% endif %}
+          </div>
+        </div>
+    </body>
+</html>

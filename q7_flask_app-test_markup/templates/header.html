@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>logthink.</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">;
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
+  </head>
+  <body>
+    <div class="header">
+      <h1>logthink.</h1>
+      <nav>
+        <ul>
+          <li><a href="/">MAIN</a></li>
+          <li><a href="/board">BOARD</a></li>
+          <!-- {% if logined %} -->
+          <li><a href="/my_page">MY PAGE</a></li>
+          <li><a href="/logout">LOGOUT</a></li>
+          <!-- {% else %} -->
+          <li><a href="/login">LOGIN</a></li>
+          <li><a href="/join">JOIN</a></li>
+          <!-- {% endif %} -->
+        </ul>
+      </nav>
+    </div>
+
+

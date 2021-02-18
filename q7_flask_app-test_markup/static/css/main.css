@@ -1,0 +1,488 @@
+/* common */
+body, html{
+    margin: 0 auto;
+    padding: 0 2%;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+}
+ul li{list-style: none;}
+a:link{text-decoration: none;}
+a:visited{text-decoration: none;}
+a:active{text-decoration: none;}
+
+.header{
+    max-width: 1300px;
+    height: 100px;
+    padding-top: 80px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.header h1{
+    display: inline;
+    float: left;
+    font-size: 15px;
+}
+
+.header h1 a{color: black;}
+
+.header nav{display: inline; float: right;}
+.header nav li{float: left; padding: 0 13px;}
+.header nav li a{
+    font-size: 14px;
+    color: black;
+    font-family: 'Questrial', sans-serif;
+}
+.header nav li a:hover{text-decoration: underline;}
+
+.contents { text-align: center;}
+
+/* Main page */
+body.main{
+    background: url('../img/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+body.main .header h1 a{color: white}
+body.main .header nav li a{color: white}
+
+.contents .wrapper{
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contents .wrapper span{
+    color: #e4e4e4;
+    font-family: 'Questrial', sans-serif;
+    font-size: 72px;
+    font-weight: 600;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+}
+
+/* Login page */
+body.login_page { background: #F1f1f182;}
+
+.contents {
+    width: 280px;
+    height: auto;
+    position: absolute;
+    padding: 30px 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 4px;
+}
+
+.contents h1 {
+    color: #484848;
+    font-size: 50px;
+    font-family: 'Abril Fatface', cursive;
+}
+
+.contents form{
+    width: 100%;
+    position: relative;
+}
+
+.contents form .input{
+    width: 100%;
+    height: 30px;
+    position: relative;
+    margin: 15px auto;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="int"]{
+    width: 100%;
+    height: 30px;
+    position: relative;
+    outline: none;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 13px;
+    color: gray;
+    padding-left: 5px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus{
+    border: 2px solid #9e9e9e;
+}
+
+input[type="submit"],
+input[type="button"]{
+    width: 70px;
+    height: 34px;
+    background: #9e9e9e;
+    font-size: 14px;
+    color: #fff;
+    outline: none;
+    border-radius: 5px;
+    border: 0px;
+    cursor: pointer;
+}
+
+.login_failed{
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 0px;
+    color: #ea1616f2;
+
+}
+
+/* Join page */
+body.join {background: #f1f1f182;}
+
+/* Board page */
+body.board {
+    background: #f1f1f182;
+}
+
+.board .header p {
+    display: inline;
+    color: black;
+    position: absolute;
+    right: 38px;
+    top: 51px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.board .contents{
+    padding: 0;
+    width: 800px;
+    font-size: 14px;
+}
+
+.board .board_list {
+    width: inherit;
+    margin-bottom: 25px;
+}
+
+.board .board_list thead tr th{
+    height: 30px;
+    color: #fff;
+    font-weight: bold;
+    background: #bb9794;
+    vertical-align: middle;
+}
+
+.board .board_list tbody tr td {
+    height: 18px;
+    padding: 10px;
+    text-align: center;
+    line-height: 18px;
+    border-bottom: 1px solid #ded3d3;
+    vertical-align: middle;
+}
+
+.board .board_list tbody tr td.t_left{ text-align: left;}
+
+.board form{
+    margin-bottom: 15px;
+}
+
+.board form select{
+    width: 65px;
+    height: 34px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.board form input.keyword{
+    width: 250px;
+}
+
+.board input{
+    width: 78px;
+}
+
+.board input[type="button"]{
+    font-size: 14px;
+    background: #949494;
+}
+
+/* Write page */
+body.write{background: #f1f1f182;}
+
+.write .header p {
+    display: inline;
+    color: black;
+    position: absolute;
+    right: 38px;
+    top: 51px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.write .contents{
+    padding: 0;
+    width: 700px;
+    font-size: 14px;
+}
+
+.write .contents .write_area{
+    width: inherit;
+    margin-bottom: 0px;
+}
+
+.write .contents .write_area tr th{
+    color: #fff;
+    font-weight: bold;
+    background: #bb9794;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+
+.write .contents .write_area tr td.last_td{
+    border-bottom: none;
+}
+
+.write .contents .write_area tr td {
+    padding: 3px;
+    line-height: 10px;
+    border-bottom: 1px solid #d3d3d3;
+    vertical-align: middle;
+}
+
+.write .contents .write_area tr td input[type="text"]{
+}
+
+textarea {
+    width: 100%;
+    outline: none;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 13px;
+    color: gray;
+    font-family: 'Montserrat', sans-serif;
+}
+
+textarea:focus{
+    border: 2px solid #9e9e9e;
+}
+
+.write .input{
+    float: right;
+    width: 78px;
+}
+
+.write input[type="button"]{
+    height: 32px;
+    font-size: 14px;
+    background: #949494;
+}
+
+/* View page */
+body.view {background: #f1f1f182; }
+
+.view .contents{
+    padding: 0;
+    width: 700px;
+    font-size: 14px;
+    top: 50%;
+}
+
+.view .view_area{
+    width: inherit;
+    margin-bottom: 10px;
+}
+
+.view .view_area tr td{
+    height: 18px;
+    padding: 10px;
+    text-align: left;
+    line-height: 18px;
+    border-bottom: 1px solid #ded3d3;
+    vertical-align: middle;
+}
+
+.view .view_area tr th{
+    height: 30px;
+    color: #fff;
+    font-weight: bold;
+    background: #bb9794;
+    vertical-align: meddle;
+    border-radius: 5px;
+}
+
+.view .view_area .input{
+    margin-top: 12px;
+}
+
+.view .input input{
+    float: right;
+}
+
+.view .input input.left{
+    float: left;
+}
+
+.view .input input.delete{
+    margin-left: 5px;
+}
+
+.view .input input[type="button"]{
+    height: 36px;
+    font-size: 14px;
+    background: #949494;
+}
+
+/* Modified page */
+body.modified {background: #f1f1f182; }
+
+body.modified .contents{
+    padding: 0;
+    width: 700px;
+    font-size: 14px;
+}
+
+.modified .contents .modified_area{
+    width: inherit;
+    margin-bottom: 0px;
+}
+
+.modified .contents .modified_area tr th{
+    color: #fff;
+    font-weight: bold;
+    background: #bb9794;
+    vertical-align: middle;
+    border-radius: 5px;
+    line-height: 30px;
+    height: 37px;
+}
+
+.modified .contents .modified_area tr td {
+    padding: 3px;
+    border-bottom: 1px solid #d3d3d3;
+    vertical-align: middle;
+    height: 30px;
+    text-align: left;
+}
+
+textarea {
+    width: 100%;
+    outline: none;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 13px;
+    color: gray;
+    font-family: 'Montserrat', sans-serif;
+    padding-left: 5px;
+}
+
+textarea:focus{
+    border: 2px solid #9e9e9e;
+}
+
+.modified .input{
+    margin-top: 12px;
+}
+
+.modified .input input.left{
+    float: left;
+}
+
+.modified .input input{
+    float: right;
+}
+
+.modified .input input.delete{
+    margin-left: 5px;
+}
+
+.modified input[type="text"]{
+    height: 26px;
+}
+
+.modified input[type="button"]{
+    height: 36px;
+    font-size: 14px;
+    background: #949494;
+}
+
+
+/* Mypage page */
+body.mypage {background: #f1f1f182;}
+
+body.mypage .contents{
+    width: 360px;
+    font-size: 14px;
+}
+
+body.mypage .contents table th{
+    text-align: left;
+}
+
+body.mypage .contents form{
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

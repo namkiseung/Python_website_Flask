@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="all" />
+        <title>Board — logthink</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}" >
+        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Nanum    +Gothic|Questrial|Motserrat" rel="stylesheet">
+        <script>
+          function btn(){
+            alert('로그인한 사용자만 가능합니다.')
+          }
+        </script>
+    </head>
+    <body class="board">
+        <div class="header">
+          <h1><a href="/">logthink.</a></h1>
+          {% if name  %}
+          <p style="display: inline; color: black; position: absolu    te; right: 38px; top: 51px; font-size: 15px; font-weight: 600" >{{ name }} 님</p>
+           {% endif %}
+            <nav>
+                <ul>
+                    <li><a href="/">MAIN</a></li>
+                    <li><a href="/board">BOARD</a></li>
+                    {% if name %}
+                    <li><a href="/mypage">MY PAGE</a></li>
+                    <li><a href="/logout">LOGOUT</a><li>
+                    {% else %}
+                    <li><a href="/login">LOGIN</a></li>
+                    <li><a href="/join">JOIN</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        <div class="contents">
+          <table class="board_list">
+            <colgroup>
+              <col style="width: 8%">
+              <col style="width: 68%">
+              <col style="width: 12%">
+              <col style="width: 12%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">번 호</th>
+                <th scope="col">제 목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in data %}
+              <tr>
+                <td>{{ i[0] }}</td>
+                <td class="t_left"><a href="/view?idx={{ i[0] }}" style="color: black">{{ i[3] }}</td>
+                <td>{{ i[1] }}</td>
+                <td>{{ i[2] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <form action='/board' method="post">
+            <select name="column">
+              <option value="title">제목</option>
+              <option value="content">내용</option>
+            </select>
+            <input type="text" class="keyword" name="keyword">
+            <input type="submit" value="검색">
+          </form>
+
+          <div class="input" >
+            {% if name %}
+            <input type="button" value="글쓰기" onClick="location.href='/write'">
+            {% else %}
+            <input type="button" value="글쓰기" onClick="javascript:btn()">
+            {% endif %}
+          </div>
+
+        </div>
+    </body>
+</html>
