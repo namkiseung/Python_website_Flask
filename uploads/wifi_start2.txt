@@ -1,0 +1,8 @@
+-칼리켜고
+-칼리아래에 USB클릭(칼리에 무선연결한다는뜻)
+-iwconfig
+-airmon-ng start wlan0
+-airodump-ng wlan0mon
+ESSID에 weptest보고 ctrl+c로 에어로덤프 껐다
+-airodump-ng -c [채널] --bssid 00:26:66:9C:8A:D4 -w [filename] wlan0mon [enter]
+여기 덤프에서 #data 부분이 2만개가 될때까지 기다리자

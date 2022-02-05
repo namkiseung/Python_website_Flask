@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="stylesheet" type="text/css" href="../static/style/mainStyle.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Chating Page _ By Namki</title>
+  <style type="text/css">
+  table {
+    width: 10%;
+}
+<script src="https://npmcdn.com/vue@next/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+  <script src="{{ url_for('static', filename='bower_components/vue-socket.io/vue-socketio.js') }}"></script>
+</style>
+  <script type="text/javascript">
+    function null_check(){
+     var str = document.login
+     if(str.user_id.value == '' || str.user_id.value == null){
+       alert('공백을 확인하세요');
+       str.user_id.value.focus();
+       return;
+     }else if(str.user_pw.value == '' || str.user_pw.value == null){
+       alert('공백을 확인하세요');
+       str.user_pw.value.focus();
+       return;
+     }else{
+       document.login.submit();
+     }
+
+     var socket = io('//' + location.hostname + ':1111');
+    Vue.use(VueSocketio, socket);
+    function getCuteNickname() {
+      var nickname = localStorage.getItem('nickname');
+      nickname = nickname || ('코알라' + Math.round(Math.random() * 1000));
+      localStorage.setItem('nickname', nickname);
+      return nickname;
+    }
+    new Vue({
+      el: '#app',
+      delimiters: ['${', '}'],
+      data: {
+        nickname: getCuteNickname(),
+        body: '',
+        messages: [{
+          nickname: '대빵코알라',
+          body: '입장을 환영합니다 🐨'
+        }]
+      },
+      sockets: {
+        'new message': function(data) {
+          this.messages.push(data);
+        }
+      },
+      computed: {
+        filteredMessages: function() {
+          return this.messages.slice(-10)
+        }
+      },
+      methods: {
+        onSubmit: function() {
+          var vm = this;
+          if (vm.body == '') {
+            return;
+          }
+          var newMessage = {
+            nickname: vm.nickname,
+            body: vm.body
+          };
+          vm.$socket.emit('send message', newMessage);
+          vm.messages.push(newMessage);
+          vm.body = '';
+          vm.$refs.body.focus();
+        }
+      }
+    })
+}
+  
+</script>
+</head>
+<body>
+  <div id="mainBox">
+   {% include 'side_menu.html' %}
+    <span align="center"><h2>Namki_Web 채팅</h2></span><hr>
+  </div>
+
+
+      
+     </div>
+     <div align="center">
+<h1>작업중</h1>
+       <div id="app">
+    <div v-for="message in filteredMessages">
+      <!-- ${ message.nickname }: ${ message.body } -->
+    </div>
+    <form v-on:submit.prevent="onSubmit">
+      <input type="text" v-model="nickname">
+      <input type="text" ref="body" v-model="body">
+      <button type="submit">전송</button>
+    </form>
+  </div>
+</div>
+{% include 'footer.html' %}
+     </body>
+     </html>
+
