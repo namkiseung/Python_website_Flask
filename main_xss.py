@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 from flask import Flask, request, session, g, render_template, redirect, url_for, send_from_directory, jsonify
 #from flask_basicauth import BasicAuth
-from werkzeug.utils import secure_filename #from werkzeug import secure_filename
+#from werkzeug.utils import secure_filename #from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime, json
 #from bs4 import BeautifulSoup 
 import requests, datetime#lxml, socketio, eventlet
@@ -514,7 +514,7 @@ def me_update():
            print(e)
         else:
            if allowed_file(file.filename) is False:
-               res_filename = secure_filename(file.filename)
+               #res_filename = secure_filename(file.filename)
                file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
                file.save(file_path)
            print("update2")
@@ -539,26 +539,215 @@ def me_write():
         writerid = session.get('id')
         save_title=request.form.get('notitle')
         save_content=request.form.get('nocontent')
-        try:
-            file = request.files['_file']
-            pass
-        except Exception as e:
-            print(e)
-        else:
-            if allowed_file(file.filename) is False:
-                res_filename = secure_filename(file.filename)
-                file_path = './uploads/'+file.filename #+"."+filename.resplit('.')[1]           
-                try:
-                    file.save(file_path)
-                except:
-                    save_files="test"            
-        #send_from_diretory(app.config['UPLOAD_FOLDER'], filename)
-        save_files=request.form.get('_file')        
+        file = request.files['_file']
+        #res_filename = secure_filename(file.filename)
+        file_path = './uploads/{}'.format(file.filename) #+"."+filename.resplit('.')[1]           
+        file.save(file_path)
+        #send_from_diretory(UPLOAD_FOLDER, file.filename)
+        #save_files=request.form.get('_file')        
         save_noticedb(idid=str(writerid), title=str(save_title),content=str(save_content), day=day_date(), files=str(file_path))
         return redirect(url_for('me_list'))
     return ''
 
 @app.route('/conversation', methods=['GET', 'POST'])
+def conver():
+    if request.method == "GET" and session.get('id') is not None:
+        return render_template('conversation.html', logon = menubar())
+    else:
+        script_alert('Login is required.')       
+        return redirect(url_for('/'))
+
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
+    return render_template('chat.html', logon = menubar())
+
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html', logon = menubar())
+
+@app.route('/xss', methods=['GET', 'POST'])
+def xss():
+    html='''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title></title>
+        </head>
+
+        <body style="margin:0; padding:0; overflow:hidden;">
+        <h3>
+       <b> 임무 설명</b>
+이 수준은 사용자 입력이 적절한 이스케이프 처리 없이 페이지에 직접 포함되는 교차 사이트 스크립팅의 일반적인 원인을 보여줍니다.
+<br>
+아래 취약한 응용 프로그램 창과 상호 작용하고 선택한 JavaScript를 실행하도록 하는 방법을 찾으십시오. 취약한 창 내에서 조치를 취하거나 URL 표시줄을 직접 편집할 수 있습니다.
+<br>
+<hr>
+<b>미션 목표</b>
+스크립트를 삽입하여 아래 프레임에 JavaScript 경고()를 표시합니다.
+<br>
+경고를 표시하면 다음 단계로 이동할 수 있습니다.
+<br>
+당신의 목표
+        </h3>
+        <br><a href="/xss1"><h3>Game Start</h3></a>
+        </body>
+    </html>
+    '''
+    return html
+
+@app.route('/xss1', methods=['GET', 'POST'])
+def xss1():
+    url='https://xss-game.appspot.com/level1/frame'
+    html='''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title></title>
+        </head>
+
+        <body style="margin:0; padding:0; overflow:hidden;">
+        <scirpt>
+        alert('hint 1. <h1>과 같은 프리젠테이션 태그를 입력하면 어떻게 됩니까?');
+        alert('hint 2. 자, 마지막 힌트: <script> ... alert ...');
+        </script>
+        <iframe src="https://xss-game.appspot.com/level1/frame" frameborder="0"
+           style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
+           height="100%" width="100%"></iframe>
+        </body>
+    </html>
+    '''
+    return html
+
+@app.route('/xss2', methods=['GET', 'POST'])
+def xss2():
+    url='https://xss-game.appspot.com/level2/frame'
+    html='''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title></title>
+        </head>
+
+        <body style="margin:0; padding:0; overflow:hidden;">
+
+        <iframe src="{}" frameborder="0"
+           style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
+           height="100%" width="100%"></iframe>
+        </body>
+    </html>
+    '''.format(url)
+    return html
+
+@app.route('/xss3', methods=['GET', 'POST'])
+def xss3():
+    url='https://xss-game.appspot.com/level3/frame'
+    html='''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title></title>
+        </head>
+
+        <body style="margin:0; padding:0; overflow:hidden;">
+
+        <iframe src="{}" frameborder="0"
+           style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
+           height="100%" width="100%"></iframe>
+        </body>
+    </html>
+    '''.format(url)
+    return html
+
+@app.route('/xss4', methods=['GET', 'POST'])
+def xss4():
+    url='https://xss-game.appspot.com/level4/frame'
+    html='''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title></title>
+        </head>
+
+        <body style="margin:0; padding:0; overflow:hidden;">
+
+        <iframe src="{}" frameborder="0"
+           style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
+           height="100%" width="100%"></iframe>
+        </body>
+    </html>
+    '''.format(url)
+    return html
+
+@app.route('/xss5', methods=['GET', 'POST'])
+def xss5():
+    url='https://xss-game.appspot.com/level5/frame'
+    html='''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title></title>
+        </head>
+
+        <body style="margin:0; padding:0; overflow:hidden;">
+
+        <iframe src="{}" frameborder="0"
+           style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
+           height="100%" width="100%"></iframe>
+        </body>
+    </html>
+    '''.format(url)
+    return html
+
+@app.route('/xss6', methods=['GET', 'POST'])
+def xss6():
+    url='https://xss-game.appspot.com/level6/frame'
+    html='''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title></title>
+        </head>
+
+        <body style="margin:0; padding:0; overflow:hidden;">
+
+        <iframe src="{}" frameborder="0"
+           style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
+           height="100%" width="100%"></iframe>
+        </body>
+    </html>
+    '''.format(url)
+    return html
+
+@app.route('/xss7', methods=['GET', 'POST'])
+def xss7():
+    class MainPage(app.RequestHandler):
+     
+      def render_template(self, filename, context={}):
+        path = os.path.join(os.path.dirname(__file__), filename)
+        self.response.out.write(template.render(path, context))
+     
+      def get(self):
+        self.render_template('xss.html')
+     
+    application = app.WSGIApplication([ ('.*', MainPage) ], debug=False)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return "<script>alert('잘못된 접근 입니다. 404');</script>" #return render_template('404.html'),404
+
+@app.errorhandler(400)
+def page_not_found(e):
+    return "<script>alert('잘못된 접근 입니다. 400');</script>" #return render_template('404.html'),404
+
+if __name__ == '__main__':
+    exist_db()    
+    print('[+] host : 3.38.100.10')
+    # sioApp = socketio.Middleware(sio, app)    
+    # el = eventlet.wsgi.server(eventlet.listen(('', 1111)), sioApp)
+    # el.serve_forever()
+    app.run(debug=True, host='0.0.0.0', port=1111)
+    
 def conver():
     if request.method == "GET" and session.get('id') is not None:
         return render_template('conversation.html', logon = menubar())
