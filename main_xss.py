@@ -1,6 +1,6 @@
 #-*- coding:utf-8 -*-
 from flask import Flask, request, session, g, render_template, redirect, url_for, send_from_directory, jsonify
-#from flask_basicauth import BasicAuth
+from flask_basicauth import BasicAuth
 #from werkzeug.utils import secure_filename #from werkzeug import secure_filename
 import sqlite3, hashlib, os, datetime, json
 #from bs4 import BeautifulSoup 
@@ -51,11 +51,11 @@ def day_date():
 UPLOAD_FOLDER = './uploads'  #Variable with path
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER 
 app.config['JSON_AS_ASCII'] = False
-#app.config['BASIC_AUTH_USERNAME'] = 'admin' #administrator ID of the object
-#app.config['BASIC_AUTH_PASSWORD'] = '0000' #administrator PW of the object
+app.config['BASIC_AUTH_USERNAME'] = 'admin' #administrator ID of the object
+app.config['BASIC_AUTH_PASSWORD'] = 'dd7702563' #administrator PW of the object
 #'adc91e03060b42e7836bdfba7ce19b3bc1297d234fec44585472529d' #'0000' of sha224 value
-#basic_auth = BasicAuth(app) #Object for authentication
-#app.config['BASIC_AUTH_FORCE'] = False # True is to protect the site
+basic_auth = BasicAuth(app) #Object for authentication
+app.config['BASIC_AUTH_FORCE'] = True # True is to protect the site
 app.secret_key = day_date() #Put date value random in variable called Key
 DATABASE = './db/user.db' #users db file variable with path
 DATABASEnotice = './db/noticeboard.db' #notice board db file variable with path
@@ -64,7 +64,7 @@ DATABASEnotice_re2 = './db/noticeboard_re2.db' #Greate repple db file variable w
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'png', 'gif']) #File extension list
 
 ######################################Admin page access processing routing#######################################
-'''
+
 @app.route('/manage/')  #administrator default routing
 @basic_auth.required  #When approaching demand.
 def admin_access(): #administrator default func
@@ -107,7 +107,7 @@ def issue_github(): #Func to get issus github of feather
        result[x]=((list_text[x],list_text2[x]))
        print(result[x])
    return render_template('crawl.html', data=result)
-   '''
+   
 ################################################################################################################################
 def allowed_file(filename):  #string from the right at the specified separator and return a list of input files in func
     return './uploads' in filename and \
