@@ -1,0 +1,262 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <variables>
+    <variable type="" id="4C5O(V.4eJB@`w1@R:So">cm</variable>
+  </variables>
+  <block type="asomebot_ready" id="^NP+*#Cg2Kf.otAQl(eQ" x="310" y="150">
+    <next>
+      <block type="asomebot_home" id="-g,U.VPf6x~3);rbFSmz">
+        <next>
+          <block type="common_repeat_infinitely" id="{OpZ3^Sj~5@)iXg6tb9G">
+            <statement name="while_state">
+              <block type="asomebot_measure_distance" id="NV]e:vRI1^pV3`-FyrPq">
+                <next>
+                  <block type="controls_condition_if" id="mt;?1)OBm%%0~`:=[aV]">
+                    <field name="if_key" id="4C5O(V.4eJB@`w1@R:So" variabletype="">cm</field>
+                    <field name="if_condition">&lt;=</field>
+                    <value name="if_value">
+                      <block type="math_number" id=";r}F?1+w4vFj,7abK[n.">
+                        <field name="NUM">10</field>
+                      </block>
+                    </value>
+                    <statement name="if_state">
+                      <block type="asomebot_buzzer_on" id="g5Ex{LFr~Pfu*:K.23.w">
+                        <next>
+                          <block type="asomebot_music_note" id="i3MX}b`(z%IY2~nT!v97" inline="false">
+                            <field name="scale">F</field>
+                            <field name="octave">4</field>
+                            <field name="secs">0.5</field>
+                            <next>
+                              <block type="asomebot_music_note" id="GL~xZ|zfAd)g3?@JmiY:">
+                                <field name="scale">G</field>
+                                <field name="octave">4</field>
+                                <field name="secs">0.5</field>
+                                <next>
+                                  <block type="asomebot_music_note" id="D~5au.y8p:52$p=lUP.5">
+                                    <field name="scale">A</field>
+                                    <field name="octave">4</field>
+                                    <field name="secs">0.5</field>
+                                    <next>
+                                      <block type="asomebot_music_note" id=")Fg2zE#{Y{RVC,TayT_8">
+                                        <field name="scale">F</field>
+                                        <field name="octave">4</field>
+                                        <field name="secs">0.5</field>
+                                        <next>
+                                          <block type="asomebot_music_note" id="VfY8M{2;uZvW##m,YNog">
+                                            <field name="scale">C</field>
+                                            <field name="octave">5</field>
+                                            <field name="secs">1</field>
+                                            <next>
+                                              <block type="common_delay" id="rFeo^glqifD{gotmRGO+">
+                                                <field name="secs">0.6</field>
+                                                <next>
+                                                  <block type="asomebot_music_note" id="%;ilhS,E)U$4vSSS,9{y">
+                                                    <field name="scale">A</field>
+                                                    <field name="octave">4</field>
+                                                    <field name="secs">0.5</field>
+                                                    <next>
+                                                      <block type="asomebot_music_note" id="?vjwu5?y[$rg)TH5gk`E">
+                                                        <field name="scale">G</field>
+                                                        <field name="octave">4</field>
+                                                        <field name="secs">1</field>
+                                                        <next>
+                                                          <block type="asomebot_music_note" id="K-aJ%.=H2C#ZOt;:=P#0">
+                                                            <field name="scale">C</field>
+                                                            <field name="octave">5</field>
+                                                            <field name="secs">0.9</field>
+                                                            <next>
+                                                              <block type="asomebot_music_note" id="36%^-Pb`n{=+Y[fEgMT]">
+                                                                <field name="scale">G</field>
+                                                                <field name="octave">4</field>
+                                                                <field name="secs">0.8</field>
+                                                                <next>
+                                                                  <block type="common_delay" id="HDkh:.ewK0(PST(dJ+WD">
+                                                                    <field name="secs">0.1</field>
+                                                                    <next>
+                                                                      <block type="asomebot_music_note" id="W-dS;PDA2$6JQ-siV/zs">
+                                                                        <field name="scale">F</field>
+                                                                        <field name="octave">4</field>
+                                                                        <field name="secs">0.5</field>
+                                                                        <next>
+                                                                          <block type="asomebot_music_note" id="po%Bzis_UC`L:KgW+a@d">
+                                                                            <field name="scale">D</field>
+                                                                            <field name="octave">4</field>
+                                                                            <field name="secs">0.4</field>
+                                                                            <next>
+                                                                              <block type="asomebot_music_note" id="$#*_n8`y{R3]iv1,e05H">
+                                                                                <field name="scale">A</field>
+                                                                                <field name="octave">4</field>
+                                                                                <field name="secs">1.4</field>
+                                                                                <next>
+                                                                                  <block type="asomebot_music_note" id="}OcJd^x@Zx:qCe}j%ICx">
+                                                                                    <field name="scale">F</field>
+                                                                                    <field name="octave">4</field>
+                                                                                    <field name="secs">0.3</field>
+                                                                                    <next>
+                                                                                      <block type="asomebot_music_note" id="P-R13q0]%AU7Zkf/*-Pj">
+                                                                                        <field name="scale">E</field>
+                                                                                        <field name="octave">4</field>
+                                                                                        <field name="secs">1</field>
+                                                                                        <next>
+                                                                                          <block type="common_delay" id="FIO1U+P{tK-|mL_z!wn?">
+                                                                                            <field name="secs">0.1</field>
+                                                                                            <next>
+                                                                                              <block type="asomebot_music_note" id="Tnd)^(M,1KR%KZW8HdtY">
+                                                                                                <field name="scale">F</field>
+                                                                                                <field name="octave">4</field>
+                                                                                                <field name="secs">0.3</field>
+                                                                                                <next>
+                                                                                                  <block type="asomebot_music_note" id="fO?wJwGNuE{z4VMJuDUh">
+                                                                                                    <field name="scale">E</field>
+                                                                                                    <field name="octave">4</field>
+                                                                                                    <field name="secs">0.3</field>
+                                                                                                    <next>
+                                                                                                      <block type="asomebot_music_note" id="5[n.V#+%a{IIXU)SxU!S">
+                                                                                                        <field name="scale">D</field>
+                                                                                                        <field name="octave">4</field>
+                                                                                                        <field name="secs">0.7</field>
+                                                                                                        <next>
+                                                                                                          <block type="asomebot_music_note" id="jM0KBIKU_xR,0s*K=fEd">
+                                                                                                            <field name="scale">E</field>
+                                                                                                            <field name="octave">4</field>
+                                                                                                            <field name="secs">0.6</field>
+                                                                                                            <next>
+                                                                                                              <block type="asomebot_music_note" id="fi6B4n#YQ1#=^iO}xj#S">
+                                                                                                                <field name="scale">F</field>
+                                                                                                                <field name="octave">4</field>
+                                                                                                                <field name="secs">0.3</field>
+                                                                                                                <next>
+                                                                                                                  <block type="asomebot_music_note" id="c=.TPcPf:6:xFH0Xm9[8">
+                                                                                                                    <field name="scale">G</field>
+                                                                                                                    <field name="octave">4</field>
+                                                                                                                    <field name="secs">0.4</field>
+                                                                                                                    <next>
+                                                                                                                      <block type="asomebot_music_note" id="*nTHf,Ua9ony!n@XKl8t">
+                                                                                                                        <field name="scale">C</field>
+                                                                                                                        <field name="octave">4</field>
+                                                                                                                        <field name="secs">0.6</field>
+                                                                                                                        <next>
+                                                                                                                          <block type="asomebot_music_note" id="Y7Jb^di1agGPC]8Y=xA:">
+                                                                                                                            <field name="scale">F</field>
+                                                                                                                            <field name="octave">4</field>
+                                                                                                                            <field name="secs">0.5</field>
+                                                                                                                            <next>
+                                                                                                                              <block type="asomebot_music_note" id="(k(`;b8xESev(GbOzNn5">
+                                                                                                                                <field name="scale">G</field>
+                                                                                                                                <field name="octave">4</field>
+                                                                                                                                <field name="secs">0.3</field>
+                                                                                                                                <next>
+                                                                                                                                  <block type="asomebot_music_note" id="5#,CtND=B-b.IgVBoQgd">
+                                                                                                                                    <field name="scale">A</field>
+                                                                                                                                    <field name="octave">4</field>
+                                                                                                                                    <field name="secs">0.3</field>
+                                                                                                                                    <next>
+                                                                                                                                      <block type="asomebot_music_note" id="!N++g*cbXg/K1W_kc$n?">
+                                                                                                                                        <field name="scale">A#</field>
+                                                                                                                                        <field name="octave">4</field>
+                                                                                                                                        <field name="secs">0.5</field>
+                                                                                                                                        <next>
+                                                                                                                                          <block type="asomebot_music_note" id="DN:^%lCe?AQ/s/dCdcpz">
+                                                                                                                                            <field name="scale">A#</field>
+                                                                                                                                            <field name="octave">4</field>
+                                                                                                                                            <field name="secs">0.3</field>
+                                                                                                                                            <next>
+                                                                                                                                              <block type="asomebot_music_note" id="MiF`CXow2qaT)B_{)ao5">
+                                                                                                                                                <field name="scale">A</field>
+                                                                                                                                                <field name="octave">4</field>
+                                                                                                                                                <field name="secs">0.3</field>
+                                                                                                                                                <next>
+                                                                                                                                                  <block type="asomebot_music_note" id="ywL4o[s7)q|QES`@L2jq">
+                                                                                                                                                    <field name="scale">G</field>
+                                                                                                                                                    <field name="octave">4</field>
+                                                                                                                                                    <field name="secs">0.3</field>
+                                                                                                                                                    <next>
+                                                                                                                                                      <block type="asomebot_music_note" id="jj,)t{CSN~j^3UJWS#:e">
+                                                                                                                                                        <field name="scale">F</field>
+                                                                                                                                                        <field name="octave">4</field>
+                                                                                                                                                        <field name="secs">0.3</field>
+                                                                                                                                                        <next>
+                                                                                                                                                          <block type="asomebot_music_note" id="vQ[N-#zXfOS;GBe4^ZNM">
+                                                                                                                                                            <field name="scale">G</field>
+                                                                                                                                                            <field name="octave">4</field>
+                                                                                                                                                            <field name="secs">1</field>
+                                                                                                                                                            <next>
+                                                                                                                                                              <block type="asomebot_buzzer_off" id="|~2ORc%ULKC]j{4RKA{X"></block>
+                                                                                                                                                            </next>
+                                                                                                                                                          </block>
+                                                                                                                                                        </next>
+                                                                                                                                                      </block>
+                                                                                                                                                    </next>
+                                                                                                                                                  </block>
+                                                                                                                                                </next>
+                                                                                                                                              </block>
+                                                                                                                                            </next>
+                                                                                                                                          </block>
+                                                                                                                                        </next>
+                                                                                                                                      </block>
+                                                                                                                                    </next>
+                                                                                                                                  </block>
+                                                                                                                                </next>
+                                                                                                                              </block>
+                                                                                                                            </next>
+                                                                                                                          </block>
+                                                                                                                        </next>
+                                                                                                                      </block>
+                                                                                                                    </next>
+                                                                                                                  </block>
+                                                                                                                </next>
+                                                                                                              </block>
+                                                                                                            </next>
+                                                                                                          </block>
+                                                                                                        </next>
+                                                                                                      </block>
+                                                                                                    </next>
+                                                                                                  </block>
+                                                                                                </next>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

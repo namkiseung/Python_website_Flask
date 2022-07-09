@@ -55,7 +55,7 @@ app.config['BASIC_AUTH_USERNAME'] = 'admin' #administrator ID of the object
 app.config['BASIC_AUTH_PASSWORD'] = 'dd7702563' #administrator PW of the object
 #'adc91e03060b42e7836bdfba7ce19b3bc1297d234fec44585472529d' #'0000' of sha224 value
 basic_auth = BasicAuth(app) #Object for authentication
-app.config['BASIC_AUTH_FORCE'] = True # True is to protect the site
+app.config['BASIC_AUTH_FORCE'] = False # True is to protect the site
 app.secret_key = day_date() #Put date value random in variable called Key
 DATABASE = './db/user.db' #users db file variable with path
 DATABASEnotice = './db/noticeboard.db' #notice board db file variable with path
@@ -512,6 +512,7 @@ def me_update():
            pass
         except Exception as e:
            print(e)
+           file = "test.txt"
         else:
            if allowed_file(file.filename) is False:
                #res_filename = secure_filename(file.filename)
@@ -542,7 +543,10 @@ def me_write():
         file = request.files['_file']
         #res_filename = secure_filename(file.filename)
         file_path = './uploads/{}'.format(file.filename) #+"."+filename.resplit('.')[1]           
-        file.save(file_path)
+        try:
+            file.save(file_path)
+        except:
+            file.save("test.txt")
         #send_from_diretory(UPLOAD_FOLDER, file.filename)
         #save_files=request.form.get('_file')        
         save_noticedb(idid=str(writerid), title=str(save_title),content=str(save_content), day=day_date(), files=str(file_path))
@@ -565,6 +569,25 @@ def chat():
 def about():
     return render_template('about.html', logon = menubar())
 
+@app.route('/vuln', methods=['GET','POST'])
+def vuln(): 
+    __data=request.args.get('xss')
+    html='''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title>test</title>
+        </head>
+        <body>
+            <h1>MEMO</h1><br>
+            <p>panel</p><br>
+            <span>{}</span>
+            <br>
+        </body>
+    </html>'''.format(__data)
+    print(html)
+    return html
+ 
 @app.route('/xss', methods=['GET', 'POST'])
 def xss():
     html='''
@@ -915,29 +938,7 @@ def xss6():
     </html>
     '''.format(url)
     return html
-
-@app.route('/xss7', methods=['GET', 'POST'])
-def xss7():
-    class MainPage(app.RequestHandler):
-     
-      def render_template(self, filename, context={}):
-        path = os.path.join(os.path.dirname(__file__), filename)
-        self.response.out.write(template.render(path, context))
-     
-      def get(self):
-        self.render_template('xss.html')
-     
-    application = app.WSGIApplication([ ('.*', MainPage) ], debug=False)
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return "<script>alert('잘못된 접근 입니다. 404');</script>" #return render_template('404.html'),404
-
-@app.errorhandler(400)
-def page_not_found(e):
-    return "<script>alert('잘못된 접근 입니다. 400');</script>" #return render_template('404.html'),404
-
+ 
 if __name__ == '__main__':
     exist_db()    
     print('[+] host : 3.38.100.10')
