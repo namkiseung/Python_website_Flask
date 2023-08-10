@@ -37,7 +37,7 @@ frida-tools==9.1.0
 future==0.18.2
 Genshi==0.7.5
 googleapis-common-protos==1.52.0
-grpcio==1.35.0
+grpcio==1.53.2
 huepy==1.2.1
 idna==2.10
 imageio==2.1.2
