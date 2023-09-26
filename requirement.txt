@@ -65,7 +65,7 @@ numpy==1.19.5
 openpyxl==3.0.6
 packaging==20.8
 paramiko==2.7.2
-Pillow==8.1.0
+Pillow==10.0.1
 pluggy==0.13.1
 plyer==2.0.0
 premailer==3.7.0
