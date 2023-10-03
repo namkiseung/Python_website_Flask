@@ -109,7 +109,7 @@ tornado==6.1
 tqdm==4.11.2
 typing-extensions==3.7.4.3
 tzlocal==2.1
-urllib3==1.26.2
+urllib3==1.26.17
 wcwidth==0.2.5
 webdriverdownloader==1.1.0.3
 Werkzeug==1.0.1
