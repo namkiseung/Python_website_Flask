@@ -70,7 +70,7 @@ pluggy==0.13.1
 plyer==2.0.0
 premailer==3.7.0
 proglog==0.1.9
-prompt-toolkit==3.0.9
+prompt-toolkit==3.0.13
 protobuf==3.14.0
 py==1.10.0
 pyasn1==0.4.8
