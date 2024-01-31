@@ -18,7 +18,7 @@ colorama==0.4.4
 colorlog==4.6.2
 configparser==3.8.1
 Creoleparser==0.7.5
-cryptography==3.3.1
+cryptography==42.0.2
 cssselect==1.1.0
 cssutils==1.0.2
 decorator==4.0.11
