@@ -39,7 +39,7 @@ Genshi==0.7.5
 googleapis-common-protos==1.52.0
 grpcio==1.35.0
 huepy==1.2.1
-idna==2.10
+idna==3.7
 imageio==2.1.2
 imageio-ffmpeg==0.4.3
 importlib-metadata==3.4.0
