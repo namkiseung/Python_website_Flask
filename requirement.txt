@@ -95,7 +95,7 @@ PyYAML==5.4.1
 qt5-applications==5.15.2.2.1
 qt5-tools==5.15.2.1.0.1
 regex==2020.11.13
-requests==2.25.1
+requests==2.32.4
 requests-toolbelt==0.9.1
 responses==0.12.1
 schedule==0.6.0
