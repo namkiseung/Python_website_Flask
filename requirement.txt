@@ -71,7 +71,7 @@ plyer==2.0.0
 premailer==3.7.0
 proglog==0.1.9
 prompt-toolkit==3.0.9
-protobuf==3.14.0
+protobuf==4.25.8
 py==1.10.0
 pyasn1==0.4.8
 pycparser==2.20
