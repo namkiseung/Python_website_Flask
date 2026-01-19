@@ -73,7 +73,7 @@ proglog==0.1.9
 prompt-toolkit==3.0.9
 protobuf==3.14.0
 py==1.10.0
-pyasn1==0.4.8
+pyasn1==0.6.2
 pycparser==2.20
 Pygments==2.7.3
 pymdown-extensions==8.1
@@ -109,9 +109,9 @@ tornado==6.1
 tqdm==4.11.2
 typing-extensions==3.7.4.3
 tzlocal==2.1
-urllib3==1.26.2
+urllib3==2.6.3
 wcwidth==0.2.5
 webdriverdownloader==1.1.0.3
-Werkzeug==1.0.1
+Werkzeug==3.1.5
 Whoosh==2.7.4
 zipp==3.4.0
